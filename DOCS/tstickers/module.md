@@ -4,4 +4,4 @@
 
 entry point for python -m tstickers
 
-- [Tsb_](../README.md#tsb_-index) / [Modules](../README.md#tsb_-modules) / [tstickers](index.md#tstickers) / \_\_main\_\_
+- [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / [tstickers](index.md#tstickers) / \_\_main\_\_

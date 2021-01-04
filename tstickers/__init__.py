@@ -25,7 +25,7 @@ def cli():
 		print('-' * 60)
 		_ = downloader.downloadStickerSet(stickerSet)
 		print('-' * 60)
-		downloader.convertToPNG(sset)
+		downloader.convertDir(sset)
 
 
 if __name__ == "__main__":

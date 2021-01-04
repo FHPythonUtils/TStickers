@@ -4,12 +4,13 @@ from __future__ import annotations
 import json
 from typing import Any, Optional
 import urllib.parse
-from subprocess import check_output
+from shutil import copy
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from sys import exit as sysexit
 import time
 import os
 import requests
+from PIL import Image
 
 
 def assureDirExists(directory: str, root: str) -> str:
@@ -162,7 +163,7 @@ class StickerDownloader:
 		Download sticker set.
 		'''
 		swd = assureDirExists(stickerSet['name'], root=self.cwd)
-		downloadPath = assureDirExists('webp', root=swd)
+		downloadPath = assureDirExists('input', root=swd)
 		downloads = []
 
 		print('Starting download of "{}" into {}'.format(stickerSet['name'],
@@ -182,31 +183,37 @@ class StickerDownloader:
 
 		return downloads
 
-	def convertFile(self, inputFile: str, outputFile: str):
+	def convertImg(self, inputFile: str):
 		"""Convert the webp file to png
 
 		Args:
 			inputFile (str): path to input file
-			outputFile (str): path to output file
 
 		Returns:
 			None
 		"""
-		command = 'C:/libwebp-1.1.0-windows-x64/bin/dwebp.exe -quiet "{}" -o "{}"'.format(
-		inputFile, outputFile)
-		check_output(command, shell=True)
+		if inputFile.endswith(".webp"):
+			img = Image.open(inputFile)
+			img.save(inputFile.replace("input", "webp"))
+			img.save(inputFile.replace("webp", "png").replace("input", "png"))
+		else:
+			copy(inputFile, inputFile.replace("input", "tgs"))
 
 
-	def convertToPNG(self, name: str):
+
+
+	def convertDir(self, name: str):
 		"""	Convert the webp images into png images
 
 		Args:
 			name (str): name of the directory to convert
 		"""
 		swd = assureDirExists(name, root=self.cwd)
-		webpDir = assureDirExists('webp', root=swd)
-		pngDir = assureDirExists('png', root=swd)
-		webpFiles = [os.path.join(webpDir, i) for i in os.listdir(webpDir)]
+		inputDir = assureDirExists('input', root=swd)
+		assureDirExists('png', root=swd)
+		assureDirExists('webp', root=swd)
+		assureDirExists('tgs', root=swd)
+		inputFiles = [os.path.join(inputDir, i) for i in os.listdir(inputDir)]
 		pngFiles = []
 
 		print('Converting stickers to pngs "{}"..'.format(name))
@@ -215,9 +222,8 @@ class StickerDownloader:
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 
 			futures = [
-			executor.submit(self.convertFile, inputFile,
-			os.path.join(pngDir, inputFile.replace("webp", "png")))
-			for inputFile in webpFiles]
+			executor.submit(self.convertImg, inputFile)
+			for inputFile in inputFiles]
 			for i in as_completed(futures):
 				pngFiles.append(i.result())
 

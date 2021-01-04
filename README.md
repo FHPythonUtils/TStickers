@@ -19,7 +19,6 @@ NOTE: You need a telegram bot token to make use of the script. You can easily
 make a bot on the Telegram site.
 
 - [Docs](#docs)
-- [Dependencies](#dependencies)
 	- [Using](#using)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
@@ -48,13 +47,6 @@ make a bot on the Telegram site.
 See the [Docs](/DOCS.md) for more information.
 
 
-## Dependencies
-
-- Webp converter library. (You can download the latest version from [here](https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html))
-
-Install to C:/ (dwebp @ C:/libwebp-1.1.0-windows-x64/bin/dwebp.exe)
-
-
 ### Using
 
 - Create a file called 'env' (not env.txt) and paste your token
@@ -62,6 +54,8 @@ Install to C:/ (dwebp @ C:/libwebp-1.1.0-windows-x64/bin/dwebp.exe)
 - Run the program `python -m tstickers`
 - Enter the URL of the sticker pack
 - Get the output in the `downloads` folder.
+
+Note: use this project to convert animated stickers https://github.com/ed-asriyan/tgs-to-gif
 
 ## Install With PIP
 

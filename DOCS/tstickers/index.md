@@ -4,7 +4,7 @@
 
 Download sticker packs from Telegram
 
-- [Tsb_](../README.md#tsb_-index) / [Modules](../README.md#tsb_-modules) / tstickers
+- [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / tstickers
     - [cli](#cli)
     - Modules
         - [\_\_main\_\_](module.md#__main__)
