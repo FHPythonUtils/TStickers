@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "tstickers"
+version = "2021"
+description = "Download sticker packs from Telegram"
+authors = ["FredHappyface"]
+classifiers = [
+	"Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+	"Intended Audience :: Education",
+	"License :: OSI Approved :: MIT License",
+	"Natural Language :: English",
+	"Operating System :: OS Independent",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.7",
+	"Programming Language :: Python :: 3.8",
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: Implementation :: CPython",
+	"Topic :: Software Development :: Libraries :: Python Modules",
+	"Topic :: Utilities"
+]
+homepage = "https://github.com/FHPythonUtils/TStickers"
+repository = "https://github.com/FHPythonUtils/TStickers"
+documentation = "https://github.com/FHPythonUtils/TStickers/blob/master/README.md"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "<4,>=2.25.1"
+
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
