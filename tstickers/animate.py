@@ -42,8 +42,7 @@ async def recordLottie(lottieData: str) -> Tuple[int, int]:
 	"""
 	lottie = json.loads(lottieData)
 	html = open(THISDIR + "/animate.html").read().replace("lottieData",
-	lottieData).replace("THISDIR", THISDIR.replace("\\",
-	"/")).replace("WIDTH", str(lottie["w"])).replace("HEIGHT", str(lottie["h"]))
+	lottieData).replace("WIDTH", str(lottie["w"])).replace("HEIGHT", str(lottie["h"]))
 	browser = await launch(headless=True,
 	options={'args': ['--no-sandbox', "--disable-web-security",
 	"--allow-file-access-from-files"]}) # yapf: disable
