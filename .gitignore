@@ -3,6 +3,7 @@ README.rst
 requirements_optional.txt
 downloads/*
 env
+temp/*
 
 # DepHell stuff
 poetry.lock

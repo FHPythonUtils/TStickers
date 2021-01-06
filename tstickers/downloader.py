@@ -11,6 +11,7 @@ import time
 import os
 import requests
 from PIL import Image
+import tstickers.animate as animate
 
 
 def assureDirExists(directory: str, root: str) -> str:
@@ -51,6 +52,7 @@ class StickerDownloader:
 		self.threads = multithreading
 		self.token = token
 		self.cwd = assureDirExists('downloads', root=os.getcwd())
+		assureDirExists('temp', root=os.getcwd())
 		if session is None:
 			self.session = requests.Session()
 		else:
@@ -198,6 +200,7 @@ class StickerDownloader:
 			img.save(inputFile.replace("webp", "png").replace("input", "png"))
 		else:
 			copy(inputFile, inputFile.replace("input", "tgs"))
+			animate.convertTGS2GIF(inputFile, inputFile.replace("tgs", "gif").replace("input", "gif"))
 
 
 
@@ -211,21 +214,20 @@ class StickerDownloader:
 		swd = assureDirExists(name, root=self.cwd)
 		inputDir = assureDirExists('input', root=swd)
 		assureDirExists('png', root=swd)
+		assureDirExists('gif', root=swd)
 		assureDirExists('webp', root=swd)
 		assureDirExists('tgs', root=swd)
 		inputFiles = [os.path.join(inputDir, i) for i in os.listdir(inputDir)]
 		pngFiles = []
 
-		print('Converting stickers to pngs "{}"..'.format(name))
+		print('Converting stickers "{}"..'.format(name))
 		start = time.time()
 
-		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 
-			futures = [
-			executor.submit(self.convertImg, inputFile)
-			for inputFile in inputFiles]
-			for i in as_completed(futures):
-				pngFiles.append(i.result())
+		pngFiles = [
+		self.convertImg(inputFile)
+		for inputFile in inputFiles]
+
 
 		end = time.time()
 		print('Time taken to convert {} stickers - {:.3f}s'

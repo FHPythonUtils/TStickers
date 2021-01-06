@@ -55,8 +55,6 @@ See the [Docs](/DOCS.md) for more information.
 - Enter the URL of the sticker pack
 - Get the output in the `downloads` folder.
 
-Note: use this project to convert animated stickers https://github.com/ed-asriyan/tgs-to-gif
-
 ## Install With PIP
 
 ```python

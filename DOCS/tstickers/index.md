@@ -8,7 +8,8 @@ Download sticker packs from Telegram
     - [cli](#cli)
     - Modules
         - [\_\_main\_\_](module.md#__main__)
-        - [main](main.md#main)
+        - [animate](animate.md#animate)
+        - [downloader](downloader.md#downloader)
 
 ## cli
 

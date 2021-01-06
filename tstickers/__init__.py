@@ -1,14 +1,14 @@
 """Download sticker packs from Telegram
 """
 import os
-from tstickers.main import StickerDownloader
+from tstickers.downloader import StickerDownloader
 
 
 def cli():
 	""" cli entry point """
 	token = open(os.getcwd() + "/env", encoding="utf-8").readline().strip()
 	downloader = StickerDownloader(token)
-	print('Welcome to Telegram Downloader..')
+	print('Welcome to TSticker, providing all of your sticker needs')
 	names = []
 	while True:
 		name = input("Enter sticker_set url (leave blank to stop): ").strip()
