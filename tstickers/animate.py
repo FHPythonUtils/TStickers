@@ -41,6 +41,13 @@ def convertTGS2GIF(images: List[Image.Image], duration:float, newFileName: str):
 	duration=duration*1000/len(images), loop=0, transparency=0, disposal=2)
 
 def convertTGS2Webp(images: Image.Image, duration:float, newFileName: str):
+	"""Convert to webp
+
+	Args:
+		images (List[Image.Image]): list of pil images to write
+		duration (float): duration of the gif
+		newFileName (str): name of the file to write
+	"""
 	images[0].save(newFileName, save_all=True, append_images=images[1:],
 	duration=int(duration*1000/len(images)), loop=0)
 
