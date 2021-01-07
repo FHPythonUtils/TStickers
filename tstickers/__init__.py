@@ -1,12 +1,21 @@
 """Download sticker packs from Telegram
 """
 import os
+from sys import exit as sysexit
 from tstickers.downloader import StickerDownloader
 
 
 def cli():
 	""" cli entry point """
-	token = open(os.getcwd() + "/env", encoding="utf-8").readline().strip()
+	try:
+		token = open(os.getcwd() + "/env", encoding="utf-8").readline().strip()
+	except FileNotFoundError:
+		try:
+			token = open(os.getcwd() + "/env.txt", encoding="utf-8").readline().strip()
+		except FileNotFoundError:
+			print("!! Generate a bot token and paste in a file called 'env'. Send a "+
+			"message to @BotFather to get started")
+			sysexit(1)
 	downloader = StickerDownloader(token)
 	print('Welcome to TSticker, providing all of your sticker needs')
 	names = []

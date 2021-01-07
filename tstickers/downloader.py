@@ -198,9 +198,15 @@ class StickerDownloader:
 			img = Image.open(inputFile)
 			img.save(inputFile.replace("input", "webp"))
 			img.save(inputFile.replace("webp", "png").replace("input", "png"))
+			try:
+				img.save(inputFile.replace("webp", "gif").replace("input", "gif"), transparency=0)
+			except ValueError:
+				print("Failed to save {} as gif".format(inputFile))
 		else:
 			copy(inputFile, inputFile.replace("input", "tgs"))
-			animate.convertTGS2GIF(inputFile, inputFile.replace("tgs", "gif").replace("input", "gif"))
+			images, duration = animate.convertTGS2PIL(inputFile)
+			animate.convertTGS2GIF(images, duration, inputFile.replace("tgs", "gif").replace("input", "gif"))
+			animate.convertTGS2Webp(images, duration, inputFile.replace("tgs", "webp").replace("input", "webp"))
 
 
 

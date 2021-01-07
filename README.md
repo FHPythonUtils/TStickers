@@ -15,11 +15,12 @@
 
 Download sticker packs from Telegram
 
-NOTE: You need a telegram bot token to make use of the script. You can easily
-make a bot on the Telegram site.
+NOTE: You need a telegram bot token to make use of the script. Generate a bot
+token and paste in a file called 'env'. Send a message to @BotFather to get started.
 
 - [Docs](#docs)
-	- [Using](#using)
+- [Using](#using)
+- [Formats](#formats)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
@@ -47,13 +48,26 @@ make a bot on the Telegram site.
 See the [Docs](/DOCS.md) for more information.
 
 
-### Using
+## Using
 
 - Create a file called 'env' (not env.txt) and paste your token
 - Get the URL of the telegram sticker pack
 - Run the program `python -m tstickers`
 - Enter the URL of the sticker pack
 - Get the output in the `downloads` folder.
+
+
+## Formats
+
+|Format|Static|Animated|
+|------|------|--------|
+|.gif  |✔     |✔      |
+|.png  |✔     |❌     |
+|.tgs  |❌    |✔      |
+|.webp |✔     |✔      |
+
+
+Note that static images can fail to save as .gif occasionally in testing
 
 ## Install With PIP
 

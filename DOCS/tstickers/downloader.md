@@ -38,7 +38,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertDir
 
-[[find in source code]](../../tstickers/downloader.py#L208)
+[[find in source code]](../../tstickers/downloader.py#L214)
 
 ```python
 def convertDir(name: str):
