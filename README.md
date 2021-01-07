@@ -45,7 +45,7 @@ token and paste in a file called 'env'. Send a message to @BotFather to get star
 	- [Security](#security)
 
 ## Docs
-See the [Docs](/DOCS.md) for more information.
+See the [Docs](/DOCS/README.md) for more information.
 
 
 ## Using
