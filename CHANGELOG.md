@@ -3,6 +3,11 @@ All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
 
+## 2021.1.3 - 2021/01/13
+- Use `pylottie` to convert animated stickers increasing processing speed by about 10%
+- Can pass in packs with `-p` or `--pack`
+- Can also pass in the bot token with `-t` or `--token`
+
 ## 2021.1.2 - 2021/01/07
 - Static stickers are saved as gif in addition to png and webp
 

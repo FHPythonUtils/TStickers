@@ -4,14 +4,16 @@ from __future__ import annotations
 import json
 from typing import Any, Optional
 import urllib.parse
-from shutil import copy
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from sys import exit as sysexit
 import time
 import os
+import shutil
 import requests
 from PIL import Image
-import tstickers.animate as animate
+import pylottie
+
+opj = os.path.join
 
 
 def assureDirExists(directory: str, root: str) -> str:
@@ -24,7 +26,7 @@ def assureDirExists(directory: str, root: str) -> str:
 	Returns:
 		str: the full path
 	"""
-	fullPath = os.path.join(root, directory)
+	fullPath = opj(root, directory)
 	if os.path.isdir(fullPath):
 		pass
 	else:
@@ -153,7 +155,7 @@ class StickerDownloader:
 		Returns:
 			str: the filepath the file was written to
 		"""
-		filePath = os.path.join(path, name)
+		filePath = opj(path, name)
 		with open(filePath, 'wb') as file:
 			res = self.session.get(link)
 			file.write(res.content)
@@ -181,10 +183,9 @@ class StickerDownloader:
 		print('Time taken to download {} stickers - {:.3f}s'
 		.format(len(downloads), end - start))
 		print()
-
 		return downloads
 
-	def convertImg(self, inputFile: str):
+	def convertStatic(self, inputFile: str):
 		"""Convert the webp file to png
 
 		Args:
@@ -193,24 +194,14 @@ class StickerDownloader:
 		Returns:
 			None
 		"""
-		if inputFile.endswith(".webp"):
-			img = Image.open(inputFile)
-			img.save(inputFile.replace("input", "webp"))
-			img.save(inputFile.replace("webp", "png").replace("input", "png"))
-			try:
-				img.save(
-				inputFile.replace("webp", "gif").replace("input", "gif"), transparency=0)
-			except ValueError:
-				print("Failed to save {} as gif".format(inputFile))
-		else:
-			copy(inputFile, inputFile.replace("input", "tgs"))
-			images, duration = animate.convertTGS2PIL(inputFile)
-			animate.convertTGS2GIF(
-			images, duration,
-			inputFile.replace("tgs", "gif").replace("input", "gif"))
-			animate.convertTGS2Webp(
-			images, duration,
-			inputFile.replace("tgs", "webp").replace("input", "webp"))
+		img = Image.open(inputFile)
+		img.save(inputFile.replace("input", "webp"))
+		img.save(inputFile.replace("webp", "png").replace("input", "png"))
+		try:
+			img.save(
+			inputFile.replace("webp", "gif").replace("input", "gif"), transparency=0)
+		except ValueError:
+			print("Failed to save {} as gif".format(inputFile))
 
 	def convertDir(self, name: str):
 		"""	Convert the webp images into png images
@@ -218,21 +209,36 @@ class StickerDownloader:
 		Args:
 			name (str): name of the directory to convert
 		"""
+		# Make directories
+		# yapf: disable
 		swd = assureDirExists(name, root=self.cwd)
 		inputDir = assureDirExists('input', root=swd)
 		assureDirExists('png', root=swd)
-		assureDirExists('gif', root=swd)
-		assureDirExists('webp', root=swd)
-		assureDirExists('tgs', root=swd)
-		inputFiles = [os.path.join(inputDir, i) for i in os.listdir(inputDir)]
-		pngFiles = []
-
-		print('Converting stickers "{}"..'.format(name))
+		gifDir = assureDirExists('gif', root=swd)
+		webpDir = assureDirExists('webp', root=swd)
+		tgsDir = assureDirExists('tgs', root=swd)
+		staticStickers = [opj(inputDir, i) for i in os.listdir(inputDir)
+		if i.endswith(".webp")]
+		animatedStickers = [opj(inputDir, i) for i in os.listdir(inputDir)
+		if i.endswith(".tgs")]
+		animatedOut = [opj(gifDir, i.strip(".tgs")) for i in os.listdir(inputDir)
+		if i.endswith(".tgs")]
+		# Convert Stickers
+		print('Converting stickers "{}"...'.format(name))
+		converted = len(os.listdir(inputDir))
 		start = time.time()
-
-		pngFiles = [self.convertImg(inputFile) for inputFile in inputFiles]
-
+		# 	Static
+		with ThreadPoolExecutor(max_workers=self.threads) as executor:
+			_ = [executor.submit(self.convertStatic, inputFile)
+			for inputFile in staticStickers]
+		# 	Animated
+		_ = [
+		shutil.copy(opj(inputDir, i), opj(tgsDir, i)) for i in os.listdir(inputDir)
+		if i.endswith(".tgs")]
+		pylottie.convertMultLottie2ALL(animatedStickers, animatedOut)
+		_ = [shutil.move(opj(gifDir, i), opj(webpDir, i)) for i in os.listdir(gifDir)
+		if i.endswith(".webp")]
 		end = time.time()
-		print('Time taken to convert {} stickers - {:.3f}s'
-		.format(len(pngFiles), end - start))
+		print('Time taken to convert {} stickers - {:.3f}s'.format(converted, end - start))
 		print()
+		# yapf: enable

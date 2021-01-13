@@ -1,31 +1,39 @@
 """Download sticker packs from Telegram
 """
 import os
+import argparse
 from sys import exit as sysexit
 from tstickers.downloader import StickerDownloader
 
 
 def cli():
 	""" cli entry point """
-	try:
-		token = open(os.getcwd() + "/env", encoding="utf-8").readline().strip()
-	except FileNotFoundError:
+	parser = argparse.ArgumentParser("Welcome to TSticker, providing all of your sticker needs")
+	parser.add_argument("-t", "--token", help="Pass in a bot token inline")
+	parser.add_argument("-p", "--pack", help="Pass in a pack url inline", action="append")
+	args = parser.parse_args()
+	# Get the token
+	token = args.token
+	if args.token is None:
 		try:
-			token = open(os.getcwd() + "/env.txt", encoding="utf-8").readline().strip()
+			token = open(os.getcwd() + "/env", encoding="utf-8").readline().strip()
 		except FileNotFoundError:
-			print("!! Generate a bot token and paste in a file called 'env'. Send a "+
-			"message to @BotFather to get started")
-			sysexit(1)
+			try:
+				token = open(os.getcwd() + "/env.txt", encoding="utf-8").readline().strip()
+			except FileNotFoundError:
+				print("!! Generate a bot token and paste in a file called 'env'. Send a "+
+				"message to @BotFather to get started")
+				sysexit(1)
+	# Get the packs
+	names = args.pack
+	if names is None:
+		names = []
+		while True:
+			name = input("Enter sticker_set url (leave blank to stop): ").strip()
+			if name == '':
+				break
+	names = [name.split("/")[-1] for name in names]
 	downloader = StickerDownloader(token)
-	print('Welcome to TSticker, providing all of your sticker needs')
-	names = []
-	while True:
-		name = input("Enter sticker_set url (leave blank to stop): ").strip()
-		if name == '':
-			break
-
-		names.append(name.split('/')[-1])
-
 	for sset in names:
 		print('=' * 60)
 		stickerSet = downloader.getStickerSet(sset)
@@ -35,7 +43,6 @@ def cli():
 		_ = downloader.downloadStickerSet(stickerSet)
 		print('-' * 60)
 		downloader.convertDir(sset)
-
 
 if __name__ == "__main__":
 	cli()

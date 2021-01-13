@@ -6,7 +6,7 @@
     - [File](#file)
     - [StickerDownloader](#stickerdownloader)
         - [StickerDownloader().convertDir](#stickerdownloaderconvertdir)
-        - [StickerDownloader().convertImg](#stickerdownloaderconvertimg)
+        - [StickerDownloader().convertStatic](#stickerdownloaderconvertstatic)
         - [StickerDownloader().doAPIReq](#stickerdownloaderdoapireq)
         - [StickerDownloader().downloadFile](#stickerdownloaderdownloadfile)
         - [StickerDownloader().downloadStickerSet](#stickerdownloaderdownloadstickerset)
@@ -16,7 +16,7 @@
 
 ## File
 
-[[find in source code]](../../tstickers/downloader.py#L37)
+[[find in source code]](../../tstickers/downloader.py#L38)
 
 ```python
 class File():
@@ -27,7 +27,7 @@ File container has name and a link
 
 ## StickerDownloader
 
-[[find in source code]](../../tstickers/downloader.py#L48)
+[[find in source code]](../../tstickers/downloader.py#L49)
 
 ```python
 class StickerDownloader():
@@ -38,7 +38,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertDir
 
-[[find in source code]](../../tstickers/downloader.py#L214)
+[[find in source code]](../../tstickers/downloader.py#L206)
 
 ```python
 def convertDir(name: str):
@@ -50,12 +50,12 @@ Convert the webp images into png images
 
 - `name` *str* - name of the directory to convert
 
-### StickerDownloader().convertImg
+### StickerDownloader().convertStatic
 
 [[find in source code]](../../tstickers/downloader.py#L188)
 
 ```python
-def convertImg(inputFile: str):
+def convertStatic(inputFile: str):
 ```
 
 Convert the webp file to png
@@ -70,7 +70,7 @@ None
 
 ### StickerDownloader().doAPIReq
 
-[[find in source code]](../../tstickers/downloader.py#L68)
+[[find in source code]](../../tstickers/downloader.py#L69)
 
 ```python
 def doAPIReq(
@@ -83,7 +83,7 @@ general method call
 
 ### StickerDownloader().downloadFile
 
-[[find in source code]](../../tstickers/downloader.py#L146)
+[[find in source code]](../../tstickers/downloader.py#L147)
 
 ```python
 def downloadFile(name: str, link: str, path: str) -> str:
@@ -103,7 +103,7 @@ Download a file from the server
 
 ### StickerDownloader().downloadStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L163)
+[[find in source code]](../../tstickers/downloader.py#L164)
 
 ```python
 def downloadStickerSet(stickerSet: dict[(Any, Any)]):
@@ -113,7 +113,7 @@ Download sticker set.
 
 ### StickerDownloader().getFile
 
-[[find in source code]](../../tstickers/downloader.py#L90)
+[[find in source code]](../../tstickers/downloader.py#L91)
 
 ```python
 def getFile(fileId: str) -> File:
@@ -135,7 +135,7 @@ Get the file from the server
 
 ### StickerDownloader().getStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L109)
+[[find in source code]](../../tstickers/downloader.py#L110)
 
 ```python
 def getStickerSet(name: str) -> Optional[dict[(Any, Any)]]:
@@ -153,7 +153,7 @@ Get a list of File objects.
 
 ## assureDirExists
 
-[[find in source code]](../../tstickers/downloader.py#L17)
+[[find in source code]](../../tstickers/downloader.py#L19)
 
 ```python
 def assureDirExists(directory: str, root: str) -> str:
