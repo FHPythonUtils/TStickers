@@ -11,6 +11,7 @@ def cli():
 	parser = argparse.ArgumentParser("Welcome to TSticker, providing all of your sticker needs")
 	parser.add_argument("-t", "--token", help="Pass in a bot token inline")
 	parser.add_argument("-p", "--pack", help="Pass in a pack url inline", action="append")
+	parser.add_argument("-q", "--quality", help="Set animation quality. default=1", type=int, default=1)
 	args = parser.parse_args()
 	# Get the token
 	token = args.token
@@ -43,7 +44,7 @@ def cli():
 		print('-' * 60)
 		_ = downloader.downloadStickerSet(stickerSet)
 		print('-' * 60)
-		downloader.convertDir(sset)
+		downloader.convertDir(sset, args.quality)
 
 if __name__ == "__main__":
 	cli()

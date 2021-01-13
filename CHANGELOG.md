@@ -2,6 +2,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.1.5 - 2021/01/13
+- Update `pylottie` for significant speed improvements (animation renders take
+  approx 2/3 as long)
+- Leverage the quality setting exposed by `pylottie` to further improve speed if
+  desired (quality 0 is fastest, quality 3 is best quality)
 
 ## 2021.1.3 - 2021/01/13
 - Use `pylottie` to convert animated stickers increasing processing speed by about 10%

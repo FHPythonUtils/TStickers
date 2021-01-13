@@ -41,7 +41,7 @@ The StickerDownloader sets up the api and makes requests
 [[find in source code]](../../tstickers/downloader.py#L206)
 
 ```python
-def convertDir(name: str):
+def convertDir(name: str, quality: int = 1):
 ```
 
 Convert the webp images into png images
@@ -49,6 +49,7 @@ Convert the webp images into png images
 #### Arguments
 
 - `name` *str* - name of the directory to convert
+- `quality` *int* - quality of animated images. Default=1
 
 ### StickerDownloader().convertStatic
 

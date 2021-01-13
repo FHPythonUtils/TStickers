@@ -203,11 +203,12 @@ class StickerDownloader:
 		except ValueError:
 			print("Failed to save {} as gif".format(inputFile))
 
-	def convertDir(self, name: str):
+	def convertDir(self, name: str, quality: int=1):
 		"""	Convert the webp images into png images
 
 		Args:
 			name (str): name of the directory to convert
+			quality (int): quality of animated images. Default=1
 		"""
 		# Make directories
 		# yapf: disable
@@ -235,7 +236,7 @@ class StickerDownloader:
 		_ = [
 		shutil.copy(opj(inputDir, i), opj(tgsDir, i)) for i in os.listdir(inputDir)
 		if i.endswith(".tgs")]
-		pylottie.convertMultLottie2ALL(animatedStickers, animatedOut)
+		pylottie.convertMultLottie2ALL(animatedStickers, animatedOut, quality=quality)
 		_ = [shutil.move(opj(gifDir, i), opj(webpDir, i)) for i in os.listdir(gifDir)
 		if i.endswith(".webp")]
 		end = time.time()
