@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2021.1.3"
+version = "2021.1.4"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
 classifiers = [

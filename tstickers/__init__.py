@@ -32,6 +32,7 @@ def cli():
 			name = input("Enter sticker_set url (leave blank to stop): ").strip()
 			if name == '':
 				break
+			names.append(name)
 	names = [name.split("/")[-1] for name in names]
 	downloader = StickerDownloader(token)
 	for sset in names:
