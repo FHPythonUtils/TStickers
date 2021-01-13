@@ -166,7 +166,7 @@ class StickerDownloader:
 		Download sticker set.
 		'''
 		swd = assureDirExists(stickerSet['name'], root=self.cwd)
-		downloadPath = assureDirExists('input', root=swd)
+		downloadPath = assureDirExists('webp', root=swd)
 		downloads = []
 
 		print('Starting download of "{}" into {}'.format(stickerSet['name'],
@@ -195,11 +195,10 @@ class StickerDownloader:
 			None
 		"""
 		img = Image.open(inputFile)
-		img.save(inputFile.replace("input", "webp"))
-		img.save(inputFile.replace("webp", "png").replace("input", "png"))
+		img.save(inputFile.replace("webp", "png"))
 		try:
-			img.save(
-			inputFile.replace("webp", "gif").replace("input", "gif"), transparency=0)
+			img.save(inputFile.replace("webp", "gif"), transparency=0,
+			save_all=True, optimize=False) # yapf: disable
 		except ValueError:
 			print("Failed to save {} as gif".format(inputFile))
 
@@ -210,32 +209,31 @@ class StickerDownloader:
 			name (str): name of the directory to convert
 			quality (int): quality of animated images. Default=1
 		"""
-		# Make directories
 		# yapf: disable
+		# Make directories
 		swd = assureDirExists(name, root=self.cwd)
-		inputDir = assureDirExists('input', root=swd)
-		assureDirExists('png', root=swd)
 		gifDir = assureDirExists('gif', root=swd)
 		webpDir = assureDirExists('webp', root=swd)
 		tgsDir = assureDirExists('tgs', root=swd)
-		staticStickers = [opj(inputDir, i) for i in os.listdir(inputDir)
-		if i.endswith(".webp")]
-		animatedStickers = [opj(inputDir, i) for i in os.listdir(inputDir)
+		assureDirExists('png', root=swd)
+		# List of animated stickers
+		_ = [shutil.move(opj(webpDir, i), opj(tgsDir, i)) for i in os.listdir(webpDir)
 		if i.endswith(".tgs")]
-		animatedOut = [opj(gifDir, i.strip(".tgs")) for i in os.listdir(inputDir)
+		animatedStickers = [opj(tgsDir, i) for i in os.listdir(tgsDir)
 		if i.endswith(".tgs")]
+		animatedOut = [opj(gifDir, i.strip(".tgs")) for i in os.listdir(tgsDir)
+		if i.endswith(".tgs")]
+		# List of static stickers
+		staticStickers = [opj(webpDir, i) for i in os.listdir(webpDir)]
 		# Convert Stickers
 		print('Converting stickers "{}"...'.format(name))
-		converted = len(os.listdir(inputDir))
+		converted = len(os.listdir(webpDir))
 		start = time.time()
 		# 	Static
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			_ = [executor.submit(self.convertStatic, inputFile)
 			for inputFile in staticStickers]
 		# 	Animated
-		_ = [
-		shutil.copy(opj(inputDir, i), opj(tgsDir, i)) for i in os.listdir(inputDir)
-		if i.endswith(".tgs")]
 		pylottie.convertMultLottie2ALL(animatedStickers, animatedOut, quality=quality)
 		_ = [shutil.move(opj(gifDir, i), opj(webpDir, i)) for i in os.listdir(gifDir)
 		if i.endswith(".webp")]
