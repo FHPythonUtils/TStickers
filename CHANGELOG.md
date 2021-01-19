@@ -4,7 +4,7 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 
 ## 2021.2 - 2021/01/19
 - File names are now the emoji as text followed by the emoji glyph e.g.
-  "smiling_face_with_smiling_eyes_😊" followed by the file extension (requires
+  "647+smiling_face_with_3_hearts+🥰" followed by the file extension (requires
   `emoji` for this)
 - If no animated stickers then puppeteer is not launched resulting in a small
   speed increase
