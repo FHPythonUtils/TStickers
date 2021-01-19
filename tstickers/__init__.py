@@ -22,7 +22,7 @@ def cli():
 			try:
 				token = open(os.getcwd() + "/env.txt", encoding="utf-8").readline().strip()
 			except FileNotFoundError:
-				print("!! Generate a bot token and paste in a file called 'env'. Send a "+
+				print("!! Generate a bot token and paste in a file called \"env\". Send a "+
 				"message to @BotFather to get started")
 				sysexit(1)
 	# Get the packs
@@ -31,19 +31,19 @@ def cli():
 		names = []
 		while True:
 			name = input("Enter sticker_set url (leave blank to stop): ").strip()
-			if name == '':
+			if name == "":
 				break
 			names.append(name)
 	names = [name.split("/")[-1] for name in names]
 	downloader = StickerDownloader(token)
 	for sset in names:
-		print('=' * 60)
+		print("=" * 60)
 		stickerSet = downloader.getStickerSet(sset)
 		if stickerSet is None:
 			continue
-		print('-' * 60)
+		print("-" * 60)
 		_ = downloader.downloadStickerSet(stickerSet)
-		print('-' * 60)
+		print("-" * 60)
 		downloader.convertDir(sset, args.quality)
 
 if __name__ == "__main__":

@@ -3,31 +3,47 @@
 > Auto-generated documentation for [tstickers.downloader](../../tstickers/downloader.py) module.
 
 - [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / [tstickers](index.md#tstickers) / downloader
-    - [File](#file)
+    - [Sticker](#sticker)
+        - [Sticker().emojiName](#stickeremojiname)
     - [StickerDownloader](#stickerdownloader)
         - [StickerDownloader().convertDir](#stickerdownloaderconvertdir)
         - [StickerDownloader().convertStatic](#stickerdownloaderconvertstatic)
         - [StickerDownloader().doAPIReq](#stickerdownloaderdoapireq)
-        - [StickerDownloader().downloadFile](#stickerdownloaderdownloadfile)
+        - [StickerDownloader().downloadSticker](#stickerdownloaderdownloadsticker)
         - [StickerDownloader().downloadStickerSet](#stickerdownloaderdownloadstickerset)
-        - [StickerDownloader().getFile](#stickerdownloadergetfile)
+        - [StickerDownloader().getSticker](#stickerdownloadergetsticker)
         - [StickerDownloader().getStickerSet](#stickerdownloadergetstickerset)
     - [assureDirExists](#assuredirexists)
 
-## File
+## Sticker
 
-[[find in source code]](../../tstickers/downloader.py#L38)
+[[find in source code]](../../tstickers/downloader.py#L39)
 
 ```python
-class File():
-    def __init__(name: str, link: str):
+class Sticker():
+    def __init__(
+        name: str = 'None',
+        link: str = 'None',
+        emoji: str = '😀',
+        animated: bool = False,
+    ):
 ```
 
-File container has name and a link
+Sticker instance attributes
+
+### Sticker().emojiName
+
+[[find in source code]](../../tstickers/downloader.py#L52)
+
+```python
+def emojiName() -> str:
+```
+
+get the emoji as a string
 
 ## StickerDownloader
 
-[[find in source code]](../../tstickers/downloader.py#L49)
+[[find in source code]](../../tstickers/downloader.py#L57)
 
 ```python
 class StickerDownloader():
@@ -38,7 +54,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertDir
 
-[[find in source code]](../../tstickers/downloader.py#L206)
+[[find in source code]](../../tstickers/downloader.py#L216)
 
 ```python
 def convertDir(name: str, quality: int = 1):
@@ -53,7 +69,7 @@ Convert the webp images into png images
 
 ### StickerDownloader().convertStatic
 
-[[find in source code]](../../tstickers/downloader.py#L188)
+[[find in source code]](../../tstickers/downloader.py#L199)
 
 ```python
 def convertStatic(inputFile: str):
@@ -71,7 +87,7 @@ None
 
 ### StickerDownloader().doAPIReq
 
-[[find in source code]](../../tstickers/downloader.py#L69)
+[[find in source code]](../../tstickers/downloader.py#L76)
 
 ```python
 def doAPIReq(
@@ -80,23 +96,36 @@ def doAPIReq(
 ) -> Optional[dict[(Any, Any)]]:
 ```
 
-general method call
+Use the telegram api
 
-### StickerDownloader().downloadFile
+#### Arguments
 
-[[find in source code]](../../tstickers/downloader.py#L147)
+- `fstring` *str* - function to execute
+params (dict[Any, Any]): function parameters
+
+#### Raises
+
+- `RuntimeError` - In the event of a failure
+
+#### Returns
+
+- `Optional[dict[Any,` *Any]]* - api response
+
+### StickerDownloader().downloadSticker
+
+[[find in source code]](../../tstickers/downloader.py#L154)
 
 ```python
-def downloadFile(name: str, link: str, path: str) -> str:
+def downloadSticker(name: str, link: str, path: str) -> str:
 ```
 
-Download a file from the server
+Download a sticker from the server
 
 #### Arguments
 
 - `name` *str* - the name of the file
 - `link` *str* - the url to the file on the server
-- `path` *str* - the path
+- `path` *str* - the path to write to
 
 #### Returns
 
@@ -104,7 +133,7 @@ Download a file from the server
 
 ### StickerDownloader().downloadStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L164)
+[[find in source code]](../../tstickers/downloader.py#L171)
 
 ```python
 def downloadStickerSet(stickerSet: dict[(Any, Any)]):
@@ -112,31 +141,31 @@ def downloadStickerSet(stickerSet: dict[(Any, Any)]):
 
 Download sticker set.
 
-### StickerDownloader().getFile
+### StickerDownloader().getSticker
 
-[[find in source code]](../../tstickers/downloader.py#L91)
+[[find in source code]](../../tstickers/downloader.py#L103)
 
 ```python
-def getFile(fileId: str) -> File:
+def getSticker(fileData: dict[(Any, Any)]) -> Sticker:
 ```
 
-Get the file from the server
+Get sticker info from the server
 
 #### Arguments
 
-- `fileId` *str* - sticker id
+fileData (dict[Any, Any]): sticker id
 
 #### Returns
 
-- `File` - [description]
+- `Sticker` - Sticker instance
 
 #### See also
 
-- [File](#file)
+- [Sticker](#sticker)
 
 ### StickerDownloader().getStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L110)
+[[find in source code]](../../tstickers/downloader.py#L122)
 
 ```python
 def getStickerSet(name: str) -> Optional[dict[(Any, Any)]]:
@@ -154,7 +183,7 @@ Get a list of File objects.
 
 ## assureDirExists
 
-[[find in source code]](../../tstickers/downloader.py#L19)
+[[find in source code]](../../tstickers/downloader.py#L20)
 
 ```python
 def assureDirExists(directory: str, root: str) -> str:

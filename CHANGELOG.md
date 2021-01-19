@@ -2,6 +2,15 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.2 - 2021/01/19
+- File names are now the emoji as text followed by the emoji glyph e.g.
+  "smiling_face_with_smiling_eyes_😊" followed by the file extension (requires
+  `emoji` for this)
+- If no animated stickers then puppeteer is not launched resulting in a small
+  speed increase
+- Strings double-quoted
+
+
 ## 2021.1.5 - 2021/01/13
 - Update `pylottie` for significant speed improvements (animation renders take
   approx 2/3 as long)
