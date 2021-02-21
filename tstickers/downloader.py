@@ -189,6 +189,7 @@ class StickerDownloader:
 			for sticker in stickerSet["files"]] # yapf: disable
 			for i in as_completed(futures):
 				downloads.append(i.result())
+		self.session.close()
 
 		end = time.time()
 		print("Time taken to download {} stickers - {:.3f}s"
@@ -207,6 +208,7 @@ class StickerDownloader:
 		"""
 		img = Image.open(inputFile)
 		img.save(inputFile.replace("webp", "png"))
+
 		try:
 			img.save(inputFile.replace("webp", "gif"), transparency=0,
 			save_all=True, optimize=False) # yapf: disable

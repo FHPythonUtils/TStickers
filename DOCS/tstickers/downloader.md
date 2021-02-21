@@ -54,7 +54,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertDir
 
-[[find in source code]](../../tstickers/downloader.py#L216)
+[[find in source code]](../../tstickers/downloader.py#L218)
 
 ```python
 def convertDir(name: str, quality: int = 1):
@@ -69,7 +69,7 @@ Convert the webp images into png images
 
 ### StickerDownloader().convertStatic
 
-[[find in source code]](../../tstickers/downloader.py#L199)
+[[find in source code]](../../tstickers/downloader.py#L200)
 
 ```python
 def convertStatic(inputFile: str):
