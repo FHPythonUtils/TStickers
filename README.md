@@ -1,12 +1,12 @@
 [![GitHub top language](https://img.shields.io/github/languages/top/FHPythonUtils/TStickers.svg?style=for-the-badge)](../../)
-[![Codacy grade](https://img.shields.io/codacy/grade/[projid].svg?style=for-the-badge)](https://www.codacy.com/gh/FHPythonUtils/TStickers)
 [![Repository size](https://img.shields.io/github/repo-size/FHPythonUtils/TStickers.svg?style=for-the-badge)](../../)
 [![Issues](https://img.shields.io/github/issues/FHPythonUtils/TStickers.svg?style=for-the-badge)](../../issues)
 [![License](https://img.shields.io/github/license/FHPythonUtils/TStickers.svg?style=for-the-badge)](/LICENSE.md)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/FHPythonUtils/TStickers.svg?style=for-the-badge)](../../commits/master)
 [![Last commit](https://img.shields.io/github/last-commit/FHPythonUtils/TStickers.svg?style=for-the-badge)](../../commits/master)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/tstickers.svg?style=for-the-badge)](https://pypi.org/project/tstickers/)
-[![PyPI Version](https://img.shields.io/pypi/v/tstickers.svg?style=for-the-badge)](https://pypi.org/project/tstickers/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/tstickers.svg?style=for-the-badge)](https://pypistats.org/packages/tstickers)
+[![PyPI Total Downloads](https://img.shields.io/badge/dynamic/json?style=for-the-badge&label=total%20downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Ftstickers)](https://pepy.tech/project/tstickers)
+[![PyPI Version](https://img.shields.io/pypi/v/tstickers.svg?style=for-the-badge)](https://pypi.org/project/tstickers)
 
 <!-- omit in TOC -->
 # TStickers - Telegram Sticker Downloader
