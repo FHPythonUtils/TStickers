@@ -1,4 +1,4 @@
-Pillow<10,>=8.1.0
-emoji<2,>=0.6.0
-pylottie<2023,>=2021.2.1
-requests<4,>=2.25.1
+Pillow<9,>=8.3.2
+emoji<2,>=1.5.0
+pyrlottie<2023,>=2021.0.2
+requests<3,>=2.26.0

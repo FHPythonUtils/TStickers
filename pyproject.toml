@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2021.2.1"
+version = "2021.3"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
 classifiers = [
@@ -25,15 +25,48 @@ documentation = "https://github.com/FHPythonUtils/TStickers/blob/master/README.m
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-requests = "<4,>=2.25.1"
-Pillow = "<10,>=8.1.0"
-pylottie = "<2023,>=2021.2.1"
-emoji = "<2,>=0.6.0"
+python = ">=3.7,<3.11"
+requests = "<3,>=2.26.0"
+Pillow = "<9,>=8.3.2"
+emoji = "<2,>=1.5.0"
+pyrlottie = "<2023,>=2021.0.2"
 
 [tool.poetry.scripts]
 tstickers = "tstickers:cli"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.basic]
+argument-naming-style = "camelCase"
+attr-naming-style = "camelCase"
+function-naming-style = "camelCase"
+method-naming-style = "camelCase"
+variable-naming-style = "camelCase"
+
+[tool.pylint.format]
+indent-string = "\t"
+
+[tool.pylint.master]
+ignore-patterns = "test_.*?py"
+
+[tool.pylint.messages_control]
+enable = ['F', 'E', 'W', 'R', 'C']
+disable = [
+	"pointless-string-statement",
+	"superfluous-parens",
+	"bad-continuation",
+	"python3",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py37"]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+convention = "google"
+ignore = "D205,D415"
