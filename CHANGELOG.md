@@ -2,6 +2,25 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.3.1 - 2021/10/02
+
+- Bugfixes in dependency (pyrlottie) for linux/ wsl - so now runs
+
+    ```txt
+	Performance testing with https://t.me/addstickers/DonutTheDog on:
+	OS: Windows 10 WSL Ubuntu (2021/10/02)
+	CPU: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+	RAM: 16gb
+
+	using pyrlottie (lottie2gif.exe + gif2webp.exe)
+		~61s (frameskip=0, scale=1)
+		~27s (frameskip=1, scale=1)
+		~18s (frameskip=2, scale=1)
+
+	=> Approximately a 3.5x speed improvement for like-to-like image quality
+	=> Approximately a 2.4x speed improvement for improved image quality
+	```
+
 ## 2021.3 - 2021/10/02
 
 - code quality improvements (eg readability)
@@ -9,7 +28,7 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 
 	```txt
 	Performance testing with https://t.me/addstickers/DonutTheDog on:
-	OS: Windows 10
+	OS: Windows 10 (2021/10/02)
 	CPU: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 	RAM: 16gb
 
