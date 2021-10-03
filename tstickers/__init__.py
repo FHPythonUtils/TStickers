@@ -10,7 +10,7 @@ from tstickers.downloader import StickerDownloader
 
 def cli():
 	"""cli entry point"""
-	parser = argparse.ArgumentParser("Welcome to TSticker, providing all of your sticker needs")
+	parser = argparse.ArgumentParser("Welcome to TStickers, providing all of your sticker needs")
 	parser.add_argument(
 		"-t",
 		"--token",

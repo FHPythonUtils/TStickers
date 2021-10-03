@@ -9,17 +9,18 @@ Provides the module functions
         - [Sticker().emojiName](#stickeremojiname)
     - [StickerDownloader](#stickerdownloader)
         - [StickerDownloader().convertDir](#stickerdownloaderconvertdir)
-        - [StickerDownloader().convertStatic](#stickerdownloaderconvertstatic)
+        - [StickerDownloader().convertWithPIL](#stickerdownloaderconvertwithpil)
         - [StickerDownloader().doAPIReq](#stickerdownloaderdoapireq)
         - [StickerDownloader().downloadSticker](#stickerdownloaderdownloadsticker)
         - [StickerDownloader().downloadStickerSet](#stickerdownloaderdownloadstickerset)
         - [StickerDownloader().getSticker](#stickerdownloadergetsticker)
         - [StickerDownloader().getStickerSet](#stickerdownloadergetstickerset)
     - [assureDirExists](#assuredirexists)
+    - [ls](#ls)
 
 ## Sticker
 
-[[find in source code]](../../tstickers/downloader.py#L41)
+[[find in source code]](../../tstickers/downloader.py#L53)
 
 ```python
 class Sticker():
@@ -35,7 +36,7 @@ Sticker instance attributes
 
 ### Sticker().emojiName
 
-[[find in source code]](../../tstickers/downloader.py#L55)
+[[find in source code]](../../tstickers/downloader.py#L67)
 
 ```python
 def emojiName() -> str:
@@ -45,7 +46,7 @@ get the emoji as a string
 
 ## StickerDownloader
 
-[[find in source code]](../../tstickers/downloader.py#L60)
+[[find in source code]](../../tstickers/downloader.py#L72)
 
 ```python
 class StickerDownloader():
@@ -56,39 +57,51 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertDir
 
-[[find in source code]](../../tstickers/downloader.py#L222)
+[[find in source code]](../../tstickers/downloader.py#L242)
 
 ```python
-def convertDir(name: str, frameSkip: int = 1, scale: float = 1):
+def convertDir(packName: str, frameSkip: int = 1, scale: float = 1):
 ```
 
 Convert the webp images into png images
 
 #### Arguments
 
-- `name` *str* - name of the directory to convert
+- `packName` *str* - name of the directory to convert
 - `frameSkip` *int, optional* - skip n number of frames in the interest of
 optimisation with a quality trade-off. Defaults to 1.
 - `scale` *float, optional* - upscale/ downscale the images produced. Intended
 for optimisation with a quality trade-off. Defaults to 1.
 
-### StickerDownloader().convertStatic
+### StickerDownloader().convertWithPIL
 
-[[find in source code]](../../tstickers/downloader.py#L205)
+[[find in source code]](../../tstickers/downloader.py#L220)
 
 ```python
-def convertStatic(inputFile: str):
+def convertWithPIL(
+    swd: str,
+    srcDir: str,
+    inputFile: str,
+    static: bool = True,
+) -> str:
 ```
 
 Convert the webp file to png
 
 #### Arguments
 
+- `swd` *str* - sticker working directory
+- `srcDir` *str* - sticker src directory
 - `inputFile` *str* - path to input file
+- `static` *bool* - for static stickers
+
+#### Returns
+
+- `str` - path to input file
 
 ### StickerDownloader().doAPIReq
 
-[[find in source code]](../../tstickers/downloader.py#L79)
+[[find in source code]](../../tstickers/downloader.py#L91)
 
 ```python
 def doAPIReq(
@@ -114,7 +127,7 @@ params (dict[Any, Any]): function parameters
 
 ### StickerDownloader().downloadSticker
 
-[[find in source code]](../../tstickers/downloader.py#L158)
+[[find in source code]](../../tstickers/downloader.py#L170)
 
 ```python
 def downloadSticker(name: str, link: str, path: str) -> str:
@@ -134,7 +147,7 @@ Download a sticker from the server
 
 ### StickerDownloader().downloadStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L175)
+[[find in source code]](../../tstickers/downloader.py#L187)
 
 ```python
 def downloadStickerSet(stickerSet: dict[(Any, Any)]):
@@ -144,7 +157,7 @@ Download sticker set.
 
 ### StickerDownloader().getSticker
 
-[[find in source code]](../../tstickers/downloader.py#L105)
+[[find in source code]](../../tstickers/downloader.py#L117)
 
 ```python
 def getSticker(fileData: dict[(Any, Any)]) -> Sticker:
@@ -166,7 +179,7 @@ fileData (dict[Any, Any]): sticker id
 
 ### StickerDownloader().getStickerSet
 
-[[find in source code]](../../tstickers/downloader.py#L125)
+[[find in source code]](../../tstickers/downloader.py#L137)
 
 ```python
 def getStickerSet(name: str) -> Optional[dict[(Any, Any)]]:
@@ -200,3 +213,21 @@ make the dir if not exists
 #### Returns
 
 - `str` - the full path
+
+## ls
+
+[[find in source code]](../../tstickers/downloader.py#L41)
+
+```python
+def ls(directory: str) -> list[str]:
+```
+
+Do an ls
+
+#### Arguments
+
+- `directory` *str* - directory to ls
+
+#### Returns
+
+- `list[str]` - list of file paths

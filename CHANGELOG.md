@@ -2,6 +2,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.3.2 - 2021/10/03
+
+- Produce pngs for animated stickers as in SigStickers
+- Tidy up
+
 ## 2021.3.1 - 2021/10/02
 
 - Bugfixes in dependency (pyrlottie) for linux/ wsl - so now runs
