@@ -275,7 +275,9 @@ class StickerDownloader:
 		# 	Animated
 		doConvMultLottie = (
 			lambda fm, fs, sc: len(
-				asyncio.run(pyrlottie.convMultLottie(fm, frameSkip=fs, scale=sc))
+				asyncio.get_event_loop().run_until_complete(
+					pyrlottie.convMultLottie(fm, frameSkip=fs, scale=sc)
+				)
 			)
 			// 2
 		)
