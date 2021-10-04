@@ -8,12 +8,12 @@ Sticker download functions used by the module entry point.
     - [Sticker](#sticker)
         - [Sticker().emojiName](#stickeremojiname)
     - [StickerDownloader](#stickerdownloader)
-        - [StickerDownloader().convertDir](#stickerdownloaderconvertdir)
+        - [StickerDownloader().convertPack](#stickerdownloaderconvertpack)
         - [StickerDownloader().doAPIReq](#stickerdownloaderdoapireq)
+        - [StickerDownloader().downloadPack](#stickerdownloaderdownloadpack)
         - [StickerDownloader().downloadSticker](#stickerdownloaderdownloadsticker)
-        - [StickerDownloader().downloadStickerSet](#stickerdownloaderdownloadstickerset)
+        - [StickerDownloader().getPack](#stickerdownloadergetpack)
         - [StickerDownloader().getSticker](#stickerdownloadergetsticker)
-        - [StickerDownloader().getStickerSet](#stickerdownloadergetstickerset)
     - [assureDirExists](#assuredirexists)
 
 ## Sticker
@@ -53,15 +53,15 @@ class StickerDownloader():
 
 The StickerDownloader sets up the api and makes requests
 
-### StickerDownloader().convertDir
+### StickerDownloader().convertPack
 
-[[find in source code]](../../tstickers/downloader.py#L207)
+[[find in source code]](../../tstickers/downloader.py#L212)
 
 ```python
-def convertDir(packName: str, frameSkip: int = 1, scale: float = 1):
+def convertPack(packName: str, frameSkip: int = 1, scale: float = 1):
 ```
 
-Convert the webp images into png images
+Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
 #### Arguments
 
@@ -97,6 +97,24 @@ params (dict[Any, Any]): function parameters
 
 - `Optional[dict[Any,` *Any]]* - api response
 
+### StickerDownloader().downloadPack
+
+[[find in source code]](../../tstickers/downloader.py#L174)
+
+```python
+def downloadPack(pack: dict[(str, Any)]) -> list[str]:
+```
+
+Download a sticker pack.
+
+#### Arguments
+
+pack (dict[str, Any]): dictionary representing a sticker pack
+
+#### Returns
+
+- `list[str]` - list of file paths each sticker is written to
+
 ### StickerDownloader().downloadSticker
 
 [[find in source code]](../../tstickers/downloader.py#L157)
@@ -105,7 +123,7 @@ params (dict[Any, Any]): function parameters
 def downloadSticker(name: str, link: str, path: str) -> str:
 ```
 
-Download a sticker from the server
+Download a sticker from the server.
 
 #### Arguments
 
@@ -115,17 +133,25 @@ Download a sticker from the server
 
 #### Returns
 
-- `str` - the filepath the file was written to
+- `str` - the filepath the file is written to
 
-### StickerDownloader().downloadStickerSet
+### StickerDownloader().getPack
 
-[[find in source code]](../../tstickers/downloader.py#L174)
+[[find in source code]](../../tstickers/downloader.py#L124)
 
 ```python
-def downloadStickerSet(stickerSet: dict[(Any, Any)]):
+def getPack(packName: str) -> Optional[dict[(str, Any)]]:
 ```
 
-Download sticker set.
+Get a list of File objects.
+
+#### Arguments
+
+- `packName` *str* - name of the pack
+
+#### Returns
+
+- `dict[str,` *Any]* - dictionary containing sticker data
 
 ### StickerDownloader().getSticker
 
@@ -148,24 +174,6 @@ fileData (dict[Any, Any]): sticker id
 #### See also
 
 - [Sticker](#sticker)
-
-### StickerDownloader().getStickerSet
-
-[[find in source code]](../../tstickers/downloader.py#L124)
-
-```python
-def getStickerSet(name: str) -> Optional[dict[(Any, Any)]]:
-```
-
-Get a list of File objects.
-
-#### Arguments
-
-- `name` *str* - name of the sticker set
-
-#### Returns
-
-- `dict[Any,` *Any]* - dictionary containing sticker data
 
 ## assureDirExists
 

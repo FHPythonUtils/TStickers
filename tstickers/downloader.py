@@ -121,23 +121,23 @@ class StickerDownloader:
 			return file
 		return Sticker()
 
-	def getStickerSet(self, name: str) -> Optional[dict[Any, Any]]:
+	def getPack(self, packName: str) -> Optional[dict[str, Any]]:
 		"""Get a list of File objects.
 
 		Args:
-			name (str): name of the sticker set
+			packName (str): name of the pack
 
 		Returns:
-			dict[Any, Any]: dictionary containing sticker data
+			dict[str, Any]: dictionary containing sticker data
 		"""
-		params = {"name": name}
+		params = {"name": packName}
 		res = self.doAPIReq("getStickerSet", params)
 		if res is None:
 			return None
 		stickers = res["result"]["stickers"]
 		files = []
 
-		print(f'Starting to scrape "{name}" ..')
+		print(f'Starting to scrape "{packName}" ..')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [executor.submit(self.getSticker, i) for i in stickers]
@@ -147,15 +147,15 @@ class StickerDownloader:
 		print(f"Time taken to scrape {len(files)} stickers - {end - start:.3f}s")
 		print()
 
-		stickerSet = {
+		pack = {
 			"name": res["result"]["name"].lower(),
 			"title": res["result"]["title"],
 			"files": files,
 		}
-		return stickerSet
+		return pack
 
 	def downloadSticker(self, name: str, link: str, path: str) -> str:
-		"""Download a sticker from the server
+		"""Download a sticker from the server.
 
 		Args:
 			name (str): the name of the file
@@ -163,7 +163,7 @@ class StickerDownloader:
 			path (str): the path to write to
 
 		Returns:
-			str: the filepath the file was written to
+			str: the filepath the file is written to
 		"""
 		filePath = opj(path, name)
 		with open(filePath, "wb") as file:
@@ -171,16 +171,21 @@ class StickerDownloader:
 			file.write(res.content)
 		return filePath
 
-	def downloadStickerSet(self, stickerSet: dict[Any, Any]):
+	def downloadPack(self, pack: dict[str, Any]) -> list[str]:
+		"""Download a sticker pack.
+
+		Args:
+			pack (dict[str, Any]): dictionary representing a sticker pack
+
+		Returns:
+			list[str]: list of file paths each sticker is written to
 		"""
-		Download sticker set.
-		"""
-		swd = assureDirExists(stickerSet["name"], root=self.cwd)
+		swd = assureDirExists(pack["name"], root=self.cwd)
 		webpDir = assureDirExists("webp", root=swd)
 		tgsDir = assureDirExists("tgs", root=swd)
 		downloads = []
 
-		print(f'Starting download of "{stickerSet["name"]}" into {swd}')
+		print(f'Starting download of "{pack["name"]}" into {swd}')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [
@@ -193,7 +198,7 @@ class StickerDownloader:
 					link=sticker.link,
 					path=tgsDir if sticker.animated else webpDir,
 				)
-				for sticker in stickerSet["files"]
+				for sticker in pack["files"]
 			]
 			for i in as_completed(futures):
 				downloads.append(i.result())
@@ -204,8 +209,8 @@ class StickerDownloader:
 		print()
 		return downloads
 
-	def convertDir(self, packName: str, frameSkip: int = 1, scale: float = 1):
-		"""Convert the webp images into png images
+	def convertPack(self, packName: str, frameSkip: int = 1, scale: float = 1):
+		"""Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
 		Args:
 			packName (str): name of the directory to convert

@@ -49,25 +49,25 @@ def cli():
 			)
 			sysexit(1)
 	# Get the packs
-	names = args.pack
-	if names is None:
-		names = []
+	packs = args.pack
+	if packs is None:
+		packs = []
 		while True:
 			name = input("Enter sticker_set url (leave blank to stop): ").strip()
 			if name == "":
 				break
-			names.append(name)
-	names = [name.split("/")[-1] for name in names]
+			packs.append(name)
+	packs = [name.split("/")[-1] for name in packs]
 	downloader = StickerDownloader(token)
-	for sset in names:
+	for pack in packs:
 		print("=" * 60)
-		stickerSet = downloader.getStickerSet(sset)
-		if stickerSet is None:
+		stickerPack = downloader.getPack(pack)
+		if stickerPack is None:
 			continue
 		print("-" * 60)
-		_ = downloader.downloadStickerSet(stickerSet)
+		_ = downloader.downloadPack(stickerPack)
 		print("-" * 60)
-		downloader.convertDir(sset, args.frameskip, args.scale)
+		downloader.convertPack(pack, args.frameskip, args.scale)
 
 
 if __name__ == "__main__":
