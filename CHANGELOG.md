@@ -2,6 +2,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.4 - 2021/10/04
+
+- Added caching functionality using requests_cache and to the downloader -
+  output cache hit/miss to stdout for converter
+
 ## 2021.3.3 - 2021/10/03
 
 - Use `asyncio.get_event_loop().run_until_complete` in place of `asyncio.run` for compat

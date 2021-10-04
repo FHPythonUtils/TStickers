@@ -1,8 +1,7 @@
-"""Provides the module functions
-"""
+"""Sticker download functions used by the module entry point."""
+
 from __future__ import annotations
 
-import asyncio
 import json
 import os
 import time
@@ -11,10 +10,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from sys import exit as sysexit
 from typing import Any, Optional
 
-import pyrlottie
-import requests
 from emoji import demojize
-from PIL import Image
+
+from . import caching
+from .convert import convertAnimated, convertStatic
 
 opj = os.path.join
 
@@ -36,18 +35,6 @@ def assureDirExists(directory: str, root: str) -> str:
 		os.mkdir(fullPath)
 
 	return fullPath
-
-
-def ls(directory: str) -> list[str]:
-	"""Do an ls
-
-	Args:
-		directory (str): directory to ls
-
-	Returns:
-		list[str]: list of file paths
-	"""
-	return [opj(directory, i) for i in os.listdir(directory)]
 
 
 class Sticker:
@@ -77,7 +64,7 @@ class StickerDownloader:
 		self.token = token
 		self.cwd = assureDirExists("downloads", root=os.getcwd())
 		if session is None:
-			self.session = requests.Session()
+			self.session = caching.cachedSession
 		else:
 			self.session = session
 		self.api = f"https://api.telegram.org/bot{self.token}/"
@@ -86,7 +73,7 @@ class StickerDownloader:
 			pass
 		else:
 			print("Invalid token.")
-			sysexit()
+			sysexit(1)
 
 	def doAPIReq(self, function: str, params: dict[Any, Any]) -> Optional[dict[Any, Any]]:
 		"""Use the telegram api
@@ -217,28 +204,6 @@ class StickerDownloader:
 		print()
 		return downloads
 
-	def convertWithPIL(self, swd: str, srcDir: str, inputFile: str, static: bool = True) -> str:
-		"""Convert the webp file to png
-
-		Args:
-			swd (str): sticker working directory
-			srcDir (str): sticker src directory
-			inputFile (str): path to input file
-			static (bool): for static stickers
-
-		Returns:
-			str: path to input file
-		"""
-		img = Image.open(inputFile)
-		img.save(inputFile.replace(srcDir, opj(swd, "png")).replace("webp", "png"))
-
-		if static:
-			try:
-				img.save(inputFile.replace(srcDir, opj(swd, "gif")).replace("webp", "gif"))
-			except ValueError:
-				print(f"Failed to save {inputFile} as gif")
-		return inputFile
-
 	def convertDir(self, packName: str, frameSkip: int = 1, scale: float = 1):
 		"""Convert the webp images into png images
 
@@ -249,61 +214,47 @@ class StickerDownloader:
 			scale (float, optional): upscale/ downscale the images produced. Intended
 			for optimisation with a quality trade-off. Defaults to 1.
 		"""
-		# Make directories
-		swd = assureDirExists(packName, root=self.cwd)
-		webpDir = assureDirExists("webp", root=swd)
-		tgsDir = assureDirExists("tgs", root=swd)
-		webpAnimatedDir = assureDirExists("webp_animated", root=swd)
-		assureDirExists("png", root=swd)
-		assureDirExists("gif", root=swd)
+		if not caching.verifyConverted(packName):
+			# Make directories
+			swd = assureDirExists(packName, root=self.cwd)
+			assureDirExists("webp_animated", root=swd)
+			assureDirExists("png", root=swd)
+			assureDirExists("gif", root=swd)
 
-		# Convert Stickers
-		print(f'Converting stickers "{packName}"...')
-		converted = 0
-		start = time.time()
-
-		# 	Static
-		with ThreadPoolExecutor(max_workers=self.threads) as executor:
-			for _ in as_completed(
-				[
-					executor.submit(self.convertWithPIL, swd, webpDir, inputFile)
-					for inputFile in ls(webpDir)
-				]
-			):
-				converted += 1
-
-		# 	Animated
-		doConvMultLottie = (
-			lambda fm, fs, sc: len(
-				asyncio.get_event_loop().run_until_complete(
-					pyrlottie.convMultLottie(fm, frameSkip=fs, scale=sc)
-				)
+			# Convert Stickers
+			start = time.time()
+			print(f'Converting stickers "{packName}"...')
+			total = len(
+				os.listdir(opj(swd, "webp"))
+				+ [i for i in os.listdir(opj(swd, "tgs")) if i.endswith(".tgs")]
 			)
-			// 2
-		)
-		converted += doConvMultLottie(
-			fm=[
-				pyrlottie.FileMap(
-					pyrlottie.LottieFile(stckr),
-					{
-						stckr.replace(tgsDir, opj(swd, "gif")).replace("tgs", "gif"),
-						stckr.replace(tgsDir, webpAnimatedDir).replace("tgs", "webp"),
-					},
-				)
-				for stckr in [i for i in ls(tgsDir) if i.endswith(".tgs")]
-			],
-			fs=frameSkip,
-			sc=scale,
-		)
-		with ThreadPoolExecutor(max_workers=self.threads) as executor:
-			for _ in as_completed(
-				[
-					executor.submit(self.convertWithPIL, swd, webpAnimatedDir, inputFile, False)
-					for inputFile in ls(webpAnimatedDir)
-				]
-			):
-				_.result()
+			# 	Static
+			converted = convertedStatic = convertStatic(swd, self.threads)
 
-		end = time.time()
-		print(f"Time taken to convert {converted} stickers - {end - start:.3f}s")
-		print()
+			# 	Animated
+			convertedAnimated = convertAnimated(swd, self.threads, frameSkip=frameSkip, scale=scale)
+			converted += convertedAnimated
+
+			end = time.time()
+			print(
+				f"Time taken to convert {converted}/{total} stickers (total) - {end - start:.3f}s"
+			)
+			print()
+
+			caching.createConverted(
+				packName,
+				data={
+					"version": 1,
+					"info": {
+						"packName": packName,
+						"frameSkip": frameSkip,
+						"scale": scale,
+						"swd": swd,
+					},
+					"converted": {
+						"static": convertedStatic,
+						"animated": convertedAnimated,
+						"total": total,
+					},
+				},
+			)

@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from sys import exit as sysexit
 
-from tstickers.downloader import StickerDownloader
+from .downloader import StickerDownloader
 
 
 def cli():

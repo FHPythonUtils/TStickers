@@ -1,9 +1,6 @@
-!test
-README.rst
-requirements_optional.txt
-downloads/*
+downloads/
 env*
-temp/*
+requirements_optional.txt
 
 # DepHell stuff
 poetry.lock

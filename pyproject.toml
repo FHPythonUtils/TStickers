@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2021.3.3"
+version = "2021.4"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
 classifiers = [
@@ -30,6 +30,7 @@ requests = "<3,>=2.26.0"
 Pillow = "<9,>=8.3.2"
 emoji = "<2,>=1.5.0"
 pyrlottie = "<2023,>=2021.0.3"
+requests-cache = "<2,>=0.8.1"
 
 [tool.poetry.scripts]
 tstickers = "tstickers:cli"
