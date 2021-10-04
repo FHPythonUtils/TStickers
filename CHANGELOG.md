@@ -4,7 +4,7 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 
 ## 2021.4 - 2021/10/04
 
-- Added caching functionality using requests_cache and to the downloader -
+- Added caching functionality using requests_cache and to the converter -
   output cache hit/miss to stdout for converter
 
 ## 2021.3.3 - 2021/10/03
