@@ -20,6 +20,7 @@ token and paste in a file called 'env'. Send a message to @BotFather to get star
 
 - [Docs](#docs)
 - [Using](#using)
+	- [Help](#help)
 - [Formats](#formats)
 - [Documentation](#documentation)
 - [Install With PIP](#install-with-pip)
@@ -57,6 +58,22 @@ See the [Docs](/DOCS/) for more information.
 - Run the program `python -m tstickers`
 - Enter the URL of the sticker pack
 - Get the output in the `downloads` folder.
+
+### Help
+
+```sh
+usage: Welcome to TStickers, providing all of your sticker needs [-h] [-t TOKEN] [-p PACK] [--frameskip FRAMESKIP]
+                                                                 [--scale SCALE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TOKEN, --token TOKEN
+                        Pass in a bot token inline
+  -p PACK, --pack PACK  Pass in a pack url inline
+  --frameskip FRAMESKIP
+                        Set frameskip. default=1
+  --scale SCALE         Set scale. default=1.0
+```
 
 ## Formats
 

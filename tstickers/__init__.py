@@ -19,20 +19,21 @@ def cli():
 	parser.add_argument(
 		"-p",
 		"--pack",
-		help="Pass in a pack url inline",
 		action="append",
+		nargs="+",
+		help="Pass in a pack url inline",
 	)
 	parser.add_argument(
 		"--frameskip",
-		help="Set frameskip. default=0",
-		type=int,
 		default=1,
+		type=int,
+		help="Set frameskip. default=1",
 	)
 	parser.add_argument(
 		"--scale",
-		help="Set scale. default=1.0",
-		type=float,
 		default=1,
+		type=float,
+		help="Set scale. default=1.0",
 	)
 	args = parser.parse_args()
 	# Get the token
@@ -49,7 +50,7 @@ def cli():
 			)
 			sysexit(1)
 	# Get the packs
-	packs = args.pack
+	packs = sum(args.pack, [])
 	if packs is None:
 		packs = []
 		while True:

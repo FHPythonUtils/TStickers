@@ -2,6 +2,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2021.4.2 - 2021/10/08
+
+- Implement action='extend' for pre 3.7 eg. `python3 -m tstickers -p pack1 pack2 -p pack3`
+
 ## 2021.4.1 - 2021/10/04
 
 - Update function names and docs
