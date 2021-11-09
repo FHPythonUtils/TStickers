@@ -1,19 +1,15 @@
 [tool.poetry]
 name = "tstickers"
 version = "2021.4.2"
+license = "mit"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
 classifiers = [
 	"Development Status :: 5 - Production/Stable",
 	"Intended Audience :: Developers",
 	"Intended Audience :: Education",
-	"License :: OSI Approved :: MIT License",
 	"Natural Language :: English",
 	"Operating System :: OS Independent",
-	"Programming Language :: Python :: 3",
-	"Programming Language :: Python :: 3.7",
-	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3.9",
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Topic :: Software Development :: Libraries :: Python Modules",
 	"Topic :: Utilities",
@@ -53,12 +49,12 @@ indent-string = "\t"
 ignore-patterns = "test_.*?py"
 
 [tool.pylint.messages_control]
-enable = ['F', 'E', 'W', 'R', 'C']
+enable = ["F", "E", "W", "R", "C"]
 disable = [
 	"pointless-string-statement",
 	"superfluous-parens",
 	"bad-continuation",
-	"python3",
+	"python3"
 ]
 
 [tool.black]
@@ -67,6 +63,7 @@ target-version = ["py37"]
 
 [tool.isort]
 profile = "black"
+indent = "Tab"
 
 [tool.pydocstyle]
 convention = "google"

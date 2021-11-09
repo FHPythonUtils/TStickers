@@ -75,7 +75,7 @@ class StickerDownloader:
 			print("Invalid token.")
 			sysexit(1)
 
-	def doAPIReq(self, function: str, params: dict[Any, Any]) -> Optional[dict[Any, Any]]:
+	def doAPIReq(self, function: str, params: dict[Any, Any]) -> dict[Any, Any] | None:
 		"""Use the telegram api
 
 		Args:
@@ -121,7 +121,7 @@ class StickerDownloader:
 			return file
 		return Sticker()
 
-	def getPack(self, packName: str) -> Optional[dict[str, Any]]:
+	def getPack(self, packName: str) -> dict[str, Any] | None:
 		"""Get a list of File objects.
 
 		Args:
