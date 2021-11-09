@@ -13,12 +13,12 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 ## 2021.4 - 2021/10/04
 
 - Added caching functionality using requests_cache and to the converter -
-  output cache hit/miss to stdout for converter
+	output cache hit/miss to stdout for converter
 
 ## 2021.3.3 - 2021/10/03
 
 - Use `asyncio.get_event_loop().run_until_complete` in place of `asyncio.run` for compat
-  with pyrlottie 2021.1
+	with pyrlottie 2021.1
 - Marginal performance improvements with pyrlottie 2021.1 (~3% so may be a fluke?)
 
 	```txt
@@ -88,18 +88,18 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 ## 2021.2 - 2021/01/19
 
 - File names are now the emoji as text followed by the emoji glyph e.g.
-  "647+smiling_face_with_3_hearts+🥰" followed by the file extension (requires
-  `emoji` for this)
+	"647+smiling_face_with_3_hearts+🥰" followed by the file extension (requires
+	`emoji` for this)
 - If no animated stickers then puppeteer is not launched resulting in a small
-  speed increase
+	speed increase
 - Strings double-quoted
 
 ## 2021.1.5 - 2021/01/13
 
 - Update `pylottie` for significant speed improvements (animation renders take
-  approx 2/3 as long)
+	approx 2/3 as long)
 - Leverage the quality setting exposed by `pylottie` to further improve speed if
-  desired (quality 0 is fastest, quality 3 is best quality)
+	desired (quality 0 is fastest, quality 3 is best quality)
 
 ## 2021.1.3 - 2021/01/13
 
@@ -119,8 +119,8 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 ## 2021.1 - 2021/01/06
 
 - Added animated sticker support
-  - These are converted to gif
-  - No transparency support at this time
+	- These are converted to gif
+	- No transparency support at this time
 
 ## 2021.0.1 - 2021/01/04
 
