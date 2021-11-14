@@ -14,7 +14,7 @@ Download sticker packs from Telegram
 
 ## cli
 
-[[find in source code]](../../tstickers/__init__.py#L11)
+[[find in source code]](../../tstickers/__init__.py#L13)
 
 ```python
 def cli():

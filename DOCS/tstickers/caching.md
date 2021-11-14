@@ -14,7 +14,7 @@ Sticker caching functionality used by the downloader.
 
 ## createConverted
 
-[[find in source code]](../../tstickers/caching.py#L58)
+[[find in source code]](../../tstickers/caching.py#L60)
 
 ```python
 def createConverted(packName: str, data: dict):
@@ -29,7 +29,7 @@ Write cache data to a file identified by packName
 
 ## verifyConverted
 
-[[find in source code]](../../tstickers/caching.py#L19)
+[[find in source code]](../../tstickers/caching.py#L21)
 
 ```python
 def verifyConverted(packName: str) -> bool:

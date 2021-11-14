@@ -79,7 +79,7 @@ for optimisation with a quality trade-off. Defaults to 1.
 def doAPIReq(
     function: str,
     params: dict[(Any, Any)],
-) -> Optional[dict[(Any, Any)]]:
+) -> dict[(Any, Any)] | None:
 ```
 
 Use the telegram api
@@ -140,7 +140,7 @@ Download a sticker from the server.
 [[find in source code]](../../tstickers/downloader.py#L124)
 
 ```python
-def getPack(packName: str) -> Optional[dict[(str, Any)]]:
+def getPack(packName: str) -> dict[(str, Any)] | None:
 ```
 
 Get a list of File objects.

@@ -1,5 +1,7 @@
 """Download sticker packs from Telegram
 """
+from __future__ import annotations
+
 import argparse
 import os
 from pathlib import Path

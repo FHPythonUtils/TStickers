@@ -1,4 +1,6 @@
 """Sticker convert functions used by the downloader."""
+from __future__ import annotations
+
 import asyncio
 import os
 import os.path

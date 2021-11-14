@@ -12,7 +12,7 @@ Sticker convert functions used by the downloader.
 
 ## convertAnimated
 
-[[find in source code]](../../tstickers/convert.py#L76)
+[[find in source code]](../../tstickers/convert.py#L78)
 
 ```python
 def convertAnimated(
@@ -40,7 +40,7 @@ for optimisation with a quality trade-off. Defaults to 1.
 
 ## convertStatic
 
-[[find in source code]](../../tstickers/convert.py#L49)
+[[find in source code]](../../tstickers/convert.py#L51)
 
 ```python
 def convertStatic(swd: str, threads: int = 4) -> int:
@@ -59,7 +59,7 @@ Convert static stickers to png and gif
 
 ## convertWithPIL
 
-[[find in source code]](../../tstickers/convert.py#L26)
+[[find in source code]](../../tstickers/convert.py#L28)
 
 ```python
 def convertWithPIL(
@@ -85,7 +85,7 @@ Convert the webp file to png
 
 ## ls
 
-[[find in source code]](../../tstickers/convert.py#L14)
+[[find in source code]](../../tstickers/convert.py#L16)
 
 ```python
 def ls(directory: str) -> list[str]:
