@@ -55,7 +55,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertPack
 
-[[find in source code]](../../tstickers/downloader.py#L212)
+[[find in source code]](../../tstickers/downloader.py#L211)
 
 ```python
 def convertPack(packName: str, frameSkip: int = 1, scale: float = 1):
@@ -99,7 +99,7 @@ params (dict[Any, Any]): function parameters
 
 ### StickerDownloader().downloadPack
 
-[[find in source code]](../../tstickers/downloader.py#L174)
+[[find in source code]](../../tstickers/downloader.py#L173)
 
 ```python
 def downloadPack(pack: dict[(str, Any)]) -> list[str]:
@@ -117,7 +117,7 @@ pack (dict[str, Any]): dictionary representing a sticker pack
 
 ### StickerDownloader().downloadSticker
 
-[[find in source code]](../../tstickers/downloader.py#L157)
+[[find in source code]](../../tstickers/downloader.py#L156)
 
 ```python
 def downloadSticker(name: str, link: str, path: str) -> str:
@@ -137,7 +137,7 @@ Download a sticker from the server.
 
 ### StickerDownloader().getPack
 
-[[find in source code]](../../tstickers/downloader.py#L124)
+[[find in source code]](../../tstickers/downloader.py#L123)
 
 ```python
 def getPack(packName: str) -> dict[(str, Any)] | None:
@@ -155,7 +155,7 @@ Get a list of File objects.
 
 ### StickerDownloader().getSticker
 
-[[find in source code]](../../tstickers/downloader.py#L104)
+[[find in source code]](../../tstickers/downloader.py#L103)
 
 ```python
 def getSticker(fileData: dict[(Any, Any)]) -> Sticker:

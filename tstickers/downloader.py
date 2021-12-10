@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import json
 import os
 import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from json.decoder import JSONDecodeError
 from sys import exit as sysexit
-from typing import Any, Optional
+from typing import Any
 
 from emoji import demojize
 
@@ -88,18 +88,17 @@ class StickerDownloader:
 		Returns:
 			Optional[dict[Any, Any]]: api response
 		"""
+		urlParams = "?" + urllib.parse.urlencode(params)
+		res = self.session.get(f"{self.api}{function}{urlParams}")
 		try:
-			urlParams = "?" + urllib.parse.urlencode(params)
-			res = self.session.get(f"{self.api}{function}{urlParams}")
-			if res.status_code != 200:
-				raise RuntimeError
-			res = json.loads(res.content.decode("utf-8"))
-			if not res["ok"]:
-				raise RuntimeError(res["description"])
+			res = res.json()
+		except JSONDecodeError:
+			res = {"ok": False, "raw": res}
+		if res["ok"]:
 			return res
-		except RuntimeError as exception:
-			print(f'API method {function} failed. Error: "{exception}"')
-			return None
+
+		print(f'API method {function} with params {params} failed. Error: "{res["description"]}"')
+		return None
 
 	def getSticker(self, fileData: dict[Any, Any]) -> Sticker:
 		"""Get sticker info from the server

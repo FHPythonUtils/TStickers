@@ -52,8 +52,8 @@ def cli():
 			)
 			sysexit(1)
 	# Get the packs
-	packs = sum(args.pack, [])
-	if packs is None:
+	packs = sum(args.pack or [[]], [])
+	if len(packs) == 0:
 		packs = []
 		while True:
 			name = input("Enter sticker_set url (leave blank to stop): ").strip()
