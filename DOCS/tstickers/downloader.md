@@ -58,7 +58,12 @@ The StickerDownloader sets up the api and makes requests
 [[find in source code]](../../tstickers/downloader.py#L211)
 
 ```python
-def convertPack(packName: str, frameSkip: int = 1, scale: float = 1):
+def convertPack(
+    packName: str,
+    frameSkip: int = 1,
+    scale: float = 1,
+    noCache=False,
+):
 ```
 
 Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
@@ -70,6 +75,7 @@ Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 optimisation with a quality trade-off. Defaults to 1.
 - `scale` *float, optional* - upscale/ downscale the images produced. Intended
 for optimisation with a quality trade-off. Defaults to 1.
+- `noCache` *bool, optional* - set to true to disable cache. Defaults to False.
 
 ### StickerDownloader().doAPIReq
 

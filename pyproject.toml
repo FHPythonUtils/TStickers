@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2021.4.4"
+version = "2022"
 license = "mit"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
@@ -21,15 +21,18 @@ documentation = "https://github.com/FHPythonUtils/TStickers/blob/master/README.m
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<3.11"
-requests = "<3,>=2.26.0"
-Pillow = "<9,>=8.3.2"
-emoji = "<2,>=1.5.0"
-pyrlottie = "<2023,>=2021.0.3"
-requests-cache = "<2,>=0.8.1"
+python = ">=3.8,<4.0"
+requests = "<3,>=2.27.1"
+Pillow = "<10,>=9.0.0"
+emoji = "<2,>=1.6.3"
+pyrlottie = "<2024,>=2022"
+requests-cache = "<2,>=0.9.1"
 
 [tool.poetry.scripts]
 tstickers = "tstickers:cli"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
 
 [build-system]
 requires = ["poetry-core"]

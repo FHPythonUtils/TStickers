@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 from pathlib import Path
 from sys import exit as sysexit
 
@@ -42,7 +41,7 @@ def cli():
 	token = args.token
 	if args.token is None:
 		token = ""
-		for candidate in [Path(os.getcwd() + "/env.txt"), Path(os.getcwd() + "/env")]:
+		for candidate in [Path.cwd() / "env.txt", Path.cwd() / "env"]:
 			if candidate.exists():
 				token = candidate.read_text(encoding="utf-8").strip()
 		if not token:

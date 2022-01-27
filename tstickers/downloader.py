@@ -208,7 +208,7 @@ class StickerDownloader:
 		print()
 		return downloads
 
-	def convertPack(self, packName: str, frameSkip: int = 1, scale: float = 1):
+	def convertPack(self, packName: str, frameSkip: int = 1, scale: float = 1, noCache=False):
 		"""Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
 		Args:
@@ -217,48 +217,48 @@ class StickerDownloader:
 			optimisation with a quality trade-off. Defaults to 1.
 			scale (float, optional): upscale/ downscale the images produced. Intended
 			for optimisation with a quality trade-off. Defaults to 1.
+			noCache (bool, optional): set to true to disable cache. Defaults to False.
 		"""
-		if not caching.verifyConverted(packName):
-			# Make directories
-			swd = assureDirExists(packName, root=self.cwd)
-			assureDirExists("webp_animated", root=swd)
-			assureDirExists("png", root=swd)
-			assureDirExists("gif", root=swd)
+		if not noCache and caching.verifyConverted(packName):
+			return
+		# Make directories
+		swd = assureDirExists(packName, root=self.cwd)
+		assureDirExists("webp_animated", root=swd)
+		assureDirExists("png", root=swd)
+		assureDirExists("gif", root=swd)
 
-			# Convert Stickers
-			start = time.time()
-			print(f'Converting stickers "{packName}"...')
-			total = len(
-				os.listdir(opj(swd, "webp"))
-				+ [i for i in os.listdir(opj(swd, "tgs")) if i.endswith(".tgs")]
-			)
-			# 	Static
-			converted = convertedStatic = convertStatic(swd, self.threads)
+		# Convert Stickers
+		start = time.time()
+		print(f'Converting stickers "{packName}"...')
+		total = len(
+			os.listdir(opj(swd, "webp"))
+			+ [i for i in os.listdir(opj(swd, "tgs")) if i.endswith(".tgs")]
+		)
+		# 	Static
+		converted = convertedStatic = convertStatic(swd, self.threads)
 
-			# 	Animated
-			convertedAnimated = convertAnimated(swd, self.threads, frameSkip=frameSkip, scale=scale)
-			converted += convertedAnimated
+		# 	Animated
+		convertedAnimated = convertAnimated(swd, self.threads, frameSkip=frameSkip, scale=scale)
+		converted += convertedAnimated
 
-			end = time.time()
-			print(
-				f"Time taken to convert {converted}/{total} stickers (total) - {end - start:.3f}s"
-			)
-			print()
+		end = time.time()
+		print(f"Time taken to convert {converted}/{total} stickers (total) - {end - start:.3f}s")
+		print()
 
-			caching.createConverted(
-				packName,
-				data={
-					"version": 1,
-					"info": {
-						"packName": packName,
-						"frameSkip": frameSkip,
-						"scale": scale,
-						"swd": swd,
-					},
-					"converted": {
-						"static": convertedStatic,
-						"animated": convertedAnimated,
-						"total": total,
-					},
+		caching.createConverted(
+			packName,
+			data={
+				"version": 1,
+				"info": {
+					"packName": packName,
+					"frameSkip": frameSkip,
+					"scale": scale,
+					"swd": swd,
 				},
-			)
+				"converted": {
+					"static": convertedStatic,
+					"animated": convertedAnimated,
+					"total": total,
+				},
+			},
+		)
