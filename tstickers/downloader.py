@@ -2,51 +2,34 @@
 
 from __future__ import annotations
 
-import os
 import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from json.decoder import JSONDecodeError
+from pathlib import Path
 from sys import exit as sysexit
 from typing import Any
 
 from emoji import demojize
 
 from . import caching
-from .convert import convertAnimated, convertStatic
-
-opj = os.path.join
-
-
-def assureDirExists(directory: str, root: str) -> str:
-	"""make the dir if not exists
-
-	Args:
-		directory (str): the directory name
-		root (str): the path of the root directory
-
-	Returns:
-		str: the full path
-	"""
-	fullPath = opj(root, directory)
-	if os.path.isdir(fullPath):
-		pass
-	else:
-		os.mkdir(fullPath)
-
-	return fullPath
+from .convert import assureDirExists, convertTgs, convertWebp
 
 
 class Sticker:
 	"""Sticker instance attributes"""
 
 	def __init__(
-		self, name: str = "None", link: str = "None", emoji: str = "😀", animated: bool = False
+		self,
+		name: str = "None",
+		link: str = "None",
+		emoji: str = "😀",
+		fileType="webp",
 	):
 		self.name = name
 		self.link = link
 		self.emoji = emoji
-		self.animated = animated
+		self.fileType = fileType
 
 	def __repr__(self):
 		return f"<Sticker:{self.name}>"
@@ -62,7 +45,7 @@ class StickerDownloader:
 	def __init__(self, token, session=None, multithreading=4):
 		self.threads = multithreading
 		self.token = token
-		self.cwd = assureDirExists("downloads", root=os.getcwd())
+		self.cwd = assureDirExists(Path(), "downloads")
 		if session is None:
 			self.session = caching.cachedSession
 		else:
@@ -111,11 +94,12 @@ class StickerDownloader:
 		"""
 		info = self.doAPIReq("getFile", {"file_id": fileData["file_id"]})
 		if info is not None:
+			filePath = info["result"]["file_path"]
 			file = Sticker(
-				name=info["result"]["file_path"].split("/")[-1],
-				link=f'https://api.telegram.org/file/bot{self.token}/{info["result"]["file_path"]}',
+				name=filePath.split("/")[-1],
+				link=f"https://api.telegram.org/file/bot{self.token}/{filePath}",
 				emoji=fileData["emoji"],
-				animated=fileData["is_animated"],
+				fileType=filePath.split(".")[-1],
 			)
 			return file
 		return Sticker()
@@ -153,22 +137,17 @@ class StickerDownloader:
 		}
 		return pack
 
-	def downloadSticker(self, name: str, link: str, path: str) -> str:
+	def downloadSticker(self, path: Path, link: str) -> int:
 		"""Download a sticker from the server.
 
 		Args:
-			name (str): the name of the file
+			path (Path): the path to write to
 			link (str): the url to the file on the server
-			path (str): the path to write to
 
 		Returns:
-			str: the filepath the file is written to
+			int: path.write_bytes(res.content)
 		"""
-		filePath = opj(path, name)
-		with open(filePath, "wb") as file:
-			res = self.session.get(link)
-			file.write(res.content)
-		return filePath
+		return path.write_bytes(self.session.get(link).content)
 
 	def downloadPack(self, pack: dict[str, Any]) -> list[str]:
 		"""Download a sticker pack.
@@ -179,23 +158,20 @@ class StickerDownloader:
 		Returns:
 			list[str]: list of file paths each sticker is written to
 		"""
-		swd = assureDirExists(pack["name"], root=self.cwd)
-		webpDir = assureDirExists("webp", root=swd)
-		tgsDir = assureDirExists("tgs", root=swd)
+		swd = assureDirExists(self.cwd, pack["name"])
 		downloads = []
-
 		print(f'Starting download of "{pack["name"]}" into {swd}')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [
 				executor.submit(
 					self.downloadSticker,
-					name=(
+					assureDirExists(swd, sticker.fileType)
+					/ (
 						f'{sticker.name.split("_")[-1].split(".")[0]}+{sticker.emojiName()}'
-						f'.{("tgs" if sticker.animated else "webp")}'
+						f".{sticker.fileType}"
 					),
 					link=sticker.link,
-					path=tgsDir if sticker.animated else webpDir,
 				)
 				for sticker in pack["files"]
 			]
@@ -222,24 +198,20 @@ class StickerDownloader:
 		if not noCache and caching.verifyConverted(packName):
 			return
 		# Make directories
-		swd = assureDirExists(packName, root=self.cwd)
-		assureDirExists("webp_animated", root=swd)
-		assureDirExists("png", root=swd)
-		assureDirExists("gif", root=swd)
+		swd = assureDirExists(self.cwd, packName)
 
 		# Convert Stickers
 		start = time.time()
-		print(f'Converting stickers "{packName}"...')
-		total = len(
-			os.listdir(opj(swd, "webp"))
-			+ [i for i in os.listdir(opj(swd, "tgs")) if i.endswith(".tgs")]
-		)
-		# 	Static
-		converted = convertedStatic = convertStatic(swd, self.threads)
+		total = len([x for x in Path(swd).glob("**/*") if x.is_file()])
 
-		# 	Animated
-		convertedAnimated = convertAnimated(swd, self.threads, frameSkip=frameSkip, scale=scale)
-		converted += convertedAnimated
+		print(f'Converting stickers "{packName}"...')
+
+		# tgs
+		converted = convertedTgs = convertTgs(swd, self.threads, frameSkip=frameSkip, scale=scale)
+
+		# webp
+		convertedWebp = convertWebp(swd, self.threads)
+		converted += convertedWebp
 
 		end = time.time()
 		print(f"Time taken to convert {converted}/{total} stickers (total) - {end - start:.3f}s")
@@ -253,11 +225,11 @@ class StickerDownloader:
 					"packName": packName,
 					"frameSkip": frameSkip,
 					"scale": scale,
-					"swd": swd,
+					"swd": swd.as_posix(),
 				},
 				"converted": {
-					"static": convertedStatic,
-					"animated": convertedAnimated,
+					"static": convertedWebp,
+					"animated": convertedTgs,
 					"total": total,
 				},
 			},

@@ -14,11 +14,10 @@ Sticker download functions used by the module entry point.
         - [StickerDownloader().downloadSticker](#stickerdownloaderdownloadsticker)
         - [StickerDownloader().getPack](#stickerdownloadergetpack)
         - [StickerDownloader().getSticker](#stickerdownloadergetsticker)
-    - [assureDirExists](#assuredirexists)
 
 ## Sticker
 
-[[find in source code]](../../tstickers/downloader.py#L40)
+[[find in source code]](../../tstickers/downloader.py#L19)
 
 ```python
 class Sticker():
@@ -26,7 +25,7 @@ class Sticker():
         name: str = 'None',
         link: str = 'None',
         emoji: str = '😀',
-        animated: bool = False,
+        fileType='webp',
     ):
 ```
 
@@ -34,7 +33,7 @@ Sticker instance attributes
 
 ### Sticker().emojiName
 
-[[find in source code]](../../tstickers/downloader.py#L54)
+[[find in source code]](../../tstickers/downloader.py#L37)
 
 ```python
 def emojiName() -> str:
@@ -44,7 +43,7 @@ get the emoji as a string
 
 ## StickerDownloader
 
-[[find in source code]](../../tstickers/downloader.py#L59)
+[[find in source code]](../../tstickers/downloader.py#L42)
 
 ```python
 class StickerDownloader():
@@ -55,7 +54,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertPack
 
-[[find in source code]](../../tstickers/downloader.py#L211)
+[[find in source code]](../../tstickers/downloader.py#L187)
 
 ```python
 def convertPack(
@@ -79,7 +78,7 @@ for optimisation with a quality trade-off. Defaults to 1.
 
 ### StickerDownloader().doAPIReq
 
-[[find in source code]](../../tstickers/downloader.py#L78)
+[[find in source code]](../../tstickers/downloader.py#L61)
 
 ```python
 def doAPIReq(
@@ -105,7 +104,7 @@ params (dict[Any, Any]): function parameters
 
 ### StickerDownloader().downloadPack
 
-[[find in source code]](../../tstickers/downloader.py#L173)
+[[find in source code]](../../tstickers/downloader.py#L152)
 
 ```python
 def downloadPack(pack: dict[(str, Any)]) -> list[str]:
@@ -123,27 +122,26 @@ pack (dict[str, Any]): dictionary representing a sticker pack
 
 ### StickerDownloader().downloadSticker
 
-[[find in source code]](../../tstickers/downloader.py#L156)
+[[find in source code]](../../tstickers/downloader.py#L140)
 
 ```python
-def downloadSticker(name: str, link: str, path: str) -> str:
+def downloadSticker(path: Path, link: str) -> int:
 ```
 
 Download a sticker from the server.
 
 #### Arguments
 
-- `name` *str* - the name of the file
+- `path` *Path* - the path to write to
 - `link` *str* - the url to the file on the server
-- `path` *str* - the path to write to
 
 #### Returns
 
-- `str` - the filepath the file is written to
+- `int` - path.write_bytes(res.content)
 
 ### StickerDownloader().getPack
 
-[[find in source code]](../../tstickers/downloader.py#L123)
+[[find in source code]](../../tstickers/downloader.py#L107)
 
 ```python
 def getPack(packName: str) -> dict[(str, Any)] | None:
@@ -161,7 +159,7 @@ Get a list of File objects.
 
 ### StickerDownloader().getSticker
 
-[[find in source code]](../../tstickers/downloader.py#L103)
+[[find in source code]](../../tstickers/downloader.py#L86)
 
 ```python
 def getSticker(fileData: dict[(Any, Any)]) -> Sticker:
@@ -180,22 +178,3 @@ fileData (dict[Any, Any]): sticker id
 #### See also
 
 - [Sticker](#sticker)
-
-## assureDirExists
-
-[[find in source code]](../../tstickers/downloader.py#L21)
-
-```python
-def assureDirExists(directory: str, root: str) -> str:
-```
-
-make the dir if not exists
-
-#### Arguments
-
-- `directory` *str* - the directory name
-- `root` *str* - the path of the root directory
-
-#### Returns
-
-- `str` - the full path

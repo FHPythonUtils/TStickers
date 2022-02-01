@@ -51,9 +51,9 @@ def _verifyConvertedV1(data: dict[str, Any]):
 		bool: if the converted cache has been verified
 	"""
 	return (
-		Path(f"{data['info']['swd']}/webp_animated").exists()
+		len(list(Path(f"{data['info']['swd']}").glob("**/*"))) > 0
 		and data["converted"]["static"] + data["converted"]["animated"]
-		== data["converted"]["total"]
+		>= data["converted"]["total"]
 	)
 
 
