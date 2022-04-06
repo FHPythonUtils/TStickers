@@ -1,10 +1,10 @@
-# convert
+# Convert
 
-> Auto-generated documentation for [tstickers.convert](../../tstickers/convert.py) module.
+> Auto-generated documentation for [tstickers.convert](../../../tstickers/convert.py) module.
 
 Sticker convert functions used by the downloader.
 
-- [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / [tstickers](index.md#tstickers) / convert
+- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / [Tstickers](index.md#tstickers) / Convert
     - [assureDirExists](#assuredirexists)
     - [convertTgs](#converttgs)
     - [convertWebp](#convertwebp)
@@ -12,7 +12,7 @@ Sticker convert functions used by the downloader.
 
 ## assureDirExists
 
-[[find in source code]](../../tstickers/convert.py#L13)
+[[find in source code]](../../../tstickers/convert.py#L13)
 
 ```python
 def assureDirExists(root: Path, directory: Path | str) -> Path:
@@ -31,7 +31,7 @@ make the dir if not exists
 
 ## convertTgs
 
-[[find in source code]](../../tstickers/convert.py#L72)
+[[find in source code]](../../../tstickers/convert.py#L72)
 
 ```python
 def convertTgs(
@@ -59,7 +59,7 @@ for optimisation with a quality trade-off. Defaults to 1.
 
 ## convertWebp
 
-[[find in source code]](../../tstickers/convert.py#L44)
+[[find in source code]](../../../tstickers/convert.py#L44)
 
 ```python
 def convertWebp(swd: Path, threads: int = 4) -> int:
@@ -78,7 +78,7 @@ Convert static stickers to png and gif
 
 ## convertWithPIL
 
-[[find in source code]](../../tstickers/convert.py#L27)
+[[find in source code]](../../../tstickers/convert.py#L27)
 
 ```python
 def convertWithPIL(inputFile: str) -> str:

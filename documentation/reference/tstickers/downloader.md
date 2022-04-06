@@ -1,10 +1,10 @@
-# downloader
+# Downloader
 
-> Auto-generated documentation for [tstickers.downloader](../../tstickers/downloader.py) module.
+> Auto-generated documentation for [tstickers.downloader](../../../tstickers/downloader.py) module.
 
 Sticker download functions used by the module entry point.
 
-- [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / [tstickers](index.md#tstickers) / downloader
+- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / [Tstickers](index.md#tstickers) / Downloader
     - [Sticker](#sticker)
         - [Sticker().emojiName](#stickeremojiname)
     - [StickerDownloader](#stickerdownloader)
@@ -17,7 +17,7 @@ Sticker download functions used by the module entry point.
 
 ## Sticker
 
-[[find in source code]](../../tstickers/downloader.py#L19)
+[[find in source code]](../../../tstickers/downloader.py#L19)
 
 ```python
 class Sticker():
@@ -33,7 +33,7 @@ Sticker instance attributes
 
 ### Sticker().emojiName
 
-[[find in source code]](../../tstickers/downloader.py#L37)
+[[find in source code]](../../../tstickers/downloader.py#L37)
 
 ```python
 def emojiName() -> str:
@@ -43,7 +43,7 @@ get the emoji as a string
 
 ## StickerDownloader
 
-[[find in source code]](../../tstickers/downloader.py#L42)
+[[find in source code]](../../../tstickers/downloader.py#L42)
 
 ```python
 class StickerDownloader():
@@ -54,7 +54,7 @@ The StickerDownloader sets up the api and makes requests
 
 ### StickerDownloader().convertPack
 
-[[find in source code]](../../tstickers/downloader.py#L187)
+[[find in source code]](../../../tstickers/downloader.py#L187)
 
 ```python
 def convertPack(
@@ -78,13 +78,10 @@ for optimisation with a quality trade-off. Defaults to 1.
 
 ### StickerDownloader().doAPIReq
 
-[[find in source code]](../../tstickers/downloader.py#L61)
+[[find in source code]](../../../tstickers/downloader.py#L61)
 
 ```python
-def doAPIReq(
-    function: str,
-    params: dict[(Any, Any)],
-) -> dict[(Any, Any)] | None:
+def doAPIReq(function: str, params: dict[Any, Any]) -> dict[Any, Any] | None:
 ```
 
 Use the telegram api
@@ -104,10 +101,10 @@ params (dict[Any, Any]): function parameters
 
 ### StickerDownloader().downloadPack
 
-[[find in source code]](../../tstickers/downloader.py#L152)
+[[find in source code]](../../../tstickers/downloader.py#L152)
 
 ```python
-def downloadPack(pack: dict[(str, Any)]) -> list[str]:
+def downloadPack(pack: dict[str, Any]) -> list[str]:
 ```
 
 Download a sticker pack.
@@ -122,7 +119,7 @@ pack (dict[str, Any]): dictionary representing a sticker pack
 
 ### StickerDownloader().downloadSticker
 
-[[find in source code]](../../tstickers/downloader.py#L140)
+[[find in source code]](../../../tstickers/downloader.py#L140)
 
 ```python
 def downloadSticker(path: Path, link: str) -> int:
@@ -141,10 +138,10 @@ Download a sticker from the server.
 
 ### StickerDownloader().getPack
 
-[[find in source code]](../../tstickers/downloader.py#L107)
+[[find in source code]](../../../tstickers/downloader.py#L107)
 
 ```python
-def getPack(packName: str) -> dict[(str, Any)] | None:
+def getPack(packName: str) -> dict[str, Any] | None:
 ```
 
 Get a list of File objects.
@@ -159,10 +156,10 @@ Get a list of File objects.
 
 ### StickerDownloader().getSticker
 
-[[find in source code]](../../tstickers/downloader.py#L86)
+[[find in source code]](../../../tstickers/downloader.py#L86)
 
 ```python
-def getSticker(fileData: dict[(Any, Any)]) -> Sticker:
+def getSticker(fileData: dict[Any, Any]) -> Sticker:
 ```
 
 Get sticker info from the server

@@ -1,10 +1,10 @@
-# caching
+# Caching
 
-> Auto-generated documentation for [tstickers.caching](../../tstickers/caching.py) module.
+> Auto-generated documentation for [tstickers.caching](../../../tstickers/caching.py) module.
 
 Sticker caching functionality used by the downloader.
 
-- [Tstickers](../README.md#tstickers-index) / [Modules](../README.md#tstickers-modules) / [tstickers](index.md#tstickers) / caching
+- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / [Tstickers](index.md#tstickers) / Caching
     - [createConverted](#createconverted)
     - [verifyConverted](#verifyconverted)
 
@@ -14,7 +14,7 @@ Sticker caching functionality used by the downloader.
 
 ## createConverted
 
-[[find in source code]](../../tstickers/caching.py#L60)
+[[find in source code]](../../../tstickers/caching.py#L60)
 
 ```python
 def createConverted(packName: str, data: dict):
@@ -29,7 +29,7 @@ Write cache data to a file identified by packName
 
 ## verifyConverted
 
-[[find in source code]](../../tstickers/caching.py#L21)
+[[find in source code]](../../../tstickers/caching.py#L21)
 
 ```python
 def verifyConverted(packName: str) -> bool:

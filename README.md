@@ -15,14 +15,22 @@
 
 Download sticker packs from Telegram
 
-NOTE: You need a telegram bot token to make use of the script. Generate a bot
-token and paste in a file called 'env'. Send a message to @BotFather to get started.
+## Basic Use
 
-- [Docs](#docs)
-- [Using](#using)
+- NOTE: You need a telegram bot token to make use of the script. Generate a bot
+token and paste in a file called 'env'. Send a message to @BotFather to get started.
+- Create a file called 'env' (or env.txt) and paste your token
+- Get the URL of the telegram sticker pack
+- Run the program `python -m tstickers`
+- Enter the URL of the sticker pack
+- Get the output in the `downloads` folder.
+
+More info at [Tutorials](/documentation/tutorials)
+
+- [Basic Use](#basic-use)
+- [Documentation](#documentation)
 	- [Help](#help)
 - [Formats](#formats)
-- [Documentation](#documentation)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
@@ -52,17 +60,20 @@ token and paste in a file called 'env'. Send a message to @BotFather to get star
 	- [Support](#support)
 	- [Rationale](#rationale)
 
-## Docs
+## Documentation
 
-See the [Docs](/DOCS/) for more information.
+A high-level overview of how the documentation is organized organized will help you know
+where to look for certain things:
 
-## Using
-
-- Create a file called 'env' (or env.txt) and paste your token
-- Get the URL of the telegram sticker pack
-- Run the program `python -m tstickers`
-- Enter the URL of the sticker pack
-- Get the output in the `downloads` folder.
+- [Tutorials](/documentation/tutorials) take you by the hand through a series of steps to get
+  started using the software. Start here if you’re new.
+- The [Technical Reference](/documentation/reference) documents APIs and other aspects of the
+  machinery. This documentation describes how to use the classes and functions at a lower level
+  and assume that you have a good high-level understanding of the software.
+<!--
+- The [Help](/documentation/help) guide provides a starting point and outlines common issues that you
+  may have.
+-->
 
 ### Help
 
@@ -95,10 +106,6 @@ optional arguments:
 ```
 
 Note that static images can fail to save as .gif occasionally in testing
-
-## Documentation
-
-See the [Docs](/DOCS/) for more information.
 
 ## Install With PIP
 
