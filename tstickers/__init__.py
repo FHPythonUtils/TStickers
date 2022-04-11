@@ -9,7 +9,7 @@ from sys import exit as sysexit
 from .downloader import StickerDownloader
 
 
-def cli():
+def cli():  # pragma: no cover
 	"""cli entry point"""
 	parser = argparse.ArgumentParser("Welcome to TStickers, providing all of your sticker needs")
 	parser.add_argument(
@@ -72,5 +72,5 @@ def cli():
 		downloader.convertPack(pack, args.frameskip, args.scale)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
 	cli()
