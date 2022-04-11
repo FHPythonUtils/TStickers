@@ -22,7 +22,7 @@ if not token:
 
 
 downloader = StickerDownloader(token)
-downloader.cwd = f"{THISDIR}/data"
+downloader.cwd = Path(THISDIR) / "data"
 
 packs = [{"pack": "DonutTheDog", "len": 28}]
 
@@ -45,6 +45,4 @@ def test_convertPack():
 	assert stickerPack is not None
 	downloader.downloadPack(stickerPack)
 	downloader.convertPack(packs[0]["pack"], scale=0.05, noCache=True)
-	assert (
-		len(list(Path(f"{downloader.cwd}/donutthedog/webp_animated").iterdir())) == packs[0]["len"]
-	)
+	assert len(list(Path(f"{downloader.cwd}/donutthedog/webp").iterdir())) == packs[0]["len"]
