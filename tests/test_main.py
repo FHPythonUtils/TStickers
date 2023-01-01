@@ -24,7 +24,7 @@ if not token:
 downloader = StickerDownloader(token)
 downloader.cwd = Path(THISDIR) / "data"
 
-packs = [{"pack": "DonutTheDog", "len": 28}]
+packs = [{"pack": "DonutTheDog", "len": 31}]
 
 
 def test_getPack():
