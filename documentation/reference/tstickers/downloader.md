@@ -1,69 +1,70 @@
 # Downloader
 
+[Tstickers Index](../README.md#tstickers-index) /
+[Tstickers](./index.md#tstickers) /
+Downloader
+
 > Auto-generated documentation for [tstickers.downloader](../../../tstickers/downloader.py) module.
 
-Sticker download functions used by the module entry point.
-
-- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / [Tstickers](index.md#tstickers) / Downloader
-    - [Sticker](#sticker)
-        - [Sticker().emojiName](#stickeremojiname)
-    - [StickerDownloader](#stickerdownloader)
-        - [StickerDownloader().convertPack](#stickerdownloaderconvertpack)
-        - [StickerDownloader().doAPIReq](#stickerdownloaderdoapireq)
-        - [StickerDownloader().downloadPack](#stickerdownloaderdownloadpack)
-        - [StickerDownloader().downloadSticker](#stickerdownloaderdownloadsticker)
-        - [StickerDownloader().getPack](#stickerdownloadergetpack)
-        - [StickerDownloader().getSticker](#stickerdownloadergetsticker)
+- [Downloader](#downloader)
+  - [Sticker](#sticker)
+    - [Sticker().emojiName](#sticker()emojiname)
+  - [StickerDownloader](#stickerdownloader)
+    - [StickerDownloader().convertPack](#stickerdownloader()convertpack)
+    - [StickerDownloader().doAPIReq](#stickerdownloader()doapireq)
+    - [StickerDownloader().downloadPack](#stickerdownloader()downloadpack)
+    - [StickerDownloader().downloadSticker](#stickerdownloader()downloadsticker)
+    - [StickerDownloader().getPack](#stickerdownloader()getpack)
+    - [StickerDownloader().getSticker](#stickerdownloader()getsticker)
 
 ## Sticker
 
-[[find in source code]](../../../tstickers/downloader.py#L19)
-
-```python
-class Sticker():
-    def __init__(
-        name: str = 'None',
-        link: str = 'None',
-        emoji: str = '😀',
-        fileType='webp',
-    ):
-```
+[Show source in downloader.py:19](../../../tstickers/downloader.py#L19)
 
 Sticker instance attributes
 
-### Sticker().emojiName
-
-[[find in source code]](../../../tstickers/downloader.py#L37)
+#### Signature
 
 ```python
-def emojiName() -> str:
+class Sticker:
+    def __init__(
+        self, name: str = "None", link: str = "None", emoji: str = "😀", fileType="webp"
+    ):
+        ...
 ```
+
+### Sticker().emojiName
+
+[Show source in downloader.py:37](../../../tstickers/downloader.py#L37)
 
 get the emoji as a string
 
-## StickerDownloader
-
-[[find in source code]](../../../tstickers/downloader.py#L42)
+#### Signature
 
 ```python
-class StickerDownloader():
-    def __init__(token, session=None, multithreading=4):
+def emojiName(self) -> str:
+    ...
 ```
+
+
+
+## StickerDownloader
+
+[Show source in downloader.py:42](../../../tstickers/downloader.py#L42)
 
 The StickerDownloader sets up the api and makes requests
 
-### StickerDownloader().convertPack
-
-[[find in source code]](../../../tstickers/downloader.py#L187)
+#### Signature
 
 ```python
-def convertPack(
-    packName: str,
-    frameSkip: int = 1,
-    scale: float = 1,
-    noCache=False,
-):
+class StickerDownloader:
+    def __init__(self, token, session=None, multithreading=4):
+        ...
 ```
+
+### StickerDownloader().convertPack
+
+[Show source in downloader.py:187](../../../tstickers/downloader.py#L187)
 
 Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
@@ -76,13 +77,18 @@ optimisation with a quality trade-off. Defaults to 1.
 for optimisation with a quality trade-off. Defaults to 1.
 - `noCache` *bool, optional* - set to true to disable cache. Defaults to False.
 
-### StickerDownloader().doAPIReq
-
-[[find in source code]](../../../tstickers/downloader.py#L61)
+#### Signature
 
 ```python
-def doAPIReq(function: str, params: dict[Any, Any]) -> dict[Any, Any] | None:
+def convertPack(
+    self, packName: str, frameSkip: int = 1, scale: float = 1, noCache=False
+):
+    ...
 ```
+
+### StickerDownloader().doAPIReq
+
+[Show source in downloader.py:61](../../../tstickers/downloader.py#L61)
 
 Use the telegram api
 
@@ -99,13 +105,16 @@ params (dict[Any, Any]): function parameters
 
 - `Optional[dict[Any,` *Any]]* - api response
 
-### StickerDownloader().downloadPack
-
-[[find in source code]](../../../tstickers/downloader.py#L152)
+#### Signature
 
 ```python
-def downloadPack(pack: dict[str, Any]) -> list[str]:
+def doAPIReq(self, function: str, params: dict[Any, Any]) -> dict[Any, Any] | None:
+    ...
 ```
+
+### StickerDownloader().downloadPack
+
+[Show source in downloader.py:152](../../../tstickers/downloader.py#L152)
 
 Download a sticker pack.
 
@@ -117,13 +126,16 @@ pack (dict[str, Any]): dictionary representing a sticker pack
 
 - `list[str]` - list of file paths each sticker is written to
 
-### StickerDownloader().downloadSticker
-
-[[find in source code]](../../../tstickers/downloader.py#L140)
+#### Signature
 
 ```python
-def downloadSticker(path: Path, link: str) -> int:
+def downloadPack(self, pack: dict[str, Any]) -> list[str]:
+    ...
 ```
+
+### StickerDownloader().downloadSticker
+
+[Show source in downloader.py:140](../../../tstickers/downloader.py#L140)
 
 Download a sticker from the server.
 
@@ -136,13 +148,16 @@ Download a sticker from the server.
 
 - `int` - path.write_bytes(res.content)
 
-### StickerDownloader().getPack
-
-[[find in source code]](../../../tstickers/downloader.py#L107)
+#### Signature
 
 ```python
-def getPack(packName: str) -> dict[str, Any] | None:
+def downloadSticker(self, path: Path, link: str) -> int:
+    ...
 ```
+
+### StickerDownloader().getPack
+
+[Show source in downloader.py:107](../../../tstickers/downloader.py#L107)
 
 Get a list of File objects.
 
@@ -154,13 +169,16 @@ Get a list of File objects.
 
 - `dict[str,` *Any]* - dictionary containing sticker data
 
-### StickerDownloader().getSticker
-
-[[find in source code]](../../../tstickers/downloader.py#L86)
+#### Signature
 
 ```python
-def getSticker(fileData: dict[Any, Any]) -> Sticker:
+def getPack(self, packName: str) -> dict[str, Any] | None:
+    ...
 ```
+
+### StickerDownloader().getSticker
+
+[Show source in downloader.py:86](../../../tstickers/downloader.py#L86)
 
 Get sticker info from the server
 
@@ -170,8 +188,17 @@ fileData (dict[Any, Any]): sticker id
 
 #### Returns
 
-- `Sticker` - Sticker instance
+- [Sticker](#sticker) - Sticker instance
+
+#### Signature
+
+```python
+def getSticker(self, fileData: dict[Any, Any]) -> Sticker:
+    ...
+```
 
 #### See also
 
 - [Sticker](#sticker)
+
+

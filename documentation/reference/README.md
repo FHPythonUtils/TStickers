@@ -1,10 +1,9 @@
-# Tstickers Modules
+# Tstickers Index
 
-> Auto-generated documentation modules index.
+> Auto-generated documentation index.
 
-Full list of [Tstickers](README.md#tstickers-index) project modules.
+A full list of `Tstickers` project modules.
 
-- [Tstickers Index](README.md#tstickers-index)
 - [Tstickers](tstickers/index.md#tstickers)
     - [Module](tstickers/module.md#module)
     - [Caching](tstickers/caching.md#caching)

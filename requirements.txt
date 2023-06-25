@@ -1,5 +1,5 @@
-Pillow<10,>=9.0.0
-emoji<2,>=1.6.3
-pyrlottie<2024,>=2022
-requests-cache<2,>=0.9.1
-requests<3,>=2.27.1
+Pillow<10,>=9.5.0
+emoji<3,>=2.5.1
+pyrlottie<2024,>=2022.0.2
+requests-cache<2,>=1.0.1
+requests<3,>=2.31.0

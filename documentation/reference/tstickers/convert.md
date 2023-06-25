@@ -1,22 +1,20 @@
 # Convert
 
+[Tstickers Index](../README.md#tstickers-index) /
+[Tstickers](./index.md#tstickers) /
+Convert
+
 > Auto-generated documentation for [tstickers.convert](../../../tstickers/convert.py) module.
 
-Sticker convert functions used by the downloader.
-
-- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / [Tstickers](index.md#tstickers) / Convert
-    - [assureDirExists](#assuredirexists)
-    - [convertTgs](#converttgs)
-    - [convertWebp](#convertwebp)
-    - [convertWithPIL](#convertwithpil)
+- [Convert](#convert)
+  - [assureDirExists](#assuredirexists)
+  - [convertTgs](#converttgs)
+  - [convertWebp](#convertwebp)
+  - [convertWithPIL](#convertwithpil)
 
 ## assureDirExists
 
-[[find in source code]](../../../tstickers/convert.py#L13)
-
-```python
-def assureDirExists(root: Path, directory: Path | str) -> Path:
-```
+[Show source in convert.py:13](../../../tstickers/convert.py#L13)
 
 make the dir if not exists
 
@@ -29,18 +27,18 @@ make the dir if not exists
 
 - `Path` - the full path
 
-## convertTgs
-
-[[find in source code]](../../../tstickers/convert.py#L72)
+#### Signature
 
 ```python
-def convertTgs(
-    swd: Path,
-    threads: int = 4,
-    frameSkip: int = 1,
-    scale: float = 1,
-) -> int:
+def assureDirExists(root: Path, directory: Path | str) -> Path:
+    ...
 ```
+
+
+
+## convertTgs
+
+[Show source in convert.py:72](../../../tstickers/convert.py#L72)
 
 Convert animated stickers to webp, gif and png
 
@@ -57,13 +55,18 @@ for optimisation with a quality trade-off. Defaults to 1.
 
 - `int` - number of stickers successfully converted
 
-## convertWebp
-
-[[find in source code]](../../../tstickers/convert.py#L44)
+#### Signature
 
 ```python
-def convertWebp(swd: Path, threads: int = 4) -> int:
+def convertTgs(swd: Path, threads: int = 4, frameSkip: int = 1, scale: float = 1) -> int:
+    ...
 ```
+
+
+
+## convertWebp
+
+[Show source in convert.py:44](../../../tstickers/convert.py#L44)
 
 Convert static stickers to png and gif
 
@@ -76,13 +79,18 @@ Convert static stickers to png and gif
 
 - `int` - number of stickers successfully converted
 
-## convertWithPIL
-
-[[find in source code]](../../../tstickers/convert.py#L27)
+#### Signature
 
 ```python
-def convertWithPIL(inputFile: str) -> str:
+def convertWebp(swd: Path, threads: int = 4) -> int:
+    ...
 ```
+
+
+
+## convertWithPIL
+
+[Show source in convert.py:27](../../../tstickers/convert.py#L27)
 
 Convert the webp file to png
 
@@ -93,3 +101,12 @@ Convert the webp file to png
 #### Returns
 
 - `str` - path to input file
+
+#### Signature
+
+```python
+def convertWithPIL(inputFile: str) -> str:
+    ...
+```
+
+

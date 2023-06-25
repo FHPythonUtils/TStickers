@@ -1,23 +1,32 @@
 # Tstickers
 
+[Tstickers Index](../README.md#tstickers-index) /
+Tstickers
+
 > Auto-generated documentation for [tstickers](../../../tstickers/__init__.py) module.
 
-Download sticker packs from Telegram
-
-- [Tstickers](../README.md#tstickers-index) / [Modules](../MODULES.md#tstickers-modules) / Tstickers
-    - [cli](#cli)
-    - Modules
-        - [Module](module.md#module)
-        - [Caching](caching.md#caching)
-        - [Convert](convert.md#convert)
-        - [Downloader](downloader.md#downloader)
+- [Tstickers](#tstickers)
+  - [cli](#cli)
+  - [Modules](#modules)
 
 ## cli
 
-[[find in source code]](../../../tstickers/__init__.py#L12)
+[Show source in __init__.py:12](../../../tstickers/__init__.py#L12)
+
+cli entry point
+
+#### Signature
 
 ```python
 def cli():
+    ...
 ```
 
-cli entry point
+
+
+## Modules
+
+- [Module](./module.md)
+- [Caching](./caching.md)
+- [Convert](./convert.md)
+- [Downloader](./downloader.md)
