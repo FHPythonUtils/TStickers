@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2022.1"
+version = "2022.1.1"
 license = "mit"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
@@ -13,7 +13,7 @@ classifiers = [
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Topic :: Software Development :: Libraries :: Python Modules",
 	"Topic :: Utilities",
-	"Topic :: Multimedia :: Graphics"
+	"Topic :: Multimedia :: Graphics",
 ]
 homepage = "https://github.com/FHPythonUtils/TStickers"
 repository = "https://github.com/FHPythonUtils/TStickers"
@@ -22,11 +22,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-requests = "<3,>=2.27.1"
-Pillow = "<10,>=9.0.0"
-emoji = "<2,>=1.6.3"
-pyrlottie = "<2024,>=2022"
-requests-cache = "<2,>=0.9.1"
+requests = "^2.31.0"
+Pillow = "^9.5.0"
+emoji = "^2.5.1"
+pyrlottie = "^2022.0.2"
+requests-cache = "^1.0.1"
 
 [tool.poetry.scripts]
 tstickers = "tstickers:cli"
@@ -36,6 +36,18 @@ pytest = "^7.1.1"
 pylint = "^2.13.5"
 handsdown = "^1.1.0"
 coverage = "^6.3.2"
+
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+indent = "Tab"
+
+[tool.pydocstyle]
+convention = "google"
+ignore = "D205,D415"
 
 [build-system]
 requires = ["poetry-core"]
@@ -56,20 +68,18 @@ ignore-paths = ["tests"]
 
 [tool.pylint.messages_control]
 enable = ["F", "E", "W", "R", "C"]
-disable = [
-	"pointless-string-statement",
-	"superfluous-parens",
-	"bad-continuation"
-]
+disable = ["pointless-string-statement", "superfluous-parens"]
 
-[tool.black]
-line-length = 100
-target-version = ["py37"]
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+env_list =
+	py311
+	py310
+	py39
+	py38
 
-[tool.isort]
-profile = "black"
-indent = "Tab"
-
-[tool.pydocstyle]
-convention = "google"
-ignore = "D205,D415"
+[testenv]
+deps = pytest
+commands = pytest tests
+"""

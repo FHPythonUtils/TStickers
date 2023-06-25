@@ -20,7 +20,7 @@ def assureDirExists(root: Path, directory: Path | str) -> Path:
 	Returns:
 		Path: the full path
 	"""
-	(root / directory).mkdir(exist_ok=True)
+	(root / directory).mkdir(parents=True, exist_ok=True)
 	return root / directory
 
 
