@@ -6,15 +6,17 @@
 
 - [Convert](#convert)
   - [Backend](#backend)
-  - [assureDirExists](#assuredirexists)
+  - [assure_dir_exists](#assure_dir_exists)
   - [convertAnimated](#convertanimated)
-  - [convertFunc](#convertfunc)
+  - [convertAnimatedFunc](#convertanimatedfunc)
   - [convertStatic](#convertstatic)
   - [convertWithPIL](#convertwithpil)
 
 ## Backend
 
-[Show source in convert.py:15](../../../tstickers/convert.py#L15)
+[Show source in convert.py:16](../../../tstickers/convert.py#L16)
+
+Represents different conversion libraries such as pyrlottie, and rlottie-python.
 
 #### Signature
 
@@ -24,17 +26,16 @@ class Backend(IntEnum): ...
 
 
 
-## assureDirExists
+## assure_dir_exists
 
-[Show source in convert.py:33](../../../tstickers/convert.py#L33)
+[Show source in convert.py:38](../../../tstickers/convert.py#L38)
 
-Make the dir if not exists.
+Make the directory if it does not exist.
 
 #### Arguments
 
 ----
- - `root` *Path* - the path of the root directory
- - `directory` *Path|str* - the directory name
+ - `parts` *Path* - path parts
 
 #### Returns
 
@@ -44,14 +45,14 @@ Make the dir if not exists.
 #### Signature
 
 ```python
-def assureDirExists(root: Path, directory: Path | str) -> Path: ...
+def assure_dir_exists(*parts: Path | str) -> Path: ...
 ```
 
 
 
 ## convertAnimated
 
-[Show source in convert.py:101](../../../tstickers/convert.py#L101)
+[Show source in convert.py:106](../../../tstickers/convert.py#L106)
 
 Convert animated stickers to webp, gif and png.
 
@@ -59,11 +60,14 @@ Convert animated stickers to webp, gif and png.
 
 ----
  - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults to number of cores/ logical processors.
+ - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults
+  to number of cores/ logical processors.
  - `frameSkip` *int, optional* - skip n number of frames in the interest of
  optimisation with a quality trade-off. Defaults to 1.
  - `scale` *float, optional* - upscale/ downscale the images produced. Intended
  for optimisation with a quality trade-off. Defaults to 1.
+ - `backend` *Backend* - The backend to use for conversion. Defaults to Backend.UNDEFINED,
+allowing the system to determine the appropriate library to use.
 
 #### Returns
 
@@ -88,21 +92,25 @@ def convertAnimated(
 
 
 
-## convertFunc
+## convertAnimatedFunc
 
-[Show source in convert.py:21](../../../tstickers/convert.py#L21)
+[Show source in convert.py:24](../../../tstickers/convert.py#L24)
+
+Convert animated stickers with (Base/Backend.UNDEFINED).
 
 #### Signature
 
 ```python
-def convertFunc(_x, _y, _z, _a) -> int: ...
+def convertAnimatedFunc(
+    _swd: Path, _threads: int, _frameSkip: int, _scale: float
+) -> int: ...
 ```
 
 
 
 ## convertStatic
 
-[Show source in convert.py:70](../../../tstickers/convert.py#L70)
+[Show source in convert.py:75](../../../tstickers/convert.py#L75)
 
 Convert static stickers to png and gif.
 
@@ -127,7 +135,7 @@ def convertStatic(swd: Path, threads: int = 4) -> int: ...
 
 ## convertWithPIL
 
-[Show source in convert.py:50](../../../tstickers/convert.py#L50)
+[Show source in convert.py:55](../../../tstickers/convert.py#L55)
 
 Convert the webp file to png.
 

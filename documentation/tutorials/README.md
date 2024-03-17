@@ -57,25 +57,24 @@ e.g. `env.txt`
 - Get the output in the `downloads` folder.
 
 ```bash
-$ py -m tstickers
+$ tstickers
 Enter sticker_set url (leave blank to stop): https://t.me/addstickers/DonutTheDog
 Enter sticker_set url (leave blank to stop):
-============================================================
-Starting to scrape "DonutTheDog" ..
-Time taken to scrape 28 stickers - 0.933s
-
-------------------------------------------------------------
-Starting download of "donutthedog" into downloads/donutthedog
-Time taken to download 28 stickers - 0.661s
-
-------------------------------------------------------------
--> Cache miss for DonutTheDog!
-Converting stickers "DonutTheDog"...
-Time taken to convert 56 stickers (tgs) - 101.442s
-
-Time taken to convert 56 stickers (webp) - 0.671s
-
-Time taken to convert 112/56 stickers (total) - 102.152s
-
-$
+INFO     | ============================================================
+INFO     | Starting to scrape "DonutTheDog" ..
+INFO     | Time taken to scrape 31 stickers - 0.044s
+INFO     |
+INFO     | ------------------------------------------------------------
+INFO     | Starting download of "donutthedog" into downloads\donutthedog
+INFO     | Time taken to download 31 stickers - 0.157s
+INFO     |
+INFO     | ------------------------------------------------------------
+INFO     | -> Cache miss for DonutTheDog!
+INFO     | Converting stickers "DonutTheDog"...
+INFO     | Time taken to convert 31 stickers (tgs) - 60.970s
+INFO     |
+INFO     | Time taken to convert 31 stickers (webp) - 0.447s
+INFO     |
+INFO     | Time taken to convert 62 stickers (total) - 61.434s
+INFO     |
 ```

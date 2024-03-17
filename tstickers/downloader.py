@@ -11,9 +11,10 @@ from sys import exit as sysexit
 from typing import Any
 
 from emoji import demojize
+from loguru import logger
 
-from . import caching
-from .convert import assureDirExists, convertAnimated, convertStatic, Backend
+from tstickers import caching
+from tstickers.convert import Backend, assure_dir_exists, convertAnimated, convertStatic
 
 
 class Sticker:
@@ -24,7 +25,7 @@ class Sticker:
 		name: str = "None",
 		link: str = "None",
 		emoji: str = "😀",
-		fileType="webp",
+		fileType: str = "webp",
 	) -> None:
 		self.name = name
 		self.link = link
@@ -42,10 +43,12 @@ class Sticker:
 class StickerDownloader:
 	"""The StickerDownloader sets up the api and makes requests."""
 
-	def __init__(self, token, session=None, multithreading=4) -> None:
+	def __init__(
+		self, token: str, session: caching.CachedSession | None = None, multithreading: int = 4
+	) -> None:
 		self.threads = multithreading
 		self.token = token
-		self.cwd = assureDirExists(Path(), "downloads")
+		self.cwd = assure_dir_exists(Path(), "downloads")
 		if session is None:
 			self.session = caching.cachedSession
 		else:
@@ -55,7 +58,7 @@ class StickerDownloader:
 		if verify is not None and verify["ok"]:
 			pass
 		else:
-			print("Invalid token.")
+			logger.info("Invalid token.")
 			sysexit(1)
 
 	def doAPIReq(self, function: str, params: dict[Any, Any]) -> dict[Any, Any] | None:
@@ -84,7 +87,9 @@ class StickerDownloader:
 		if res["ok"]:
 			return res
 
-		print(f'API method {function} with params {params} failed. Error: "{res["description"]}"')
+		logger.info(
+			f'API method {function} with params {params} failed. Error: "{res["description"]}"'
+		)
 		return None
 
 	def getSticker(self, fileData: dict[Any, Any]) -> Sticker:
@@ -129,15 +134,14 @@ class StickerDownloader:
 		stickers = res["result"]["stickers"]
 		files = []
 
-		print(f'Starting to scrape "{packName}" ..')
+		logger.info(f'Starting to scrape "{packName}" ..')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [executor.submit(self.getSticker, i) for i in stickers]
-			for i in as_completed(futures):
-				files.append(i.result())
+			files = [i.result() for i in as_completed(futures)]
 		end = time.time()
-		print(f"Time taken to scrape {len(files)} stickers - {end - start:.3f}s")
-		print()
+		logger.info(f"Time taken to scrape {len(files)} stickers - {end - start:.3f}s")
+		logger.info("")
 
 		return {
 			"name": res["result"]["name"].lower(),
@@ -160,7 +164,7 @@ class StickerDownloader:
 		"""
 		return path.write_bytes(self.session.get(link).content)
 
-	def downloadPack(self, pack: dict[str, Any]) -> list[str]:
+	def downloadPack(self, pack: dict[str, Any]) -> bool:
 		"""Download a sticker pack.
 
 		Args:
@@ -169,18 +173,18 @@ class StickerDownloader:
 
 		Returns:
 		-------
-			list[str]: list of file paths each sticker is written to
+			bool: success
 
 		"""
-		swd = assureDirExists(self.cwd, pack["name"])
-		downloads = []
-		print(f'Starting download of "{pack["name"]}" into {swd}')
+		swd = assure_dir_exists(self.cwd, pack["name"])
+		downloads = 0
+		logger.info(f'Starting download of "{pack["name"]}" into {swd}')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [
 				executor.submit(
 					self.downloadSticker,
-					assureDirExists(swd, sticker.fileType)
+					assure_dir_exists(swd, sticker.fileType)
 					/ (
 						f'{sticker.name.split("_")[-1].split(".")[0]}+{sticker.emojiName()}'
 						f".{sticker.fileType}"
@@ -190,16 +194,22 @@ class StickerDownloader:
 				for sticker in pack["files"]
 			]
 			for i in as_completed(futures):
-				downloads.append(i.result())
+				downloads += 1 if i.result() > 0 else 0
 		self.session.close()
 
 		end = time.time()
-		print(f"Time taken to download {len(downloads)} stickers - {end - start:.3f}s")
-		print()
-		return downloads
+		logger.info(f"Time taken to download {downloads} stickers - {end - start:.3f}s")
+		logger.info("")
+		return downloads == pack["files"]
 
 	def convertPack(
-		self, packName: str, frameSkip: int = 1, scale: float = 1, noCache=False, backend=Backend.UNDEFINED
+		self,
+		packName: str,
+		frameSkip: int = 1,
+		scale: float = 1,
+		*,
+		noCache: bool = False,
+		backend: Backend = Backend.UNDEFINED,
 	) -> None:
 		"""Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
@@ -213,16 +223,16 @@ class StickerDownloader:
 			noCache (bool, optional): set to true to disable cache. Defaults to False.
 
 		"""
-		if not noCache and caching.verifyConverted(packName):
+		if not noCache and caching.verify_converted(packName):
 			return
 		# Make directories
-		swd = assureDirExists(self.cwd, packName)
+		swd = assure_dir_exists(self.cwd, packName)
 
 		# Convert Stickers
 		start = time.time()
 		total = len([x for x in Path(swd).glob("**/*") if x.is_file()])
 
-		print(f'Converting stickers "{packName}"...')
+		logger.info(f'Converting stickers "{packName}"...')
 
 		# tgs
 		converted = convertedTgs = convertAnimated(
@@ -234,13 +244,13 @@ class StickerDownloader:
 		converted += convertedWebp
 
 		end = time.time()
-		print(f"Time taken to convert {converted}/{total} stickers (total) - {end - start:.3f}s")
-		print()
+		logger.info(f"Time taken to convert {converted} stickers (total) - {end - start:.3f}s")
+		logger.info("")
 
-		caching.createConverted(
+		caching.create_converted(
 			packName,
 			data={
-				"version": 1,
+				"version": 2,
 				"info": {
 					"packName": packName,
 					"frameSkip": frameSkip,

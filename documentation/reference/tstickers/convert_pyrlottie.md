@@ -9,7 +9,7 @@
 
 ## convertAnimated
 
-[Show source in convert_pyrlottie.py:8](../../../tstickers/convert_pyrlottie.py#L8)
+[Show source in convert_pyrlottie.py:26](../../../tstickers/convert_pyrlottie.py#L26)
 
 Convert animated stickers to webp, gif and png.
 
@@ -32,6 +32,6 @@ Convert animated stickers to webp, gif and png.
 
 ```python
 def convertAnimated(
-    swd: Path, threads: int = 4, frameSkip: int = 1, scale: float = 1
+    swd: Path, _threads: int = 4, frameSkip: int = 1, scale: float = 1
 ) -> int: ...
 ```

@@ -12,23 +12,12 @@
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
-Download sticker packs from Telegram
-
-## Basic Use
-
-- NOTE: You need a telegram bot token to make use of the script. Generate a bot
-token and paste in a file called 'env'. Send a message to @BotFather to get started.
-- Create a file called 'env' (or env.txt) and paste your token
-- Get the URL of the telegram sticker pack
-- Run the program `python -m tstickers`
-- Enter the URL of the sticker pack
-- Get the output in the `downloads` folder.
-
-More info at [Tutorials](/documentation/tutorials)
+The `tstickers` package provides functionality for downloading and converting sticker packs from https://t.me/addstickers. Download stickers, and convert them to multiple formats, with caching the converted stickers for faster retrieval.
 
 - [Basic Use](#basic-use)
+- [Using](#using)
+- [Help](#help)
 - [Documentation](#documentation)
-	- [Help](#help)
 - [Formats](#formats)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
@@ -61,6 +50,101 @@ More info at [Tutorials](/documentation/tutorials)
 	- [Support](#support)
 	- [Rationale](#rationale)
 
+## Basic Use
+
+https://t.me/addstickers/DonutTheDog
+
+- NOTE: You need a telegram bot token to make use of the script. Generate a bot
+token and paste in a file called 'env'. Send a message to @BotFather to get started.
+- Create a file called 'env' (or env.txt) and paste your token
+- Get the URL of the telegram sticker pack
+- Run the program `python -m tstickers`
+- Enter the URL of the sticker pack
+- Get the output in the `downloads` folder.
+
+More info at [Tutorials](/documentation/tutorials)
+
+## Using
+
+1. Get the URL of the Signal sticker pack. In the form https://t.me/addstickers
+
+2. Pass in multiple packs from the commandline with `-p/--pack`
+
+	```bash
+	$ tstickers --pack https://t.me/addstickers/DonutTheDog
+	INFO     | ============================================================
+	INFO     | Starting to scrape "DonutTheDog" ..
+	INFO     | Time taken to scrape 31 stickers - 0.044s
+	INFO     |
+	INFO     | ------------------------------------------------------------
+	INFO     | Starting download of "donutthedog" into downloads\donutthedog
+	INFO     | Time taken to download 31 stickers - 0.157s
+	INFO     |
+	INFO     | ------------------------------------------------------------
+	INFO     | -> Cache miss for DonutTheDog!
+	INFO     | Converting stickers "DonutTheDog"...
+	INFO     | Time taken to convert 31 stickers (tgs) - 60.970s
+	INFO     |
+	INFO     | Time taken to convert 31 stickers (webp) - 0.447s
+	INFO     |
+	INFO     | Time taken to convert 62 stickers (total) - 61.434s
+	INFO     |
+
+	```
+
+3. OR. Enter the URL of the sticker pack when prompted
+
+	```bash
+	$ python -m tstickers
+	Enter sticker_set URL (leave blank to stop): https://t.me/addstickers/DonutTheDog
+	Enter sticker_set URL (leave blank to stop):
+		INFO     | ============================================================
+	INFO     | Starting to scrape "DonutTheDog" ..
+	INFO     | Time taken to scrape 31 stickers - 0.044s
+	INFO     |
+	INFO     | ------------------------------------------------------------
+	INFO     | Starting download of "donutthedog" into downloads\donutthedog
+	INFO     | Time taken to download 31 stickers - 0.157s
+	INFO     |
+	INFO     | ------------------------------------------------------------
+	...
+	```
+
+4. Get the output in the `downloads` folder.
+
+	```powershell
+	$ ls .\downloads\donutthedog\
+
+	Mode                 LastWriteTime         Length Name
+	----                 -------------         ------ ----
+	d-----        17/03/2024     17꞉00                apng
+	d-----        17/03/2024     17꞉01                gif
+	d-----        17/03/2024     17꞉06                png
+	d-----        17/03/2024     17꞉00                tgs
+	d-----        17/03/2024     17꞉02                webp
+	```
+
+## Help
+
+```bash
+$ python -m tstickers --help
+usage: Welcome to TStickers, providing all of your sticker needs [-h] [-t TOKEN] [-p PACK [PACK ...]]
+																[--frameskip FRAMESKIP] [--scale SCALE]
+																[-b {rlottie-python,pyrlottie}]
+
+options:
+-h, --help            show this help message and exit
+-t TOKEN, --token TOKEN
+						Pass in a bot token inline
+-p PACK [PACK ...], --pack PACK [PACK ...]
+						Pass in a pack url inline
+--frameskip FRAMESKIP
+						Set frameskip. default=1
+--scale SCALE         Set scale. default=1.0
+-b {rlottie-python,pyrlottie}, --backend {rlottie-python,pyrlottie}
+						Specify the convert backend
+```
+
 ## Documentation
 
 A high-level overview of how the documentation is organized organized will help you know
@@ -75,22 +159,6 @@ where to look for certain things:
 - The [Help](/documentation/help) guide provides a starting point and outlines common issues that you
   may have.
 -->
-
-### Help
-
-```sh
-usage: Welcome to TStickers, providing all of your sticker needs [-h] [-t TOKEN] [-p PACK] [--frameskip FRAMESKIP]
-                                                                 [--scale SCALE]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -t TOKEN, --token TOKEN
-                        Pass in a bot token inline
-  -p PACK, --pack PACK  Pass in a pack url inline
-  --frameskip FRAMESKIP
-                        Set frameskip. default=1
-  --scale SCALE         Set scale. default=1.0
-```
 
 ## Formats
 

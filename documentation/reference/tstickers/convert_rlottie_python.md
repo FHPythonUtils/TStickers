@@ -10,7 +10,7 @@
 
 ## convertAnimated
 
-[Show source in convert_rlottie_python.py:34](../../../tstickers/convert_rlottie_python.py#L34)
+[Show source in convert_rlottie_python.py:49](../../../tstickers/convert_rlottie_python.py#L49)
 
 Convert animated stickers to webp, gif and png.
 
@@ -18,7 +18,8 @@ Convert animated stickers to webp, gif and png.
 
 ----
  - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults to number of cores/ logical processors.
+ - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults
+  to number of cores/ logical processors.
  - `frameSkip` *int, optional* - skip n number of frames in the interest of
  optimisation with a quality trade-off. Defaults to 1.
  - `scale` *float, optional* - upscale/ downscale the images produced. Intended
@@ -44,7 +45,7 @@ def convertAnimated(
 
 ## convert_single_tgs
 
-[Show source in convert_rlottie_python.py:10](../../../tstickers/convert_rlottie_python.py#L10)
+[Show source in convert_rlottie_python.py:26](../../../tstickers/convert_rlottie_python.py#L26)
 
 #### Signature
 

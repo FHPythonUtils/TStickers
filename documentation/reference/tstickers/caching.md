@@ -10,20 +10,45 @@
 
 
 - [Caching](#caching)
-  - [_verifyConvertedV1](#_verifyconvertedv1)
-  - [createConverted](#createconverted)
-  - [verifyConverted](#verifyconverted)
+  - [_get_verify_function](#_get_verify_function)
+  - [_verify_converted_v1](#_verify_converted_v1)
+  - [create_converted](#create_converted)
+  - [verify_converted](#verify_converted)
 
-## _verifyConvertedV1
+## _get_verify_function
 
-[Show source in caching.py:47](../../../tstickers/caching.py#L47)
+[Show source in caching.py:83](../../../tstickers/caching.py#L83)
+
+Get the appropriate cache verification function based on version.
+
+#### Arguments
+
+----
+ - `version` *int* - Cache version
+
+#### Returns
+
+-------
+ Callable[[dict[str, Any]], bool]: Cache verification function
+
+#### Signature
+
+```python
+def _get_verify_function(version: int) -> Callable[[dict[str, Any]], bool]: ...
+```
+
+
+
+## _verify_converted_v1
+
+[Show source in caching.py:51](../../../tstickers/caching.py#L51)
 
 Verify the cache for a packName using cache data.
 
 #### Arguments
 
 ----
- data (dict[str, Any]) packName cache data to verify
+ data (dict[Path, Any]): packName cache data to verify
 
 #### Returns
 
@@ -33,34 +58,34 @@ Verify the cache for a packName using cache data.
 #### Signature
 
 ```python
-def _verifyConvertedV1(data: dict[str, Any]): ...
+def _verify_converted_v1(data: dict[str, Any]) -> bool: ...
 ```
 
 
 
-## createConverted
+## create_converted
 
-[Show source in caching.py:66](../../../tstickers/caching.py#L66)
+[Show source in caching.py:70](../../../tstickers/caching.py#L70)
 
 Write cache data to a file identified by packName.
 
 #### Arguments
 
 ----
- - `packName` *str* - name of the sticker pack eg. "DonutTheDog"
+ - `pack_name` *str* - name of the sticker pack eg. "DonutTheDog"
  - `data` *dict* - packName cache data to write to cache
 
 #### Signature
 
 ```python
-def createConverted(packName: str, data: dict) -> None: ...
+def create_converted(pack_name: str, data: dict) -> None: ...
 ```
 
 
 
-## verifyConverted
+## verify_converted
 
-[Show source in caching.py:21](../../../tstickers/caching.py#L21)
+[Show source in caching.py:27](../../../tstickers/caching.py#L27)
 
 Verify the cache for a packName eg. "DonutTheDog". Uses the cache "version"
 to call the verify function for that version.
@@ -68,7 +93,7 @@ to call the verify function for that version.
 #### Arguments
 
 ----
- - `packName` *str* - name of the sticker pack eg. "DonutTheDog"
+ - `pack_name` *str* - name of the sticker pack eg. "DonutTheDog"
 
 #### Returns
 
@@ -78,5 +103,5 @@ to call the verify function for that version.
 #### Signature
 
 ```python
-def verifyConverted(packName: str) -> bool: ...
+def verify_converted(pack_name: str) -> bool: ...
 ```

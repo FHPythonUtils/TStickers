@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
+from loguru import logger
 from requests_cache.session import CachedSession
 
 # requests_cache
@@ -18,38 +19,41 @@ cachedSession = CachedSession(
 )
 
 
-def verifyConverted(packName: str) -> bool:
+CACHE_DIR = Path(".cache")
+if not CACHE_DIR.exists():
+	CACHE_DIR.mkdir()
+
+
+def verify_converted(pack_name: str) -> bool:
 	"""Verify the cache for a packName eg. "DonutTheDog". Uses the cache "version"
 	to call the verify function for that version.
 
 	Args:
 	----
-		packName (str): name of the sticker pack eg. "DonutTheDog"
+		pack_name (str): name of the sticker pack eg. "DonutTheDog"
 
 	Returns:
 	-------
 		bool: if the converted cache has been verified
 
 	"""
-	cache = Path(f".cache/{packName}")
+	cache = CACHE_DIR / pack_name
 	if cache.exists():
 		data = json.loads(cache.read_text(encoding="utf-8"))
-		try:
-			if [None, _verifyConvertedV1][data["version"]](data):
-				print(f"-> Cache hit for {packName}!")
-				return True
-		except KeyError:
-			pass
-	print(f"-> Cache miss for {packName}!")
+		verify_func = _get_verify_function(data.get("version", 1))
+		if verify_func(data):
+			logger.info(f"-> Cache hit for {pack_name}!")
+			return True
+	logger.info(f"-> Cache miss for {pack_name}!")
 	return False
 
 
-def _verifyConvertedV1(data: dict[str, Any]):
+def _verify_converted_v1(data: dict[str, Any]) -> bool:
 	"""Verify the cache for a packName using cache data.
 
 	Args:
 	----
-		data (dict[str, Any]) packName cache data to verify
+		data (dict[Path, Any]): packName cache data to verify
 
 	Returns:
 	-------
@@ -63,14 +67,31 @@ def _verifyConvertedV1(data: dict[str, Any]):
 	)
 
 
-def createConverted(packName: str, data: dict) -> None:
+def create_converted(pack_name: str, data: dict) -> None:
 	"""Write cache data to a file identified by packName.
 
 	Args:
 	----
-		packName (str): name of the sticker pack eg. "DonutTheDog"
+		pack_name (str): name of the sticker pack eg. "DonutTheDog"
 		data (dict): packName cache data to write to cache
 
 	"""
-	cache = Path(f".cache/{packName}")
+	cache = CACHE_DIR / pack_name
 	cache.write_text(json.dumps(data), encoding="utf-8")
+
+
+def _get_verify_function(version: int) -> Callable[[dict[str, Any]], bool]:
+	"""Get the appropriate cache verification function based on version.
+
+	Args:
+	----
+		version (int): Cache version
+
+	Returns:
+	-------
+		Callable[[dict[str, Any]], bool]: Cache verification function
+
+	"""
+	return {
+		1: _verify_converted_v1,
+	}.get(version, _verify_converted_v1)

@@ -9,18 +9,19 @@ THISDIR = str(Path(__file__).resolve().parent)
 PROJECT_DIR = Path(THISDIR).parent
 sys.path.insert(0, str(PROJECT_DIR))
 
-from tstickers.downloader import StickerDownloader
 from tstickers.convert import Backend
+from tstickers.downloader import StickerDownloader
 
 token = ""
 for candidate in [PROJECT_DIR / "env.txt", PROJECT_DIR / "env"]:
 	if candidate.exists():
 		token = candidate.read_text(encoding="utf-8").strip()
 if not token:
-	raise RuntimeError(
+	msg = (
 		'!! Generate a bot token and paste in a file called "env". Send a '
-		+ "message to @BotFather to get started"
+		"message to @BotFather to get started"
 	)
+	raise RuntimeError(msg)
 
 
 downloader = StickerDownloader(token)
