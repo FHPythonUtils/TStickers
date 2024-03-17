@@ -1,5 +1,5 @@
-"""Download sticker packs from Telegram
-"""
+"""Download sticker packs from Telegram."""
+
 from __future__ import annotations
 
 import argparse
@@ -7,10 +7,11 @@ from pathlib import Path
 from sys import exit as sysexit
 
 from .downloader import StickerDownloader
+from tstickers.convert import Backend
 
 
-def cli():  # pragma: no cover
-	"""cli entry point"""
+def cli() -> None:  # pragma: no cover
+	"""Cli entry point."""
 	parser = argparse.ArgumentParser("Welcome to TStickers, providing all of your sticker needs")
 	parser.add_argument(
 		"-t",
@@ -35,6 +36,13 @@ def cli():  # pragma: no cover
 		default=1,
 		type=float,
 		help="Set scale. default=1.0",
+	)
+	parser.add_argument(
+		"-b",
+		"--backend",
+		choices=["rlottie-python", "pyrlottie"],
+		default="pyrlottie",
+		help="Specify the convert backend",
 	)
 	args = parser.parse_args()
 	# Get the token
@@ -69,7 +77,14 @@ def cli():  # pragma: no cover
 		print("-" * 60)
 		_ = downloader.downloadPack(stickerPack)
 		print("-" * 60)
-		downloader.convertPack(pack, args.frameskip, args.scale)
+
+
+		backend_map = {
+			"rlottie-python": Backend.RLOTTIE_PYTHON,
+			"pyrlottie": Backend.PYRLOTTIE
+		}
+
+		downloader.convertPack(pack, args.frameskip, args.scale, backend=backend_map.get(args.backend, Backend.PYRLOTTIE))
 
 
 if __name__ == "__main__":  # pragma: no cover

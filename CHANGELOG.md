@@ -3,6 +3,12 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2024 - 2024/03/17
+
+- add convert backends to give the user a choice of using their preferred tool
+- ruff
+- code quality improvements
+
 ## 2022.1.1 - 2022/06/25
 
 - Fix: add `parents=True` to `Path.mkdir()`

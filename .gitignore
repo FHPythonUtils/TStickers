@@ -1,8 +1,8 @@
 downloads/
 env*
 requirements_optional.txt
+tests/data
 
-# DepHell stuff
 poetry.lock
 
 # Byte-compiled / optimized / DLL files

@@ -1,7 +1,6 @@
 # Tstickers
 
-[Tstickers Index](../README.md#tstickers-index) /
-Tstickers
+[Tstickers Index](../README.md#tstickers-index) / Tstickers
 
 > Auto-generated documentation for [tstickers](../../../tstickers/__init__.py) module.
 
@@ -11,15 +10,14 @@ Tstickers
 
 ## cli
 
-[Show source in __init__.py:12](../../../tstickers/__init__.py#L12)
+[Show source in __init__.py:13](../../../tstickers/__init__.py#L13)
 
-cli entry point
+Cli entry point.
 
 #### Signature
 
 ```python
-def cli():
-    ...
+def cli() -> None: ...
 ```
 
 
@@ -29,4 +27,6 @@ def cli():
 - [Module](./module.md)
 - [Caching](./caching.md)
 - [Convert](./convert.md)
+- [Convert Pyrlottie](./convert_pyrlottie.md)
+- [Convert Rlottie Python](./convert_rlottie_python.md)
 - [Downloader](./downloader.md)

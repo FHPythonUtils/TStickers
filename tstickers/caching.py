@@ -20,13 +20,16 @@ cachedSession = CachedSession(
 
 def verifyConverted(packName: str) -> bool:
 	"""Verify the cache for a packName eg. "DonutTheDog". Uses the cache "version"
-	to call the verify function for that version
+	to call the verify function for that version.
 
 	Args:
+	----
 		packName (str): name of the sticker pack eg. "DonutTheDog"
 
 	Returns:
+	-------
 		bool: if the converted cache has been verified
+
 	"""
 	cache = Path(f".cache/{packName}")
 	if cache.exists():
@@ -42,13 +45,16 @@ def verifyConverted(packName: str) -> bool:
 
 
 def _verifyConvertedV1(data: dict[str, Any]):
-	"""Verify the cache for a packName using cache data
+	"""Verify the cache for a packName using cache data.
 
 	Args:
+	----
 		data (dict[str, Any]) packName cache data to verify
 
 	Returns:
+	-------
 		bool: if the converted cache has been verified
+
 	"""
 	return (
 		len(list(Path(f"{data['info']['swd']}").glob("**/*"))) > 0
@@ -57,12 +63,14 @@ def _verifyConvertedV1(data: dict[str, Any]):
 	)
 
 
-def createConverted(packName: str, data: dict):
-	"""Write cache data to a file identified by packName
+def createConverted(packName: str, data: dict) -> None:
+	"""Write cache data to a file identified by packName.
 
 	Args:
+	----
 		packName (str): name of the sticker pack eg. "DonutTheDog"
 		data (dict): packName cache data to write to cache
+
 	"""
 	cache = Path(f".cache/{packName}")
 	cache.write_text(json.dumps(data), encoding="utf-8")
