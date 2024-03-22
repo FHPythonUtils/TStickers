@@ -98,7 +98,7 @@ More info at [Tutorials](/documentation/tutorials)
 	$ python -m tstickers
 	Enter sticker_set URL (leave blank to stop): https://t.me/addstickers/DonutTheDog
 	Enter sticker_set URL (leave blank to stop):
-		INFO     | ============================================================
+	INFO     | ============================================================
 	INFO     | Starting to scrape "DonutTheDog" ..
 	INFO     | Time taken to scrape 31 stickers - 0.044s
 	INFO     |
