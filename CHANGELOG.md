@@ -3,6 +3,12 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2024.1 - 2024/03/22
+
+- Add '--file' arg for passing in a list of packs
+- Implement a custom `demojize` function similar to the `emoji.demojize` function.
+	However, returns a string of unique keywords in alphabetical order seperated by "_"
+
 ## 2024 - 2024/03/17
 
 - add convert backends to give the user a choice of using their preferred tool

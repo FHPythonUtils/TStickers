@@ -2,6 +2,8 @@ downloads/
 env*
 requirements_optional.txt
 tests/data
+sticker*.txt
+sorted
 
 poetry.lock
 

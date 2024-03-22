@@ -30,6 +30,11 @@ def cli() -> None:  # pragma: no cover
 		help="Pass in a pack url inline",
 	)
 	parser.add_argument(
+		"-f",
+		"--file",
+		help="Path to file containing pack urls",
+	)
+	parser.add_argument(
 		"--frameskip",
 		default=1,
 		type=int,
@@ -64,7 +69,14 @@ def cli() -> None:  # pragma: no cover
 			)
 			sysexit(1)
 	# Get the packs
-	packs = functools.reduce(operator.iadd, args.pack or [[]], [])
+
+	packs = []
+	if args.file:
+		fp = Path(args.file)
+		if fp.is_file():
+			packs = fp.read_text("utf-8").strip().splitlines()
+
+	packs.extend(functools.reduce(operator.iadd, args.pack or [[]], []))
 	if len(packs) == 0:
 		while True:
 			name = input("Enter sticker_set url (leave blank to stop): ").strip()

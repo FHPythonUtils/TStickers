@@ -14,10 +14,11 @@
     - [StickerDownloader().downloadSticker](#stickerdownloader()downloadsticker)
     - [StickerDownloader().getPack](#stickerdownloader()getpack)
     - [StickerDownloader().getSticker](#stickerdownloader()getsticker)
+  - [demojize](#demojize)
 
 ## Sticker
 
-[Show source in downloader.py:20](../../../tstickers/downloader.py#L20)
+[Show source in downloader.py:54](../../../tstickers/downloader.py#L54)
 
 Sticker instance attributes.
 
@@ -36,7 +37,7 @@ class Sticker:
 
 ### Sticker().emojiName
 
-[Show source in downloader.py:38](../../../tstickers/downloader.py#L38)
+[Show source in downloader.py:72](../../../tstickers/downloader.py#L72)
 
 Get the emoji as a string.
 
@@ -50,7 +51,7 @@ def emojiName(self) -> str: ...
 
 ## StickerDownloader
 
-[Show source in downloader.py:43](../../../tstickers/downloader.py#L43)
+[Show source in downloader.py:77](../../../tstickers/downloader.py#L77)
 
 The StickerDownloader sets up the api and makes requests.
 
@@ -68,7 +69,7 @@ class StickerDownloader:
 
 ### StickerDownloader().convertPack
 
-[Show source in downloader.py:205](../../../tstickers/downloader.py#L205)
+[Show source in downloader.py:239](../../../tstickers/downloader.py#L239)
 
 Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 
@@ -101,7 +102,7 @@ def convertPack(
 
 ### StickerDownloader().doAPIReq
 
-[Show source in downloader.py:64](../../../tstickers/downloader.py#L64)
+[Show source in downloader.py:98](../../../tstickers/downloader.py#L98)
 
 Use the telegram api.
 
@@ -129,7 +130,7 @@ def doAPIReq(self, function: str, params: dict[Any, Any]) -> dict[Any, Any] | No
 
 ### StickerDownloader().downloadPack
 
-[Show source in downloader.py:167](../../../tstickers/downloader.py#L167)
+[Show source in downloader.py:201](../../../tstickers/downloader.py#L201)
 
 Download a sticker pack.
 
@@ -151,7 +152,7 @@ def downloadPack(self, pack: dict[str, Any]) -> bool: ...
 
 ### StickerDownloader().downloadSticker
 
-[Show source in downloader.py:152](../../../tstickers/downloader.py#L152)
+[Show source in downloader.py:186](../../../tstickers/downloader.py#L186)
 
 Download a sticker from the server.
 
@@ -174,7 +175,7 @@ def downloadSticker(self, path: Path, link: str) -> int: ...
 
 ### StickerDownloader().getPack
 
-[Show source in downloader.py:118](../../../tstickers/downloader.py#L118)
+[Show source in downloader.py:152](../../../tstickers/downloader.py#L152)
 
 Get a list of File objects.
 
@@ -196,7 +197,7 @@ def getPack(self, packName: str) -> dict[str, Any] | None: ...
 
 ### StickerDownloader().getSticker
 
-[Show source in downloader.py:95](../../../tstickers/downloader.py#L95)
+[Show source in downloader.py:129](../../../tstickers/downloader.py#L129)
 
 Get sticker info from the server.
 
@@ -219,3 +220,28 @@ def getSticker(self, fileData: dict[Any, Any]) -> Sticker: ...
 #### See also
 
 - [Sticker](#sticker)
+
+
+
+## demojize
+
+[Show source in downloader.py:21](../../../tstickers/downloader.py#L21)
+
+Similar to the emoji.demojize function.
+
+However, returns a string of unique keywords in alphabetical order seperated by "_"
+
+#### Arguments
+
+- `emoji` *str* - emoji unicode char
+
+#### Returns
+
+Type: *str*
+returns a string of unique keywords in alphabetical order seperated by "_"
+
+#### Signature
+
+```python
+def demojize(emoji: str) -> str: ...
+```

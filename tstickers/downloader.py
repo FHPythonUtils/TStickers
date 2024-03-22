@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -10,11 +11,44 @@ from pathlib import Path
 from sys import exit as sysexit
 from typing import Any
 
-from emoji import demojize
+from emoji import EMOJI_DATA
 from loguru import logger
 
 from tstickers import caching
 from tstickers.convert import Backend, assure_dir_exists, convertAnimated, convertStatic
+
+
+def demojize(emoji: str) -> str:
+	"""Similar to the emoji.demojize function.
+
+	However, returns a string of unique keywords in alphabetical order seperated by "_"
+
+	:param str emoji: emoji unicode char
+	:return str: returns a string of unique keywords in alphabetical order seperated by "_"
+	"""
+
+	def c14n_part(part: str) -> str:
+		return re.sub(r"_!@#$%^&*'", "_", part).replace("-", "_").lower()
+
+	def merge_parts(parts: set[str]) -> str:
+		unique_set = set()
+		for part in parts:
+			unique_set.update(part.split("_"))
+
+		unique_set.discard("")
+		unique_set.discard("with")
+
+		result_list = sorted(unique_set)
+		return "_".join(result_list)
+
+	emoji_data = EMOJI_DATA.get(emoji)
+	if emoji_data is None:
+		return "unknown"
+
+	parts = {c14n_part(emoji_data.get("en", "").strip(":"))}
+	parts.update(c14n_part(x.strip(":")) for x in emoji_data.get("alias", []))
+
+	return merge_parts(parts)
 
 
 class Sticker:
@@ -37,7 +71,7 @@ class Sticker:
 
 	def emojiName(self) -> str:
 		"""Get the emoji as a string."""
-		return demojize(self.emoji)[1:-1]
+		return demojize(self.emoji)
 
 
 class StickerDownloader:
