@@ -4,6 +4,9 @@ requirements_optional.txt
 tests/data
 sticker*.txt
 sorted
+perf.py
+/*.tgs
+/*.gif
 
 poetry.lock
 

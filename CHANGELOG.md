@@ -3,6 +3,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2024.1.1 - 2024/03/24
+
+- fix `convert_rlottie_python.py`
+
 ## 2024.1 - 2024/03/22
 
 - Add '--file' arg for passing in a list of packs
