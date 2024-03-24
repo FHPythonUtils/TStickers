@@ -73,7 +73,7 @@ def convertAnimated(
 
 	fps = [None, 30, 20, 15, 12][min(4, max(0, frameSkip))]
 
-	with concurrent.futures.ProcessPoolExecutor(max_workers=threads) as executor:
+	with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
 		# Using list comprehension to submit tasks to the executor
 		future_to_variable = {
 			executor.submit(convert_single_tgs, stckr, fps, scale): stckr
