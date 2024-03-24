@@ -6,7 +6,7 @@ public function called `convertAnimated`, which is used to perform the conversio
 
 The `convertAnimated` function takes the following parameters:
     - swd (Path): The sticker working directory (downloads/packName).
-    - _threads (int, optional): The number of threads to pass to ThreadPoolExecutor.
+    - _threads (int, optional): The number of threads to pass to ProcessPoolExecutor.
 		Defaults to 4.
     - frameSkip (int, optional): Skip n number of frames in the interest of
 		optimization with a quality trade-off. Defaults to 1.
@@ -57,7 +57,7 @@ def convertAnimated(
 	Args:
 	----
 		swd (Path): the sticker working directory (downloads/packName)
-		threads (int, optional): number of threads to pass to ThreadPoolExecutor. Defaults
+		threads (int, optional): number of threads to pass to ProcessPoolExecutor. Defaults
 			to number of cores/ logical processors.
 		frameSkip (int, optional): skip n number of frames in the interest of
 		optimisation with a quality trade-off. Defaults to 1.
@@ -73,7 +73,7 @@ def convertAnimated(
 
 	fps = [None, 30, 20, 15, 12][min(4, max(0, frameSkip))]
 
-	with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
+	with concurrent.futures.ProcessPoolExecutor(max_workers=threads) as executor:
 		# Using list comprehension to submit tasks to the executor
 		future_to_variable = {
 			executor.submit(convert_single_tgs, stckr, fps, scale): stckr

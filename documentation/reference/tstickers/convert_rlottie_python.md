@@ -18,7 +18,7 @@ Convert animated stickers to webp, gif and png.
 
 ----
  - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults
+ - `threads` *int, optional* - number of threads to pass to ProcessPoolExecutor. Defaults
   to number of cores/ logical processors.
  - `frameSkip` *int, optional* - skip n number of frames in the interest of
  optimisation with a quality trade-off. Defaults to 1.

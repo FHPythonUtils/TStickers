@@ -6,7 +6,7 @@ sticker*.txt
 sorted
 perf.py
 /*.tgs
-/*.gif
+/test_*
 
 poetry.lock
 
