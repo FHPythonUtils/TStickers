@@ -1,80 +1,121 @@
-<!-- omit in toc -->
-# Tutorial
 
-See below for a step-by-step tutorial on how to use TStickers
+<!-- omit in toc -->
+# Getting Started with TStickers
+
+Welcome to the TStickers tutorial! Follow these steps to get up and running with TStickers. This
+guide will walk you through setting up a Telegram bot, retrieving sticker pack URLs, and using
+TStickers to download and convert stickers.
+
+<!-- omit in toc -->
+## Table of Contents
 
 - [Step 1 - Send a message to @BotFather](#step-1---send-a-message-to-botfather)
-- [Step 2 - Create a file called 'env'](#step-2---create-a-file-called-env)
-- [Step 3 - Get the URL of the telegram sticker pack(s)](#step-3---get-the-url-of-the-telegram-sticker-packs)
-	- [Option 1 - Use a browser and search for the pack](#option-1---use-a-browser-and-search-for-the-pack)
-	- [Option 2 - Use telegram](#option-2---use-telegram)
+- [Step 2 - Create a File Called 'env'](#step-2---create-a-file-called-env)
+- [Step 3 - Get the URL of the Telegram Sticker Pack(s)](#step-3---get-the-url-of-the-telegram-sticker-packs)
+	- [Option 1 - Use a Browser and Search for the Pack](#option-1---use-a-browser-and-search-for-the-pack)
+	- [Option 2 - Use Telegram](#option-2---use-telegram)
 - [Step 4 - Use TStickers](#step-4---use-tstickers)
 
 ## Step 1 - Send a message to @BotFather
 
-1. You must have a telegram account to use this
-2. Send a message to @BotFather to get started.
-3. Send a message containing `/newbot`
-4. Send a message containing the name of the bot e.g. `/test`
-5. Send a message containing the username of the bot e.g. `/test_bot`
-6. @BotFather will send a message with the token
+To start using TStickers, you need to create a Telegram bot. Follow these steps to obtain your bot token:
 
-<img src="assets/step1.png" alt="Step 1" width="600">
+1. **Create a Telegram Account:** If you don’t already have one, download the Telegram app and sign up.
 
-## Step 2 - Create a file called 'env'
+2. **Contact @BotFather:** Open Telegram and search for the user `@BotFather`. This is the official bot for managing other bots on Telegram.
 
-Create a file called 'env' (or env.txt) and paste your token from part 1.
+3. **Create a New Bot:**
+   - Send the command `/newbot` to @BotFather.
+   - Follow the prompts to provide a name for your bot (e.g., `TestBot`) and a username (e.g., `test_bot`).
 
-e.g. `env.txt`
+4. **Receive Your Token:** @BotFather will reply with a message containing your bot’s API token. Keep this token safe, as you'll need it for the next steps.
 
-```txt
-14************
-```
+   <img src="assets/step1.png" alt="Step 1" width="600">
 
-## Step 3 - Get the URL of the telegram sticker pack(s)
+## Step 2 - Create a File Called 'env'
 
-### Option 1 - Use a browser and search for the pack
+To store your bot token securely, you need to create a configuration file:
 
-1. Use a browser and search for the pack e.g. `telegram donut the dog`
+1. **Create the File:**
+   - Create a new text file in the same directory where you'll run TStickers.
+   - Name the file `env` or `env.txt`.
 
-	<img src="assets/step3_0.png" alt="Step 3: Part 1" width="300">
+2. **Add Your Token:**
+   - Open the file and paste your bot token into it.
 
-2. Click on the link
-3. Copy the url: e.g. `https://t.me/addstickers/DonutTheDog`
+   Example `env.txt`:
+   ```txt
+   14************
+   ```
 
-### Option 2 - Use telegram
+## Step 3 - Get the URL of the Telegram Sticker Pack(s)
 
-1. Open telegram, find the desired sticker pack and share the pack (on mobile pick copy link). An example of sharing a pack is below
+To use TStickers, you'll need the URL of the sticker pack(s) you want to download. You can get this URL in two ways:
 
-	<img src="assets/step3_1.png" alt="Step 3: Part 2" width="300">
+### Option 1 - Use a Browser and Search for the Pack
 
-2. Click on share stickers/ link - this will copy the url: e.g. `https://t.me/addstickers/DonutTheDog`
+1. **Search for the Sticker Pack:**
+   - Open your web browser and search for the sticker pack by name (e.g., `Telegram Donut The Dog`).
+
+   <img src="assets/step3_0.png" alt="Step 3: Part 1" width="300">
+
+2. **Copy the URL:**
+   - Find the sticker pack link and copy its URL. It should look something like `https://t.me/addstickers/DonutTheDog`.
+
+### Option 2 - Use Telegram
+
+1. **Find the Sticker Pack:**
+   - Open the Telegram app, search for the sticker pack, and open it.
+
+2. **Copy the Link:**
+   - Tap on the sticker pack’s name or menu options and select "Share" or "Copy Link" (on mobile devices). The URL will be copied to your clipboard.
+
+   Example URL: `https://t.me/addstickers/DonutTheDog`
+
+   <img src="assets/step3_1.png" alt="Step 3: Part 2" width="300">
 
 ## Step 4 - Use TStickers
 
-- Run the program `python -m tstickers`
-- Enter the URL of the sticker pack
-- Get the output in the `downloads` folder.
+Now you’re ready to use TStickers to download and convert stickers from the URL you obtained:
 
-```bash
-$ tstickers
-Enter sticker_set url (leave blank to stop): https://t.me/addstickers/DonutTheDog
-Enter sticker_set url (leave blank to stop):
-INFO     | ============================================================
-INFO     | Starting to scrape "DonutTheDog" ..
-INFO     | Time taken to scrape 31 stickers - 0.044s
-INFO     |
-INFO     | ------------------------------------------------------------
-INFO     | Starting download of "donutthedog" into downloads\donutthedog
-INFO     | Time taken to download 31 stickers - 0.157s
-INFO     |
-INFO     | ------------------------------------------------------------
-INFO     | -> Cache miss for DonutTheDog!
-INFO     | Converting stickers "DonutTheDog"...
-INFO     | Time taken to convert 31 stickers (tgs) - 60.970s
-INFO     |
-INFO     | Time taken to convert 31 stickers (webp) - 0.447s
-INFO     |
-INFO     | Time taken to convert 62 stickers (total) - 61.434s
-INFO     |
-```
+1. **Install TStickers:**
+   - Run the following command in your terminal:
+     ```bash
+     python3 -m pip install tstickers
+     ```
+
+2. **Run TStickers:**
+   - Start the program by executing:
+     ```bash
+     python3 -m tstickers
+     ```
+
+3. **Enter the Sticker Pack URL:**
+   - When prompted, paste the URL of the sticker pack and press Enter.
+
+4. **Check the Output:**
+   - TStickers will download and convert the stickers. The output will be saved in the `downloads` folder.
+
+   Example output:
+   ```bash
+   $ tstickers
+   Enter sticker_set url (leave blank to stop): https://t.me/addstickers/DonutTheDog
+   Enter sticker_set url (leave blank to stop):
+   INFO     | ============================================================
+   INFO     | Starting to scrape "DonutTheDog" ..
+   INFO     | Time taken to scrape 31 stickers - 0.044s
+   INFO     |
+   INFO     | ------------------------------------------------------------
+   INFO     | Starting download of "donutthedog" into downloads\donutthedog
+   INFO     | Time taken to download 31 stickers - 0.157s
+   INFO     |
+   INFO     | ------------------------------------------------------------
+   INFO     | -> Cache miss for DonutTheDog!
+   INFO     | Converting stickers "DonutTheDog"...
+   INFO     | Time taken to convert 31 stickers (tgs) - 60.970s
+   INFO     |
+   INFO     | Time taken to convert 31 stickers (webp) - 0.447s
+   INFO     |
+   INFO     | Time taken to convert 62 stickers (total) - 61.434s
+   INFO     |
+   ```
