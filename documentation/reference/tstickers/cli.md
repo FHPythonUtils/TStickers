@@ -6,10 +6,11 @@
 
 - [Cli](#cli)
   - [cli](#cli)
+  - [is_library_installed](#is_library_installed)
 
 ## cli
 
-[Show source in cli.py:17](../../../tstickers/cli.py#L17)
+[Show source in cli.py:22](../../../tstickers/cli.py#L22)
 
 Cli entry point.
 
@@ -17,4 +18,16 @@ Cli entry point.
 
 ```python
 def cli() -> None: ...
+```
+
+
+
+## is_library_installed
+
+[Show source in cli.py:18](../../../tstickers/cli.py#L18)
+
+#### Signature
+
+```python
+def is_library_installed(library_name: str) -> bool: ...
 ```

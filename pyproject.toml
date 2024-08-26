@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tstickers"
-version = "2024.1.2"
+version = "2024.1.3"
 license = "mit"
 description = "Download sticker packs from Telegram"
 authors = ["FredHappyface"]
@@ -22,12 +22,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
-requests = "<3,>=2.31.0"
-Pillow = "<11,>=10.2.0"
-emoji = "<3,>=2.10.1"
-requests-cache = "<2,>=1.2.0"
-rlottie-python = { version = "<2,>=1.3.3", optional = true }
-pyrlottie = { version = "<2026,>=2024.0.1", optional = true }
+requests = "<3,>=2.32.3"
+Pillow = "<11,>=10.4.0"
+emoji = "<3,>=2.12.1"
+requests-cache = "<2,>=1.2.1"
+rlottie-python = { version = "<2,>=1.3.6", optional = true }
+pyrlottie = "<2026,>=2024.0.1"
 loguru = "<2,>=0.7.2"
 
 [tool.poetry.scripts]
@@ -56,14 +56,14 @@ target-version = "py38"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-	"ANN101",  # type annotation for self in method
-	"COM812",  # enforce trailing comma
-	"D2",  # pydocstyle formatting
+	"ANN101", # type annotation for self in method
+	"COM812", # enforce trailing comma
+	"D2",     # pydocstyle formatting
 	"ISC001",
-	"N",  # pep8 naming
+	"N",      # pep8 naming
 	"PLR09",  # pylint refactor too many
-	"TCH",  # type check blocks
-	"W191"  # ignore this to allow tabs
+	"TCH",    # type check blocks
+	"W191",   # ignore this to allow tabs
 ]
 fixable = ["ALL"]
 

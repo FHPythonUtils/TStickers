@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import functools
+import importlib.util
 import operator
 from pathlib import Path
 from sys import exit as sysexit
@@ -12,6 +13,10 @@ from loguru import logger
 
 from tstickers.convert import Backend
 from tstickers.downloader import StickerDownloader
+
+
+def is_library_installed(library_name: str) -> bool:
+	return importlib.util.find_spec(library_name) is not None
 
 
 def cli() -> None:  # pragma: no cover
@@ -68,6 +73,13 @@ def cli() -> None:  # pragma: no cover
 				"message to @BotFather to get started"
 			)
 			sysexit(1)
+	# Get the backend
+	backend = args.backend
+
+	if not is_library_installed(backend):
+		logger.error(f'!! {backend} is not installed! Install with "pip install {backend}"')
+		sysexit(2)
+
 	# Get the packs
 
 	packs = []

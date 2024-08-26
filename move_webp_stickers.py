@@ -3,14 +3,11 @@ from pathlib import Path
 
 source_dir = Path("./downloads")
 
-packnames = [
-	name.name for name in source_dir.iterdir() if name.is_dir()
-]
+packnames = [name.name for name in source_dir.iterdir() if name.is_dir()]
 
 for packname in packnames:
 	source_path = source_dir / packname / "webp"
 	dest_path = Path("./sorted") / packname
-
 
 	print(packname)
 
