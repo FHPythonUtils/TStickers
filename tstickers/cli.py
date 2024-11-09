@@ -95,22 +95,23 @@ def cli() -> None:  # pragma: no cover
 			if name == "":
 				break
 			packs.append(name)
-	packs = [name.split("/")[-1] for name in packs]
+    packs = [name.split("/")[-1] for name in packs]
+    original_packs = packs.copy()
 
 	downloader = StickerDownloader(token)
-	for pack in packs:
+    for pack, original_pack in zip(packs, original_packs):
 		logger.info("=" * 60)
 		stickerPack = downloader.getPack(pack)
 		if stickerPack is None:
 			continue
 		logger.info("-" * 60)
-		_ = downloader.downloadPack(stickerPack)
+        _ = downloader.downloadPack(stickerPack)
 		logger.info("-" * 60)
 
 		backend_map = {"rlottie-python": Backend.RLOTTIE_PYTHON, "pyrlottie": Backend.PYRLOTTIE}
 
 		downloader.convertPack(
-			pack,
+            original_pack,
 			args.frameskip,
 			args.scale,
 			backend=backend_map.get(args.backend, Backend.PYRLOTTIE),
