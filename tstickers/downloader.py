@@ -177,7 +177,11 @@ class StickerDownloader:
 		logger.info(f"Time taken to scrape {len(files)} stickers - {end - start:.3f}s")
 		logger.info("")
 
-		return {
+        return {
+            "name": res["result"]["name"],
+            "title": res["result"]["title"],
+            "files": files,
+        }
 			"name": res["result"]["name"].lower(),
 			"title": res["result"]["title"],
 			"files": files,
@@ -210,7 +214,7 @@ class StickerDownloader:
 			bool: success
 
 		"""
-		swd = assure_dir_exists(self.cwd, pack["name"])
+        swd = assure_dir_exists(self.cwd, pack["name"])
 		downloads = 0
 		logger.info(f'Starting download of "{pack["name"]}" into {swd}')
 		start = time.time()
@@ -260,7 +264,7 @@ class StickerDownloader:
 		if not noCache and caching.verify_converted(packName):
 			return
 		# Make directories
-		swd = assure_dir_exists(self.cwd, packName)
+        swd = assure_dir_exists(self.cwd, packName)
 
 		# Convert Stickers
 		start = time.time()
