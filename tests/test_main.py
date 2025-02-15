@@ -43,7 +43,9 @@ def test_downloadPack() -> None:
 
 def test_convertPack() -> None:
 	stickerManager.downloadPack(packs[0]["pack"])
-	stickerManager.convertPack(packs[0]["pack"], scale=0.05, noCache=True, backend=Backend.RLOTTIE_PYTHON)
+	stickerManager.convertPack(
+		packs[0]["pack"], scale=0.05, noCache=True, backend=Backend.RLOTTIE_PYTHON
+	)
 	assert len(list(Path(f"{stickerManager.cwd}/donutthedog/webp").iterdir())) == packs[0]["len"]
 
 

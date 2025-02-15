@@ -15,7 +15,6 @@ from tstickers.convert import Backend
 from tstickers.manager import StickerManager
 
 
-
 def cli() -> None:  # pragma: no cover
 	"""Cli entry point."""
 	parser = argparse.ArgumentParser("Welcome to TStickers, providing all of your sticker needs")

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import re
 import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from json.decoder import JSONDecodeError
 from pathlib import Path
 from sys import exit as sysexit

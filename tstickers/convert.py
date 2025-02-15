@@ -70,9 +70,8 @@ def convertStatic(swd: Path, threads: int = 4) -> int:
 	"""
 	converted = 0
 	start = time.time()
-	(swd/ "png").mkdir(parents=True, exist_ok=True)
-	(swd/ "gif").mkdir(parents=True, exist_ok=True)
-
+	(swd / "png").mkdir(parents=True, exist_ok=True)
+	(swd / "gif").mkdir(parents=True, exist_ok=True)
 
 	with ThreadPoolExecutor(max_workers=threads) as executor:
 		for _ in as_completed(
@@ -119,9 +118,9 @@ def convertAnimated(
 		raise RuntimeError(msg)
 	start = time.time()
 
-	(swd/ "apng").mkdir(parents=True, exist_ok=True)
-	(swd/ "gif").mkdir(parents=True, exist_ok=True)
-	(swd/ "webp").mkdir(parents=True, exist_ok=True)
+	(swd / "apng").mkdir(parents=True, exist_ok=True)
+	(swd / "gif").mkdir(parents=True, exist_ok=True)
+	(swd / "webp").mkdir(parents=True, exist_ok=True)
 
 	convertMap = {
 		Backend.UNDEFINED: convertAnimatedFunc,
