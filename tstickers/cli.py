@@ -12,11 +12,8 @@ from sys import exit as sysexit
 from loguru import logger
 
 from tstickers.convert import Backend
-from tstickers.downloader import StickerDownloader
+from tstickers.manager import StickerManager
 
-
-def is_library_installed(library_name: str) -> bool:
-	return importlib.util.find_spec(library_name) is not None
 
 
 def cli() -> None:  # pragma: no cover
@@ -76,7 +73,7 @@ def cli() -> None:  # pragma: no cover
 	# Get the backend
 	backend = args.backend
 
-	if not is_library_installed(backend):
+	if importlib.util.find_spec(backend) is None:
 		logger.error(f'!! {backend} is not installed! Install with "pip install {backend}"')
 		sysexit(2)
 
@@ -97,14 +94,10 @@ def cli() -> None:  # pragma: no cover
 			packs.append(name)
 	packs = [name.split("/")[-1] for name in packs]
 
-	downloader = StickerDownloader(token)
+	downloader = StickerManager(token)
 	for pack in packs:
-		logger.info("=" * 60)
-		stickerPack = downloader.getPack(pack)
-		if stickerPack is None:
-			continue
 		logger.info("-" * 60)
-		_ = downloader.downloadPack(stickerPack)
+		_ = downloader.downloadPack(pack)
 		logger.info("-" * 60)
 
 		backend_map = {"rlottie-python": Backend.RLOTTIE_PYTHON, "pyrlottie": Backend.PYRLOTTIE}

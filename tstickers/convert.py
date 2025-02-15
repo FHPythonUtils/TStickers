@@ -35,23 +35,6 @@ with contextlib.suppress(ModuleNotFoundError):
 	from tstickers.convert_pyrlottie import convertAnimated as convertPyRlottie
 
 
-def assure_dir_exists(*parts: Path | str) -> Path:
-	"""Make the directory if it does not exist.
-
-	Args:
-	----
-		parts (Path): path parts
-
-	Returns:
-	-------
-		Path: the full path
-
-	"""
-	full_path = Path(*parts)
-	full_path.mkdir(parents=True, exist_ok=True)
-	return full_path
-
-
 def convertWithPIL(inputFile: str) -> str:
 	"""Convert the webp file to png.
 
@@ -87,8 +70,10 @@ def convertStatic(swd: Path, threads: int = 4) -> int:
 	"""
 	converted = 0
 	start = time.time()
-	assure_dir_exists(swd, "png")
-	assure_dir_exists(swd, "gif")
+	(swd/ "png").mkdir(parents=True, exist_ok=True)
+	(swd/ "gif").mkdir(parents=True, exist_ok=True)
+
+
 	with ThreadPoolExecutor(max_workers=threads) as executor:
 		for _ in as_completed(
 			[
@@ -133,9 +118,10 @@ def convertAnimated(
 		msg = "You must specify a conversion backend"
 		raise RuntimeError(msg)
 	start = time.time()
-	assure_dir_exists(swd, "apng")
-	assure_dir_exists(swd, "gif")
-	assure_dir_exists(swd, "webp")
+
+	(swd/ "apng").mkdir(parents=True, exist_ok=True)
+	(swd/ "gif").mkdir(parents=True, exist_ok=True)
+	(swd/ "webp").mkdir(parents=True, exist_ok=True)
 
 	convertMap = {
 		Backend.UNDEFINED: convertAnimatedFunc,

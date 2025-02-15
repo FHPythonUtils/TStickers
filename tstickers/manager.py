@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import re
 import time
 import urllib.parse
@@ -15,7 +16,7 @@ from emoji import EMOJI_DATA
 from loguru import logger
 
 from tstickers import caching
-from tstickers.convert import Backend, assure_dir_exists, convertAnimated, convertStatic
+from tstickers.convert import Backend, convertAnimated, convertStatic
 
 
 def demojize(emoji: str) -> str:
@@ -51,22 +52,20 @@ def demojize(emoji: str) -> str:
 	return merge_parts(parts)
 
 
+@dataclass
 class Sticker:
 	"""Sticker instance attributes."""
 
-	def __init__(
-		self,
-		name: str = "None",
-		link: str = "None",
-		emoji: str = "😀",
-		fileType: str = "webp",
-	) -> None:
-		self.name = name
-		self.link = link
-		self.emoji = emoji
-		self.fileType = fileType
+	name: str = "None"
+	link: str = "None"
+	emoji: str = "😀"
+	fileType: str = "webp"
 
 	def __repr__(self) -> str:
+		"""Get Sticker representation in the form <Sticker:name>.
+
+		:return str: representation
+		"""
 		return f"<Sticker:{self.name}>"
 
 	def emojiName(self) -> str:
@@ -74,15 +73,25 @@ class Sticker:
 		return demojize(self.emoji)
 
 
-class StickerDownloader:
-	"""The StickerDownloader sets up the api and makes requests."""
+class StickerManager:
+	"""The StickerManager sets up the api and makes requests."""
 
 	def __init__(
-		self, token: str, session: caching.CachedSession | None = None, multithreading: int = 4
+		self,
+		token: str,
+		session: caching.CachedSession | None = None,
+		threads: int = 4,
 	) -> None:
-		self.threads = multithreading
+		"""Telegram Sticker API and provides functions to simplify downloading
+		new packs.
+
+		:param str token: bot token obtained from @BotFather
+		:param caching.CachedSession | None session: the requests session to use, defaults to None
+		:param int threads: number of threads to download over, defaults to 4
+		"""
+		self.threads = threads
 		self.token = token
-		self.cwd = assure_dir_exists(Path(), "downloads")
+		self.cwd = Path("downloads")
 		if session is None:
 			self.session = caching.cachedSession
 		else:
@@ -126,12 +135,12 @@ class StickerDownloader:
 		)
 		return None
 
-	def getSticker(self, fileData: dict[Any, Any]) -> Sticker:
+	def getSticker(self, fileData: dict[str, Any]) -> Sticker:
 		"""Get sticker info from the server.
 
 		Args:
 		----
-			fileData (dict[Any, Any]): sticker id
+			fileData (dict[str, Any]): sticker id
 
 		Returns:
 		-------
@@ -198,34 +207,42 @@ class StickerDownloader:
 		"""
 		return path.write_bytes(self.session.get(link).content)
 
-	def downloadPack(self, pack: dict[str, Any]) -> bool:
+	def downloadPack(self, packName: str) -> bool:
 		"""Download a sticker pack.
 
 		Args:
 		----
-			pack (dict[str, Any]): dictionary representing a sticker pack
+			packName (str): name of the pack
 
 		Returns:
 		-------
 			bool: success
 
 		"""
-		swd = assure_dir_exists(self.cwd, pack["name"])
+
+		stickerPack = self.getPack(packName)
+		if stickerPack is None:
+			return False
+
+		swd: Path = self.cwd / packName
+		swd.mkdir(parents=True, exist_ok=True)
+
 		downloads = 0
-		logger.info(f'Starting download of "{pack["name"]}" into {swd}')
+		logger.info(f'Starting download of "{packName}" into {swd}')
 		start = time.time()
 		with ThreadPoolExecutor(max_workers=self.threads) as executor:
 			futures = [
 				executor.submit(
 					self.downloadSticker,
-					assure_dir_exists(swd, sticker.fileType)
+					swd
+					/ sticker.fileType
 					/ (
-						f'{sticker.name.split("_")[-1].split(".")[0]}+{sticker.emojiName()}'
+						f"{sticker.name.split('_')[-1].split('.')[0]}+{sticker.emojiName()}"
 						f".{sticker.fileType}"
 					),
 					link=sticker.link,
 				)
-				for sticker in pack["files"]
+				for sticker in stickerPack["files"]
 			]
 			for i in as_completed(futures):
 				downloads += 1 if i.result() > 0 else 0
@@ -234,7 +251,7 @@ class StickerDownloader:
 		end = time.time()
 		logger.info(f"Time taken to download {downloads} stickers - {end - start:.3f}s")
 		logger.info("")
-		return downloads == pack["files"]
+		return downloads == stickerPack["files"]
 
 	def convertPack(
 		self,
@@ -255,16 +272,17 @@ class StickerDownloader:
 			scale (float, optional): upscale/ downscale the images produced. Intended
 			for optimisation with a quality trade-off. Defaults to 1.
 			noCache (bool, optional): set to true to disable cache. Defaults to False.
+			backend (Backend): select the backend to use to convert animated stickers
 
 		"""
 		if not noCache and caching.verify_converted(packName):
 			return
 		# Make directories
-		swd = assure_dir_exists(self.cwd, packName)
+		swd = self.cwd / packName
 
 		# Convert Stickers
 		start = time.time()
-		total = len([x for x in Path(swd).glob("**/*") if x.is_file()])
+		total = len([x for x in swd.glob("**/*") if x.is_file()])
 
 		logger.info(f'Converting stickers "{packName}"...')
 
