@@ -6,7 +6,6 @@
 
 - [Convert](#convert)
   - [Backend](#backend)
-  - [assure_dir_exists](#assure_dir_exists)
   - [convertAnimated](#convertanimated)
   - [convertAnimatedFunc](#convertanimatedfunc)
   - [convertStatic](#convertstatic)
@@ -26,33 +25,9 @@ class Backend(IntEnum): ...
 
 
 
-## assure_dir_exists
-
-[Show source in convert.py:38](../../../tstickers/convert.py#L38)
-
-Make the directory if it does not exist.
-
-#### Arguments
-
-----
- - `parts` *Path* - path parts
-
-#### Returns
-
--------
- - `Path` - the full path
-
-#### Signature
-
-```python
-def assure_dir_exists(*parts: Path | str) -> Path: ...
-```
-
-
-
 ## convertAnimated
 
-[Show source in convert.py:106](../../../tstickers/convert.py#L106)
+[Show source in convert.py:90](../../../tstickers/convert.py#L90)
 
 Convert animated stickers to webp, gif and png.
 
@@ -110,7 +85,7 @@ def convertAnimatedFunc(
 
 ## convertStatic
 
-[Show source in convert.py:75](../../../tstickers/convert.py#L75)
+[Show source in convert.py:58](../../../tstickers/convert.py#L58)
 
 Convert static stickers to png and gif.
 
@@ -135,7 +110,7 @@ def convertStatic(swd: Path, threads: int = 4) -> int: ...
 
 ## convertWithPIL
 
-[Show source in convert.py:55](../../../tstickers/convert.py#L55)
+[Show source in convert.py:38](../../../tstickers/convert.py#L38)
 
 Convert the webp file to png.
 

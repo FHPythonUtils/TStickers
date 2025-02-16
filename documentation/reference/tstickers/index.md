@@ -15,4 +15,4 @@
 - [Convert](./convert.md)
 - [Convert Pyrlottie](./convert_pyrlottie.md)
 - [Convert Rlottie Python](./convert_rlottie_python.md)
-- [Downloader](./downloader.md)
+- [Manager](./manager.md)
