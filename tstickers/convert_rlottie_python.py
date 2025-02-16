@@ -47,8 +47,8 @@ def convert_single_tgs(
 		width = int(width * scale)
 		height = int(height * scale)
 
-		for format in formats:
-			anim.save_animation(tgs_file.replace("tgs", format), fps, width=width, height=height)
+		for fmt in formats:
+			anim.save_animation(tgs_file.replace("tgs", fmt), fps, width=width, height=height)
 
 	finally:
 		anim.lottie_animation_destroy()

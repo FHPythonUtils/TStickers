@@ -3,9 +3,16 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2025 - 2025/02/16
+
+- be opinionated and install `rlottie-python` by default/ regardless
+- set default backend to `rlottie-python` in the cli
+- add `--fmt` to the cli, where the user can select a list of formats to convert to (default is png
+  and webp formats)
+- replace `--frameskip` with `--fps` as this is more intuitive
+
 ## 2024.1.3 - 2024/08/26
 
-- be opinionated and install `pyrlottie` by default/ regardless
 - clearly notify user if backend is not installed
 
 ## 2024.1.2 - 2024/03/25

@@ -21,7 +21,13 @@ class Backend(IntEnum):
 	RLOTTIE_PYTHON = auto()
 
 
-def convertAnimatedFunc(_swd: Path, _threads: int, _fps: int, _scale: float, _formats) -> int:
+def convertAnimatedFunc(
+	_swd: Path,
+	_threads: int,
+	_fps: int,
+	_scale: float,
+	_formats: set[str] | None,
+) -> int:
 	"""Convert animated stickers with (Base/Backend.UNDEFINED)."""
 	msg = "Backend could not be loaded"
 	raise RuntimeError(msg)

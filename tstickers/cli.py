@@ -48,19 +48,21 @@ def cli() -> None:  # pragma: no cover
 		"--fps",
 		default=20,
 		type=int,
-		help="Set fps. default=20",
+		help="Set fps for converted animated stickers (this does not affect "
+		"static images). default=20",
 	)
 	parser.add_argument(
 		"--scale",
 		default=1,
 		type=float,
-		help="Set scale. default=1.0",
+		help="Set scale for converted animated stickers (this does not affect "
+		"static images). default=1.0",
 	)
 	parser.add_argument(
 		"-b",
 		"--backend",
 		choices={"rlottie_python", "pyrlottie"},
-		default="pyrlottie",
+		default="rlottie_python",
 		help="Specify the convert backend",
 	)
 	args = parser.parse_args()
@@ -105,7 +107,7 @@ def cli() -> None:  # pragma: no cover
 
 	formats = {fmt for sublist in (args.fmt or []) for fmt in sublist}
 	if len(formats) == 0:
-		formats = allowed_formats
+		formats = {"png", "webp"}
 
 	downloader = StickerManager(token)
 	for pack in packs:

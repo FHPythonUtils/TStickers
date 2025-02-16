@@ -27,7 +27,7 @@ class Backend(IntEnum): ...
 
 ## convertAnimated
 
-[Show source in convert.py:87](../../../tstickers/convert.py#L87)
+[Show source in convert.py:93](../../../tstickers/convert.py#L93)
 
 Convert animated stickers, over a number of threads, at a given framerate, scale and to a
 set of formats.
@@ -78,7 +78,7 @@ Convert animated stickers with (Base/Backend.UNDEFINED).
 
 ```python
 def convertAnimatedFunc(
-    _swd: Path, _threads: int, _fps: int, _scale: float, _formats
+    _swd: Path, _threads: int, _fps: int, _scale: float, _formats: set[str] | None
 ) -> int: ...
 ```
 
@@ -86,7 +86,7 @@ def convertAnimatedFunc(
 
 ## convertStatic
 
-[Show source in convert.py:56](../../../tstickers/convert.py#L56)
+[Show source in convert.py:62](../../../tstickers/convert.py#L62)
 
 Convert static stickers to specified formats.
 
@@ -115,7 +115,7 @@ def convertStatic(
 
 ## convertWithPIL
 
-[Show source in convert.py:38](../../../tstickers/convert.py#L38)
+[Show source in convert.py:44](../../../tstickers/convert.py#L44)
 
 Convert a webp file to specified formats.
 
