@@ -9,7 +9,7 @@
 
 ## cli
 
-[Show source in cli.py:18](../../../tstickers/cli.py#L18)
+[Show source in cli.py:20](../../../tstickers/cli.py#L20)
 
 Cli entry point.
 

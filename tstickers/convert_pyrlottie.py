@@ -4,15 +4,6 @@ Conversion functionality for animated stickers.
 implements the conversion functionality for the pyrlottie backend. exposing a
 public function called `convertAnimated`, which is used to perform the conversion.
 
-The `convertAnimated` function takes the following parameters:
-    - swd (Path): The sticker working directory (downloads/packName).
-    - _threads (int, optional): The number of threads to pass to ThreadPoolExecutor.
-		Defaults to 4.
-    - frameSkip (int, optional): Skip n number of frames in the interest of
-		optimization with a quality trade-off. Defaults to 1.
-    - scale (float, optional): Upscale/downscale the images produced. Intended
-		for optimization with a quality trade-off. Defaults to 1.
-
 """
 
 from __future__ import annotations
@@ -23,24 +14,42 @@ from pathlib import Path
 import pyrlottie
 
 
-def convertAnimated(swd: Path, _threads: int = 4, frameSkip: int = 1, scale: float = 1) -> int:
-	"""Convert animated stickers to webp, gif and png.
+def convertAnimated(
+	swd: Path,
+	_threads: int = 4,
+	fps: int = 20,
+	scale: float = 1,
+	_formats: set[str] | None = None,
+) -> int:
+	"""Convert animated stickers, over a number of threads, at a given framerate, scale and to a
+	set of formats.
 
-	Args:
-	----
-		swd (Path): the sticker working directory (downloads/packName)
-		threads (int, optional): number of threads to pass to ThreadPoolExecutor. Defaults to 4.
-		frameSkip (int, optional): skip n number of frames in the interest of
-		optimisation with a quality trade-off. Defaults to 1.
-		scale (float, optional): upscale/ downscale the images produced. Intended
-		for optimisation with a quality trade-off. Defaults to 1.
-
-	Returns:
-	-------
-		int: number of stickers successfully converted
+	:param Path swd: The sticker working directory (e.g., downloads/packName).
+	:param int _threads: This is ignored for the pyrlottie backend
+	:param int fps: framerate of the converted sticker, affecting optimization and
+	quality (default: 20)
+	:param float scale: Scale factor for up/downscaling images, affecting optimization and
+	quality (default: 1).
+	:param set[str] | None _formats: This is ignored for the pyrlottie backend
+	:return int: Number of stickers successfully converted.
 
 	"""
 	converted = 0
+
+	(swd / "webp").mkdir(parents=True, exist_ok=True)
+	(swd / "gif").mkdir(parents=True, exist_ok=True)
+
+	# here we are going to assume that the raw image is 60 fps as pyrlottie does not have a way
+	# of setting the fps
+	frameSkip = 0
+	if fps < 45:  # bisector of 30 and 60
+		frameSkip = 1  # ~30fps
+	if fps < 25:  # bisector of 20 and 30
+		frameSkip = 2  # ~20fps
+	if fps < 18:  # bisector of 15 and 20
+		frameSkip = 3  # ~15fps
+	if fps < 13:  # 12fps and below
+		frameSkip = 4  # ~12fps
 
 	def doConvMultLottie(filemaps: list[pyrlottie.FileMap], frameSkip: int, scale: float) -> int:
 		return (

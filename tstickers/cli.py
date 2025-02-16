@@ -14,6 +14,8 @@ from loguru import logger
 from tstickers.convert import Backend
 from tstickers.manager import StickerManager
 
+allowed_formats = {"gif", "png", "webp", "apng"}
+
 
 def cli() -> None:  # pragma: no cover
 	"""Cli entry point."""
@@ -28,7 +30,14 @@ def cli() -> None:  # pragma: no cover
 		"--pack",
 		action="append",
 		nargs="+",
-		help="Pass in a pack url inline",
+		help="Pass in a pack url, or pack name",
+	)
+	parser.add_argument(
+		"--fmt",
+		action="append",
+		nargs="+",
+		choices=allowed_formats,
+		help=f"Formats to convert to {allowed_formats}",
 	)
 	parser.add_argument(
 		"-f",
@@ -36,10 +45,10 @@ def cli() -> None:  # pragma: no cover
 		help="Path to file containing pack urls",
 	)
 	parser.add_argument(
-		"--frameskip",
-		default=1,
+		"--fps",
+		default=20,
 		type=int,
-		help="Set frameskip. default=1",
+		help="Set fps. default=20",
 	)
 	parser.add_argument(
 		"--scale",
@@ -50,7 +59,7 @@ def cli() -> None:  # pragma: no cover
 	parser.add_argument(
 		"-b",
 		"--backend",
-		choices=["rlottie-python", "pyrlottie"],
+		choices={"rlottie_python", "pyrlottie"},
 		default="pyrlottie",
 		help="Specify the convert backend",
 	)
@@ -86,12 +95,17 @@ def cli() -> None:  # pragma: no cover
 
 	packs.extend(functools.reduce(operator.iadd, args.pack or [[]], []))
 	if len(packs) == 0:
+		logger.info("No packs provided, entering interactive mode...")
 		while True:
-			name = input("Enter sticker_set url (leave blank to stop): ").strip()
+			name = input("Enter pack url, or name (hit enter to stop):>").strip()
 			if name == "":
 				break
 			packs.append(name)
 	packs = [name.split("/")[-1] for name in packs]
+
+	formats = {fmt for sublist in (args.fmt or []) for fmt in sublist}
+	if len(formats) == 0:
+		formats = allowed_formats
 
 	downloader = StickerManager(token)
 	for pack in packs:
@@ -99,11 +113,12 @@ def cli() -> None:  # pragma: no cover
 		_ = downloader.downloadPack(pack)
 		logger.info("-" * 60)
 
-		backend_map = {"rlottie-python": Backend.RLOTTIE_PYTHON, "pyrlottie": Backend.PYRLOTTIE}
+		backend_map = {"rlottie_python": Backend.RLOTTIE_PYTHON, "pyrlottie": Backend.PYRLOTTIE}
 
 		downloader.convertPack(
 			pack,
-			args.frameskip,
+			args.fps,
 			args.scale,
 			backend=backend_map.get(args.backend, Backend.PYRLOTTIE),
+			formats=formats,
 		)

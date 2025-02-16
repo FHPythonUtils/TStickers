@@ -77,20 +77,21 @@ class StickerManager:
 
 ### StickerManager().convertPack
 
-[Show source in manager.py:256](../../../tstickers/manager.py#L256)
+[Show source in manager.py:248](../../../tstickers/manager.py#L248)
 
-Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
+Convert a downloaded sticker pack given by packName to other formats specified.
 
 #### Arguments
 
-----
- - `packName` *str* - name of the directory to convert
- - `frameSkip` *int, optional* - skip n number of frames in the interest of
- optimisation with a quality trade-off. Defaults to 1.
- - `scale` *float, optional* - upscale/ downscale the images produced. Intended
- for optimisation with a quality trade-off. Defaults to 1.
- - `noCache` *bool, optional* - set to true to disable cache. Defaults to False.
- - `backend` *Backend* - select the backend to use to convert animated stickers
+- `packName` *str* - name of the pack to convert
+- `fps` *int* - framerate of animated stickers, affecting optimization and
+quality (default: 20)
+- `scale` *float* - Scale factor of animated stickers, for up/downscaling images,
+affecting optimization and quality (default: 1).
+- `noCache` *bool* - set to true to disable cache. Defaults to False.
+- `backend` *Backend* - select the backend to use to convert animated stickers
+:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+(default: {"gif", "webp", "apng"})
 
 #### Signature
 
@@ -98,10 +99,11 @@ Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
 def convertPack(
     self,
     packName: str,
-    frameSkip: int = 1,
+    fps: int = 20,
     scale: float = 1,
     noCache: bool = False,
     backend: Backend = Backend.UNDEFINED,
+    formats: set[str] | None = None,
 ) -> None: ...
 ```
 
@@ -139,19 +141,18 @@ def doAPIReq(self, function: str, params: dict[Any, Any]) -> dict[Any, Any] | No
 
 ### StickerManager().downloadPack
 
-[Show source in manager.py:210](../../../tstickers/manager.py#L210)
+[Show source in manager.py:207](../../../tstickers/manager.py#L207)
 
 Download a sticker pack.
 
 #### Arguments
 
-----
- - `packName` *str* - name of the pack
+- `packName` *str* - name of the pack
 
 #### Returns
 
--------
- - `bool` - success
+Type: *bool*
+success
 
 #### Signature
 
@@ -167,14 +168,13 @@ Download a sticker from the server.
 
 #### Arguments
 
-----
- - `path` *Path* - the path to write to
- - `link` *str* - the url to the file on the server
+- `path` *Path* - the path to write to
+- `link` *str* - the url to the file on the server
 
 #### Returns
 
--------
- - `int` - path.write_bytes(res.content)
+Type: *int*
+path.write_bytes(res.content)
 
 #### Signature
 

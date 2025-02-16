@@ -195,28 +195,20 @@ class StickerManager:
 	def downloadSticker(self, path: Path, link: str) -> int:
 		"""Download a sticker from the server.
 
-		Args:
-		----
-			path (Path): the path to write to
-			link (str): the url to the file on the server
+		:param Path path: the path to write to
+		:param str link: the url to the file on the server
 
-		Returns:
-		-------
-			int: path.write_bytes(res.content)
+		:return int: path.write_bytes(res.content)
 
 		"""
+		path.parent.mkdir(parents=True, exist_ok=True)
 		return path.write_bytes(self.session.get(link).content)
 
 	def downloadPack(self, packName: str) -> bool:
 		"""Download a sticker pack.
 
-		Args:
-		----
-			packName (str): name of the pack
-
-		Returns:
-		-------
-			bool: success
+		:param str packName: name of the pack
+		:return bool: success
 
 		"""
 
@@ -256,43 +248,48 @@ class StickerManager:
 	def convertPack(
 		self,
 		packName: str,
-		frameSkip: int = 1,
+		fps: int = 20,
 		scale: float = 1,
 		*,
 		noCache: bool = False,
 		backend: Backend = Backend.UNDEFINED,
+		formats: set[str] | None = None,
 	) -> None:
-		"""Convert the webp to gif and png; tgs to gif, webp (webp_animated) and png.
+		"""Convert a downloaded sticker pack given by packName to other formats specified.
 
-		Args:
-		----
-			packName (str): name of the directory to convert
-			frameSkip (int, optional): skip n number of frames in the interest of
-			optimisation with a quality trade-off. Defaults to 1.
-			scale (float, optional): upscale/ downscale the images produced. Intended
-			for optimisation with a quality trade-off. Defaults to 1.
-			noCache (bool, optional): set to true to disable cache. Defaults to False.
-			backend (Backend): select the backend to use to convert animated stickers
+		:param str packName: name of the pack to convert
+		:param int fps: framerate of animated stickers, affecting optimization and
+		quality (default: 20)
+		:param float scale: Scale factor of animated stickers, for up/downscaling images,
+		affecting optimization and quality (default: 1).
+		:param bool noCache: set to true to disable cache. Defaults to False.
+		:param Backend backend: select the backend to use to convert animated stickers
+		:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+		(default: {"gif", "webp", "apng"})
 
 		"""
+		if formats is None:
+			formats = {"gif", "png", "webp", "apng"}
 		if not noCache and caching.verify_converted(packName):
 			return
-		# Make directories
 		swd = self.cwd / packName
 
-		# Convert Stickers
 		start = time.time()
 		total = len([x for x in swd.glob("**/*") if x.is_file()])
 
 		logger.info(f'Converting stickers "{packName}"...')
 
-		# tgs
+		for fmt in formats:
+			(swd / fmt).mkdir(parents=True, exist_ok=True)
+
+		animatedFormats = formats.copy()
+		animatedFormats.discard("png")
+
 		converted = convertedTgs = convertAnimated(
-			swd, self.threads, frameSkip=frameSkip, scale=scale, backend=backend
+			swd, self.threads, fps=fps, scale=scale, backend=backend, formats=animatedFormats
 		)
 
-		# webp
-		convertedWebp = convertStatic(swd, self.threads)
+		convertedWebp = convertStatic(swd, self.threads, formats=formats)
 		converted += convertedWebp
 
 		end = time.time()
@@ -305,7 +302,7 @@ class StickerManager:
 				"version": 2,
 				"info": {
 					"packName": packName,
-					"frameSkip": frameSkip,
+					"fps": fps,
 					"scale": scale,
 					"swd": swd.as_posix(),
 				},

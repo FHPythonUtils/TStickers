@@ -5,7 +5,7 @@ from __future__ import annotations
 import contextlib
 import multiprocessing
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from enum import IntEnum, auto
 from pathlib import Path
 
@@ -21,7 +21,7 @@ class Backend(IntEnum):
 	RLOTTIE_PYTHON = auto()
 
 
-def convertAnimatedFunc(_swd: Path, _threads: int, _frameSkip: int, _scale: float) -> int:
+def convertAnimatedFunc(_swd: Path, _threads: int, _fps: int, _scale: float, _formats) -> int:
 	"""Convert animated stickers with (Base/Backend.UNDEFINED)."""
 	msg = "Backend could not be loaded"
 	raise RuntimeError(msg)
@@ -35,92 +35,84 @@ with contextlib.suppress(ModuleNotFoundError):
 	from tstickers.convert_pyrlottie import convertAnimated as convertPyRlottie
 
 
-def convertWithPIL(inputFile: str) -> str:
-	"""Convert the webp file to png.
+def convertWithPIL(input_file: Path, formats: set[str]) -> Path:
+	"""Convert a webp file to specified formats.
 
-	Args:
-	----
-		inputFile (str): path to input file
+	:param Path input_file: path to the input image/ sticker
+	:param set[str] formats: set of formats
+	:return Path: path of the original image/sticker file
+	"""
 
-	Returns:
-	-------
-		str: path to input file
+	img = Image.open(input_file)
+
+	for fmt in formats:
+		output_file = Path(input_file.as_posix().replace("webp", fmt))
+		if not output_file.exists():
+			img.save(output_file)
+
+	return input_file
+
+
+def convertStatic(
+	swd: Path,
+	threads: int = 4,
+	formats: set[str] | None = None,
+) -> int:
+	"""Convert static stickers to specified formats.
+
+
+	:param Path swd: The sticker working directory (e.g., downloads/packName).
+	:param int threads: Number of threads for ProcessPoolExecutor (default: number of
+	logical processors).
+	:param set[str]|None formats: Set of formats to convert telegram webp stickers to
+	(default: {"gif", "png", "webp", "apng"})
+	:return int: Number of stickers successfully converted.
 
 	"""
-	img = Image.open(inputFile)
-	img.save(inputFile.replace("webp", "png"))
-	gifImage = inputFile.replace("webp", "gif")
-	if not Path(gifImage).exists():
-		img.save(gifImage)
-	return inputFile
-
-
-def convertStatic(swd: Path, threads: int = 4) -> int:
-	"""Convert static stickers to png and gif.
-
-	Args:
-	----
-		swd (Path): the sticker working directory (downloads/packName)
-		threads (int, optional): number of threads to pass to ThreadPoolExecutor. Defaults to 4.
-
-	Returns:
-	-------
-		int: number of stickers successfully converted
-
-	"""
+	if formats is None:
+		formats = {"gif", "png", "webp", "apng"}
+	webp_files = list((swd / "webp").glob("**/*.webp"))
 	converted = 0
 	start = time.time()
-	(swd / "png").mkdir(parents=True, exist_ok=True)
-	(swd / "gif").mkdir(parents=True, exist_ok=True)
 
 	with ThreadPoolExecutor(max_workers=threads) as executor:
-		for _ in as_completed(
-			[
-				executor.submit(convertWithPIL, inputFile.as_posix())
-				for inputFile in (swd / "webp").glob("**/*")
-			]
-		):
-			converted += 1
+		results = executor.map(lambda f: convertWithPIL(f, formats), webp_files)
+		converted = sum(1 for _ in results)
+
 	end = time.time()
-	logger.info(f"Time taken to convert {converted} stickers (webp) - {end - start:.3f}s")
-	logger.info("")
+	logger.info(f"Converted {converted} stickers (static) in {end - start:.3f}s\n")
 	return converted
 
 
 def convertAnimated(
 	swd: Path,
 	threads: int = multiprocessing.cpu_count(),
-	frameSkip: int = 1,
+	fps: int = 20,
 	scale: float = 1,
 	backend: Backend = Backend.UNDEFINED,
+	formats: set[str] | None = None,
 ) -> int:
-	"""Convert animated stickers to webp, gif and png.
+	"""Convert animated stickers, over a number of threads, at a given framerate, scale and to a
+	set of formats.
 
-	Args:
-	----
-		swd (Path): the sticker working directory (downloads/packName)
-		threads (int, optional): number of threads to pass to ThreadPoolExecutor. Defaults
-			to number of cores/ logical processors.
-		frameSkip (int, optional): skip n number of frames in the interest of
-		optimisation with a quality trade-off. Defaults to 1.
-		scale (float, optional): upscale/ downscale the images produced. Intended
-		for optimisation with a quality trade-off. Defaults to 1.
-		backend (Backend): The backend to use for conversion. Defaults to Backend.UNDEFINED,
-	allowing the system to determine the appropriate library to use.
-
-	Returns:
-	-------
-		int: number of stickers successfully converted
+	:param Path swd: The sticker working directory (e.g., downloads/packName).
+	:param int threads: Number of threads for ProcessPoolExecutor (default: number of
+	logical processors).
+	:param int fps: framerate of the converted sticker, affecting optimization and
+	quality (default: 20)
+	:param float scale: Scale factor for up/downscaling images, affecting optimization and
+	quality (default: 1).
+	:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+	(default: {"gif", "webp", "apng"})
+	:return int: Number of stickers successfully converted.
 
 	"""
+	if formats is None:
+		formats = {"gif", "webp", "apng"}
 	if backend == Backend.UNDEFINED:
 		msg = "You must specify a conversion backend"
 		raise RuntimeError(msg)
 	start = time.time()
-
-	(swd / "apng").mkdir(parents=True, exist_ok=True)
-	(swd / "gif").mkdir(parents=True, exist_ok=True)
-	(swd / "webp").mkdir(parents=True, exist_ok=True)
 
 	convertMap = {
 		Backend.UNDEFINED: convertAnimatedFunc,
@@ -128,7 +120,7 @@ def convertAnimated(
 		Backend.RLOTTIE_PYTHON: convertRlottiePython,
 	}
 
-	converted = convertMap[backend](swd, threads, frameSkip, scale)
+	converted = convertMap[backend](swd, threads, fps, scale, formats)
 
 	end = time.time()
 	logger.info(f"Time taken to convert {converted} stickers (tgs) - {end - start:.3f}s")

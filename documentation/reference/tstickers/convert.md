@@ -27,27 +27,27 @@ class Backend(IntEnum): ...
 
 ## convertAnimated
 
-[Show source in convert.py:90](../../../tstickers/convert.py#L90)
+[Show source in convert.py:87](../../../tstickers/convert.py#L87)
 
-Convert animated stickers to webp, gif and png.
+Convert animated stickers, over a number of threads, at a given framerate, scale and to a
+set of formats.
 
 #### Arguments
 
-----
- - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults
-  to number of cores/ logical processors.
- - `frameSkip` *int, optional* - skip n number of frames in the interest of
- optimisation with a quality trade-off. Defaults to 1.
- - `scale` *float, optional* - upscale/ downscale the images produced. Intended
- for optimisation with a quality trade-off. Defaults to 1.
- - `backend` *Backend* - The backend to use for conversion. Defaults to Backend.UNDEFINED,
-allowing the system to determine the appropriate library to use.
+- `swd` *Path* - The sticker working directory (e.g., downloads/packName).
+- `threads` *int* - Number of threads for ProcessPoolExecutor (default: number of
+logical processors).
+- `fps` *int* - framerate of the converted sticker, affecting optimization and
+quality (default: 20)
+- `scale` *float* - Scale factor for up/downscaling images, affecting optimization and
+quality (default: 1).
+:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+(default: {"gif", "webp", "apng"})
 
 #### Returns
 
--------
- - `int` - number of stickers successfully converted
+Type: *int*
+Number of stickers successfully converted.
 
 #### Signature
 
@@ -55,9 +55,10 @@ allowing the system to determine the appropriate library to use.
 def convertAnimated(
     swd: Path,
     threads: int = multiprocessing.cpu_count(),
-    frameSkip: int = 1,
+    fps: int = 20,
     scale: float = 1,
     backend: Backend = Backend.UNDEFINED,
+    formats: set[str] | None = None,
 ) -> int: ...
 ```
 
@@ -77,7 +78,7 @@ Convert animated stickers with (Base/Backend.UNDEFINED).
 
 ```python
 def convertAnimatedFunc(
-    _swd: Path, _threads: int, _frameSkip: int, _scale: float
+    _swd: Path, _threads: int, _fps: int, _scale: float, _formats
 ) -> int: ...
 ```
 
@@ -85,25 +86,29 @@ def convertAnimatedFunc(
 
 ## convertStatic
 
-[Show source in convert.py:58](../../../tstickers/convert.py#L58)
+[Show source in convert.py:56](../../../tstickers/convert.py#L56)
 
-Convert static stickers to png and gif.
+Convert static stickers to specified formats.
 
 #### Arguments
 
-----
- - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults to 4.
+- `swd` *Path* - The sticker working directory (e.g., downloads/packName).
+- `threads` *int* - Number of threads for ProcessPoolExecutor (default: number of
+logical processors).
+:param set[str]|None formats: Set of formats to convert telegram webp stickers to
+(default: {"gif", "png", "webp", "apng"})
 
 #### Returns
 
--------
- - `int` - number of stickers successfully converted
+Type: *int*
+Number of stickers successfully converted.
 
 #### Signature
 
 ```python
-def convertStatic(swd: Path, threads: int = 4) -> int: ...
+def convertStatic(
+    swd: Path, threads: int = 4, formats: set[str] | None = None
+) -> int: ...
 ```
 
 
@@ -112,20 +117,20 @@ def convertStatic(swd: Path, threads: int = 4) -> int: ...
 
 [Show source in convert.py:38](../../../tstickers/convert.py#L38)
 
-Convert the webp file to png.
+Convert a webp file to specified formats.
 
 #### Arguments
 
-----
- - `inputFile` *str* - path to input file
+- `input_file` *Path* - path to the input image/ sticker
+:param set[str] formats: set of formats
 
 #### Returns
 
--------
- - `str` - path to input file
+Type: *Path*
+path of the original image/sticker file
 
 #### Signature
 
 ```python
-def convertWithPIL(inputFile: str) -> str: ...
+def convertWithPIL(input_file: Path, formats: set[str]) -> Path: ...
 ```

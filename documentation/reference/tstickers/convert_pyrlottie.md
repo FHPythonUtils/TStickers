@@ -9,29 +9,34 @@
 
 ## convertAnimated
 
-[Show source in convert_pyrlottie.py:26](../../../tstickers/convert_pyrlottie.py#L26)
+[Show source in convert_pyrlottie.py:17](../../../tstickers/convert_pyrlottie.py#L17)
 
-Convert animated stickers to webp, gif and png.
+Convert animated stickers, over a number of threads, at a given framerate, scale and to a
+set of formats.
 
 #### Arguments
 
-----
- - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ThreadPoolExecutor. Defaults to 4.
- - `frameSkip` *int, optional* - skip n number of frames in the interest of
- optimisation with a quality trade-off. Defaults to 1.
- - `scale` *float, optional* - upscale/ downscale the images produced. Intended
- for optimisation with a quality trade-off. Defaults to 1.
+- `swd` *Path* - The sticker working directory (e.g., downloads/packName).
+- `_threads` *int* - This is ignored for the pyrlottie backend
+- `fps` *int* - framerate of the converted sticker, affecting optimization and
+quality (default: 20)
+- `scale` *float* - Scale factor for up/downscaling images, affecting optimization and
+quality (default: 1).
+:param set[str] | None _formats: This is ignored for the pyrlottie backend
 
 #### Returns
 
--------
- - `int` - number of stickers successfully converted
+Type: *int*
+Number of stickers successfully converted.
 
 #### Signature
 
 ```python
 def convertAnimated(
-    swd: Path, _threads: int = 4, frameSkip: int = 1, scale: float = 1
+    swd: Path,
+    _threads: int = 4,
+    fps: int = 20,
+    scale: float = 1,
+    _formats: set[str] | None = None,
 ) -> int: ...
 ```

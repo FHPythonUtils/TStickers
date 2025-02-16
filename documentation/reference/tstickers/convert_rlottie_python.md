@@ -10,25 +10,27 @@
 
 ## convertAnimated
 
-[Show source in convert_rlottie_python.py:49](../../../tstickers/convert_rlottie_python.py#L49)
+[Show source in convert_rlottie_python.py:59](../../../tstickers/convert_rlottie_python.py#L59)
 
-Convert animated stickers to webp, gif and png.
+Convert animated stickers, over a number of threads, at a given framerate, scale and to a
+set of formats.
 
 #### Arguments
 
-----
- - `swd` *Path* - the sticker working directory (downloads/packName)
- - `threads` *int, optional* - number of threads to pass to ProcessPoolExecutor. Defaults
-  to number of cores/ logical processors.
- - `frameSkip` *int, optional* - skip n number of frames in the interest of
- optimisation with a quality trade-off. Defaults to 1.
- - `scale` *float, optional* - upscale/ downscale the images produced. Intended
- for optimisation with a quality trade-off. Defaults to 1.
+- `swd` *Path* - The sticker working directory (e.g., downloads/packName).
+- `threads` *int* - Number of threads for ProcessPoolExecutor (default: number of
+logical processors).
+- `fps` *int* - framerate of the converted sticker, affecting optimization and
+quality (default: 20)
+- `scale` *float* - Scale factor for up/downscaling images, affecting optimization and
+quality (default: 1).
+:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+(default: {"gif", "webp", "apng"})
 
 #### Returns
 
--------
- - `int` - number of stickers successfully converted
+Type: *int*
+Number of stickers successfully converted.
 
 #### Signature
 
@@ -36,8 +38,9 @@ Convert animated stickers to webp, gif and png.
 def convertAnimated(
     swd: Path,
     threads: int = multiprocessing.cpu_count(),
-    frameSkip: int = 1,
+    fps: int = 20,
     scale: float = 1,
+    formats: set[str] | None = None,
 ) -> int: ...
 ```
 
@@ -45,10 +48,29 @@ def convertAnimated(
 
 ## convert_single_tgs
 
-[Show source in convert_rlottie_python.py:26](../../../tstickers/convert_rlottie_python.py#L26)
+[Show source in convert_rlottie_python.py:18](../../../tstickers/convert_rlottie_python.py#L18)
+
+Convert a single tgs file.
+
+#### Arguments
+
+- `stckr` *Path* - Path to the sticker
+- `fps` *int* - framerate of the converted sticker, affecting optimization and
+quality (default: 20)
+- `scale` *float* - Scale factor for up/downscaling images, affecting optimization and
+quality (default: 1).
+:param set[str]|None formats: Set of formats to convert telegram tgs stickers to
+(default: {"gif", "webp", "apng"})
+
+#### Returns
+
+Type: *int*
+1 if success
 
 #### Signature
 
 ```python
-def convert_single_tgs(stckr: Path, fps: int, scale: float = 1.0) -> int: ...
+def convert_single_tgs(
+    stckr: Path, fps: int, scale: float = 1.0, formats: set[str] | None = None
+) -> int: ...
 ```
