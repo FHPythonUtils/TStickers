@@ -11,8 +11,8 @@ from requests_cache.session import CachedSession
 
 # requests_cache
 cachedSession = CachedSession(
-	".cache/tstickers.requests.sqlite",
-	backend="sqlite",
+	".cache/tstickers.requests",
+	backend="filesystem",
 	expire_after=60 * 60 * 12,
 	allowable_codes=(200,),
 	allowable_methods=("GET", "POST"),
