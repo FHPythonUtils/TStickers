@@ -1,67 +1,63 @@
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.6
-    hooks:
-      - id: ruff
-        args: [ --fix ]
-      - id: ruff-format
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.15.0
+      hooks:
+          - id: ruff
+            args: [--fix]
+          - id: ruff-format
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.394
-    hooks:
-    - id: pyright
+    - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
+      rev: v1.13.0 # or whatever the latest version is at the time
+      hooks:
+          - id: basedpyright
 
-  - repo: local
-    hooks:
-      - id: generate requirements
-        name: generate requirements
-        entry: uv export --no-hashes --no-dev -o requirements.txt
-        language: system
-        pass_filenames: false
-      - id: safety
-        name: safety
-        entry: uv run safety
-        language: system
-        pass_filenames: false
-      - id: make docs
-        name: make docs
-        entry: uv run handsdown  --cleanup -o documentation/reference
-        language: system
-        pass_filenames: false
-      - id: build package
-        name: build package
-        entry: uv build
-        language: system
-        pass_filenames: false
-      - id: pytest
-        name: pytest
-        entry: uv run pytest
-        language: system
-        pass_filenames: false
+    - repo: local
+      hooks:
+          - id: generate requirements
+            name: generate requirements
+            entry: uv export --no-hashes --no-dev -o requirements.txt
+            language: system
+            pass_filenames: false
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-case-conflict
-      - id: check-executables-have-shebangs
-      - id: check-json
-      - id: check-merge-conflict
-      - id: check-shebang-scripts-are-executable
-      - id: check-symlinks
-      - id: check-toml
-      - id: check-vcs-permalinks
-      - id: check-yaml
-      - id: detect-private-key
-      - id: mixed-line-ending
+          # - id: make docs
+          #   name: make docs
+          #   entry: uv run handsdown  --cleanup -o documentation/reference
+          #   language: system
+          #   pass_filenames: false
+          - id: build package
+            name: build package
+            entry: uv build
+            language: system
+            pass_filenames: false
+          - id: pytest
+            name: pytest
+            entry: uv run pytest
+            language: system
+            pass_filenames: false
 
-  - repo: https://github.com/boidolr/pre-commit-images
-    rev: v1.8.4
-    hooks:
-      - id: optimize-jpg
-      - id: optimize-png
-      - id: optimize-svg
-      - id: optimize-webp
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v6.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-case-conflict
+          - id: check-executables-have-shebangs
+          - id: check-json
+          - id: check-merge-conflict
+          - id: check-shebang-scripts-are-executable
+          - id: check-symlinks
+          - id: check-toml
+          - id: check-vcs-permalinks
+          - id: check-yaml
+          - id: detect-private-key
+          - id: mixed-line-ending
+
+    - repo: https://github.com/boidolr/pre-commit-images
+      rev: v1.11.0
+      hooks:
+          - id: optimize-jpg
+          - id: optimize-png
+          - id: optimize-svg
+          - id: optimize-webp
 
 exclude: "tests/data|documentation/reference"

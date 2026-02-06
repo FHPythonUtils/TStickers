@@ -38,7 +38,7 @@ def test_getPack() -> None:
 
 def test_downloadPack() -> None:
 	stickerManager.downloadPack(packs[0]["pack"])
-	assert len(list(Path(f"{stickerManager.cwd}/donutthedog/tgs").iterdir())) == packs[0]["len"]
+	assert len(list(Path(f"{stickerManager.cwd}/DonutTheDog/tgs").iterdir())) == packs[0]["len"]
 
 
 def test_convertPack() -> None:
@@ -46,10 +46,10 @@ def test_convertPack() -> None:
 	stickerManager.convertPack(
 		packs[0]["pack"], scale=0.05, noCache=True, backend=Backend.RLOTTIE_PYTHON
 	)
-	assert len(list(Path(f"{stickerManager.cwd}/donutthedog/webp").iterdir())) == packs[0]["len"]
+	assert len(list(Path(f"{stickerManager.cwd}/DonutTheDog/webp").iterdir())) == packs[0]["len"]
 
 
 # def test_convertPack_slow() -> None:
 # 	stickerManager.downloadPack(packs[0]["pack"])
 # 	stickerManager.convertPack(packs[0]["pack"], scale=1, noCache=True, backend=Backend.PYRLOTTIE)
-# 	assert len(list(Path(f"{stickerManager.cwd}/donutthedog/webp").iterdir())) == packs[0]["len"]
+# 	assert len(list(Path(f"{stickerManager.cwd}/DonutTheDog/webp").iterdir())) == packs[0]["len"]

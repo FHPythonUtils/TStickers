@@ -1,3 +1,6 @@
+"""Helper script for moving downloaded sticker packs (webp) via the tg api, to a 'sorted'
+directory."""
+
 import shutil
 from pathlib import Path
 
@@ -9,10 +12,10 @@ for packname in packnames:
 	source_path = source_dir / packname / "webp"
 	dest_path = Path("./sorted") / packname
 
-	print(packname)
+	print(packname)  # noqa: T201
 
 	if not dest_path.exists():
 		dest_path.mkdir(parents=True)
 
 	for file_path in source_path.iterdir():
-		shutil.copy(file_path, dest_path)
+		_ = shutil.copy(file_path, dest_path)

@@ -17,7 +17,7 @@ from tstickers.manager import StickerManager
 allowed_formats = {"gif", "png", "webp", "apng"}
 
 
-def cli() -> None:  # pragma: no cover
+def cli() -> None:  # pragma: no cover # noqa: C901
 	"""Cli entry point."""
 	parser = argparse.ArgumentParser("Welcome to TStickers, providing all of your sticker needs")
 	parser.add_argument(

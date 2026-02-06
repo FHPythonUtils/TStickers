@@ -12,7 +12,7 @@ import multiprocessing
 from pathlib import Path
 
 from loguru import logger
-from rlottie_python import LottieAnimation
+from rlottie_python.rlottie_wrapper import LottieAnimation
 
 
 def convert_single_tgs(
@@ -94,7 +94,7 @@ def convertAnimated(
 			variable = future_to_variable[future]
 			try:
 				converted += future.result()
-			except Exception as e:
+			except Exception as e:  # noqa: BLE001
 				logger.error(f"Error processing {variable}: {e}")
 
 	return converted
